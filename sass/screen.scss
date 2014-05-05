@@ -15,12 +15,14 @@ body {
     box-sizing: border-box;
   }
 }
-
 a{
   text-decoration: none;
   &:hover{
     text-decoration: underline;
   }
+}
+button{
+  margin-top: 6px;
 }
 #nav, main, #footer {
   margin: auto !important;
@@ -75,6 +77,9 @@ table{
   border-spacing: 0px;
   border-collapse: separate;
   min-width: 50%;
+  &.db_table_add{
+    width: 100%;
+  }
   tr{
     td{
       &:first-child{
