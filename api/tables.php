@@ -1,11 +1,6 @@
 <?php
 require_once $path."connect_db.php";
 
-/*function getMaxSeats($id,$connect){
-    $query="SELECT `seats_amount` FROM halls WHERE id = $id";
-    $table_data = $connect->query($query, PDO::FETCH_NUM);
-}*/
-
 function makeSelect($fieldname, $connect, $xtra_field=false){
     if($x=$xtra_field) {
         $xtra_field=", $xtra_field";
