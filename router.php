@@ -22,6 +22,7 @@ require_once 'connect_db.php';
 if($api_path) {
     require_once $api_path;
 }
+
 $template_path = $_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/templates/';
 
 if(!isset($_SESSION['user_type'])){
@@ -30,6 +31,6 @@ if(!isset($_SESSION['user_type'])){
     $template.= $_SESSION['user_type'];
 }
 ob_start();
-echo "<div>".$_SERVER['DOCUMENT_ROOT']."</div>";
+//echo "<div>".$_SERVER['DOCUMENT_ROOT']."</div>";
 // var_dump("<pre>",$segments,"<pre/>");
 require_once $template_path.'.php';

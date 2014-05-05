@@ -1,5 +1,6 @@
-//@import "compass/reset";
-html {
+// include compass
+@import "compass";
+html{
   height: 100%;
   margin: 0;
   padding: 0;
@@ -7,6 +8,7 @@ html {
 
 body {
   height: 100%;
+  font-family: 'lucida console', 'lucida grande', Arial, sans-serif, Helvetica;
   margin: 0;
   padding: 0;
   * {
@@ -14,25 +16,30 @@ body {
   }
 }
 
+a{
+  text-decoration: none;
+  &:hover{
+    text-decoration: underline;
+  }
+}
 #nav, main, #footer {
   margin: auto !important;
   max-width: 90%;
   min-width: 640px;
 }
-
+.clearfix{ //
+  @include clearfix;
+}
 #container {
   box-sizing: border-box;
   height: 100%;
 }
-
-.offsetVertical10, section {
-  padding-top: 10px;
-  padding-bottom: 10px;
+.floatLeft{
+  float: left;
 }
 
-nav {
-  margin: auto -10px;
-  padding: 10px;
+.floatRight{
+  float: right;
 }
 
 footer {
@@ -53,4 +60,20 @@ footer {
 
 nav {
   background-color: #eaebec;
+}
+.halfWide{
+  width: 50%;
+}
+.offsetVertical10, section {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+nav {
+  margin: auto -10px;
+  padding: 10px;
+}
+
+li{
+  line-height: 1.5em;
 }
