@@ -1,5 +1,4 @@
-<?php
-
+<?php	require "router.php"; 
 ?><!doctype html>
 <html>
     <head>
