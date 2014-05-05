@@ -1,5 +1,5 @@
 <?php	
-error_reporting(E_ALL);
+error_reporting(E_ALL); //E_ERROR | E_WARNING
 require "router.php"; 
 
 $content = ob_get_contents();
@@ -23,12 +23,7 @@ ob_end_clean();
             	<nav class="clearfix">
                 	<div id="nav"><a class="floatLeft" href="<?php
                     echo SITE_ROOT;
-					?>">Главная</a>
-                    	<div class="floatRight">
-                        	<a role="admin" class="user_status" href="javascript:void(0);">Админ</a>
-                            | 
-                            <a role="spectator" class="user_status" href="javascript:void(0);">Зритель</a>
-                        </div>
+					?>">Главная</a>                    	
                     </div>                    
                 </nav>
                 <main>

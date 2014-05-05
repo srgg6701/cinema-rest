@@ -50,53 +50,88 @@ a:hover {
   float: left;
 }
 
-/* line 41, ../../sass/screen.scss */
+/* line 40, ../../sass/screen.scss */
 .floatRight {
   float: right;
 }
 
-/* line 45, ../../sass/screen.scss */
+/* line 43, ../../sass/screen.scss */
 footer {
   background-color: #efefef;
 }
 
-/* line 49, ../../sass/screen.scss */
+/* line 46, ../../sass/screen.scss */
 #footer {
   height: 60px;
   line-height: 60px;
   padding: 0 10px;
 }
 
-/* line 55, ../../sass/screen.scss */
+/* line 51, ../../sass/screen.scss */
 #main {
   min-height: 100%;
   margin-bottom: -60px;
   padding: 0 10px 60px;
 }
 
-/* line 61, ../../sass/screen.scss */
+/* line 56, ../../sass/screen.scss */
 nav {
   background-color: #eaebec;
 }
 
-/* line 64, ../../sass/screen.scss */
+/* line 59, ../../sass/screen.scss */
 .halfWide {
   width: 50%;
 }
 
-/* line 67, ../../sass/screen.scss */
-.offsetVertical10, section {
-  padding-top: 10px;
-  padding-bottom: 10px;
+/* line 62, ../../sass/screen.scss */
+li {
+  line-height: 1.5em;
 }
 
-/* line 72, ../../sass/screen.scss */
+/* line 65, ../../sass/screen.scss */
 nav {
   margin: auto -10px;
   padding: 10px;
 }
 
-/* line 77, ../../sass/screen.scss */
-li {
-  line-height: 1.5em;
+/* line 69, ../../sass/screen.scss */
+.offsetVertical10, section {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* line 73, ../../sass/screen.scss */
+table {
+  border: solid 2px #ccc;
+  border-spacing: 0px;
+  border-collapse: separate;
+  min-width: 50%;
+}
+/* line 80, ../../sass/screen.scss */
+table tr td:first-child {
+  text-align: right;
+}
+/* line 83, ../../sass/screen.scss */
+table tr td:last-child {
+  color: red;
+  text-align: center;
+}
+/* line 89, ../../sass/screen.scss */
+table td, table th {
+  border-bottom: solid 1px #ccc;
+  border-right: solid 1px #ccc;
+  padding: 3px 5px;
+}
+/* line 95, ../../sass/screen.scss */
+table.db_table th {
+  background-color: #eaebec;
+}
+/* line 104, ../../sass/screen.scss */
+table.db_table_add input[type="text"],
+table.db_table_add input[type="password"],
+table.db_table_add input[type="email"],
+table.db_table_add input[type="tel"],
+table.db_table_add textarea {
+  width: 100%;
 }

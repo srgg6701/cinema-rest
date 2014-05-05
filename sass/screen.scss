@@ -37,43 +37,72 @@ a{
 .floatLeft{
   float: left;
 }
-
 .floatRight{
   float: right;
 }
-
 footer {
   background-color: #efefef;
 }
-
 #footer {
   height: 60px;
   line-height: 60px;
   padding: 0 10px;
 }
-
 #main {
   min-height: 100%;
   margin-bottom: -60px;
   padding: 0 10px 60px;
 }
-
 nav {
   background-color: #eaebec;
 }
 .halfWide{
   width: 50%;
 }
-.offsetVertical10, section {
-  padding-top: 10px;
-  padding-bottom: 10px;
+li{
+  line-height: 1.5em;
 }
-
 nav {
   margin: auto -10px;
   padding: 10px;
 }
-
-li{
-  line-height: 1.5em;
+.offsetVertical10, section {
+   padding-top: 10px;
+   padding-bottom: 10px;
+}
+table{
+  border: solid 2px #ccc;
+  border-spacing: 0px;
+  border-collapse: separate;
+  min-width: 50%;
+  tr{
+    td{
+      &:first-child{
+        text-align: right;
+      }
+      &:last-child{
+        color: red;
+        text-align: center;
+      }
+    }
+  }
+  td, th{
+    border-bottom: solid 1px #ccc;
+    border-right: solid 1px #ccc;
+    padding: 3px 5px;
+  }
+  &.db_table{
+    th{
+      background-color: #eaebec;
+    }
+  }
+  &.db_table_add{
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="tel"],
+    textarea{
+      width: 100%;
+    }
+  }
 }

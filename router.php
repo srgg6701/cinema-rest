@@ -22,16 +22,20 @@ require_once 'connect_db.php';
 if($api_path) {
     require_once $api_path;
 }
-
-$template_path = $_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/templates/';
+$path = $_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/';
+$template_path = $path.'templates/';
 
 //echo "<div>user_type: ".$_SESSION['user_type']."</div>";
 
 if(!isset($_SESSION['user_type'])||!$segments[1]){
     $template_path.= 'default';
 }else{
-    $template_path.= ($segments[2]=='tables')?
-        $segments[2] : $_SESSION['user_type'];
+    if($segments[2]=='tables'){
+        $template_path.= $segments[2];
+        if($segments[3])
+            require_once $path.'api/tables.php';
+    }
+    else  $template_path.= $_SESSION['user_type'];
 }
 ob_start();
 //echo "<div>".$_SERVER['DOCUMENT_ROOT']."</div>";
