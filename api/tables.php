@@ -22,8 +22,9 @@ function makeSelect($fieldname, $connect){
 $table = '<table class="db_table">
             <tr>';
 $table_add='<table class="db_table_add">';
+$table_data=$connect->query("DESC $segments[3]", PDO::FETCH_ASSOC);
 // сгенерировать строку с заголовками
-foreach($connect->query("DESC $segments[3]", PDO::FETCH_ASSOC) as $row){
+foreach($table_data as $row){
     $table.="<th>$row[Field]</th>";
 
     if($row['Key']!="PRI"&&$row['Type']!="datetime"){

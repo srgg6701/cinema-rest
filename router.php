@@ -22,6 +22,7 @@ require_once 'connect_db.php';
 if($api_path) {
     require_once $api_path;
 }
+
 $path = $_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/';
 $template_path = $path.'templates/';
 
@@ -32,8 +33,11 @@ if(!isset($_SESSION['user_type'])||!$segments[1]){
 }else{
     if($segments[2]=='tables'){
         $template_path.= $segments[2];
-        if($segments[3])
-            require_once $path.'api/tables.php';
+        if($segments[3]){
+            $last_segment=($segments[3]=='records')?
+                'table_records':'tables';
+            require_once $path.'api/'.$last_segment.'.php';
+        }
     }
     else  $template_path.= $_SESSION['user_type'];
 }
