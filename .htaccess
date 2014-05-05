@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
+RewriteCond %{REQUEST_URI} /[^.]*|\.(php|html?|feed|pdf|vcf|raw)$ [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.php [L]
