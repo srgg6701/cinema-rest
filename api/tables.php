@@ -5,13 +5,13 @@ require_once $path."connect_db.php";
 
 function makeSelect($fieldname, $connect){
     $select = "
-            <select>
+            <select name='$fieldname'>
                 <option>- id : NAME -</option>";
     $tbl = preg_replace('/\B_id$/','',$fieldname); //echo "<h1>tbl: $tbl</h1>";
     $query="SELECT id, name FROM $tbl ORDER BY name DESC";
     if($result=$connect->query($query, PDO::FETCH_ASSOC)){
         foreach($result as $row)
-            $select.="<option>$row[id] : $row[name]</option>";
+            $select.="<option value='$row[id]'>$row[id] : $row[name]</option>";
     }
     $select.="
             </select>";
