@@ -7,6 +7,11 @@ foreach($_POST as $key => $val){
     if($key!=='table'){
         $fields[]=$key;
         $values[]=$val;
+        if($key=='showtime'){
+            $key = 'datetime';
+            $fields[]= $key;
+            $values[]=date('Y-m-d H:i:s');
+        }
     }
 }
 $query.="`" . implode("`,`",$fields) . "`) VALUES (";

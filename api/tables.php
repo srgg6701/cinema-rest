@@ -8,7 +8,7 @@ function makeSelect($fieldname, $connect){
             <select name='$fieldname'>
                 <option>- id : NAME -</option>";
     $tbl = preg_replace('/\B_id$/','',$fieldname); //echo "<h1>tbl: $tbl</h1>";
-    $query="SELECT id, name FROM $tbl ORDER BY name DESC";
+    $query="SELECT id, name FROM $tbl ORDER BY name DESC"; //echo "<div>$query</div>";
     if($result=$connect->query($query, PDO::FETCH_ASSOC)){
         foreach($result as $row)
             $select.="<option value='$row[id]'>$row[id] : $row[name]</option>";
@@ -36,8 +36,10 @@ foreach($table_data as $row){
         else{
             if(preg_match('/\B_id$/',$row['Field']))
                 $table_add.=makeSelect($row['Field'],$connect);
-            else
-                $table_add.="<input type=\"text\" name=\"$row[Field]\">";
+            else{
+                $ftype=($row['Field']=='showtime')? 'date':'text';
+                $table_add.="<input type=\"$ftype\" name=\"$row[Field]\">";
+            }
         }
         $table_add.="</td>
         </tr>";
