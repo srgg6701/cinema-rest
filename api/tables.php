@@ -1,17 +1,30 @@
 <?php
 require_once $path."connect_db.php";
 
+/*function getMaxSeats($id,$connect){
+    $query="SELECT `seats_amount` FROM halls WHERE id = $id";
+    $table_data = $connect->query($query, PDO::FETCH_NUM);
+}*/
 
-
-function makeSelect($fieldname, $connect){
+function makeSelect($fieldname, $connect, $xtra_field=false){
+    if($x=$xtra_field) {
+        $xtra_field=", $xtra_field";
+        $max_seats = ', макс.колич.мест';
+    }else{
+        $x=false;
+        $max_seats = false;
+    }
     $select = "
             <select name='$fieldname'>
-                <option>- id : NAME -</option>";
+                <option>- id : NAME{$max_seats} -</option>";
     $tbl = preg_replace('/\B_id$/','',$fieldname); //echo "<h1>tbl: $tbl</h1>";
-    $query="SELECT id, name FROM $tbl ORDER BY name DESC"; //echo "<div>$query</div>";
+    $query="SELECT id, name{$xtra_field} FROM $tbl ORDER BY name DESC"; //echo "<div>$query</div>";
     if($result=$connect->query($query, PDO::FETCH_ASSOC)){
-        foreach($result as $row)
-            $select.="<option value='$row[id]'>$row[id] : $row[name]</option>";
+        foreach($result as $row){
+            $select.="<option value='$row[id]'>$row[id]";
+            if($max_seats) $select.= " (мест: $row[$x])";
+            $select.=" : $row[name]</option>";
+        }
     }
     $select.="
             </select>";
@@ -24,6 +37,7 @@ $table = '<table class="db_table">
 $table_add='<table class="db_table_add">';
 $table_data=$connect->query("DESC $segments[3]", PDO::FETCH_ASSOC);
 // сгенерировать строку с заголовками
+$xtra_field=false; // макс. колич. мест в зале
 foreach($table_data as $row){
     $table.="<th>$row[Field]</th>";
 
@@ -31,11 +45,13 @@ foreach($table_data as $row){
         $table_add.="<tr>
                 <td>$row[Field]</td>
                 <td>";
+        // добавить контроль максимального количества мест в зале:
+        $xtra_field=($row['Field']=='halls_id')? 'seats_amount':false;
         if($row['Type']=='text')
             $table_add.="<textarea></textarea>";
         else{
             if(preg_match('/\B_id$/',$row['Field']))
-                $table_add.=makeSelect($row['Field'],$connect);
+                $table_add.=makeSelect($row['Field'],$connect,$xtra_field);
             else{
                 $ftype=($row['Field']=='showtime')? 'date':'text';
                 $table_add.="<input type=\"$ftype\" name=\"$row[Field]\">";
