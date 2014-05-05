@@ -5,7 +5,7 @@ if(!defined('SITE_ROOT')){
     $common_path = 'http://'.$_SERVER['HTTP_HOST'];
     if($_SERVER['HTTP_HOST']=='127.0.0.1'||$_SERVER['HTTP_HOST']=='localhost')
         $common_path.='/'.$location[1];
-    define('SITE_ROOT',$common_path);
+    define('SITE_ROOT',$common_path.'/');
 }
 
 $api_path=null;
@@ -24,6 +24,8 @@ if($api_path) {
 }
 
 $template_path = $_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/templates/';
+
+//echo "<div>user_type: ".$_SESSION['user_type']."</div>";
 
 if(!isset($_SESSION['user_type'])){
     $template_path.= 'default';

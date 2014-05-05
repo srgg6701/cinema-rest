@@ -1,5 +1,5 @@
 $(function(){
-    $('#user_admin, #user_spectator').on('click', function(){
+    $('.user_status').on('click', function(){
         $.get(
             'api/user_status.php',
             {'role':this.getAttribute('role')},

@@ -1,14 +1,14 @@
 <h2>Пожалуйста, укажите свой статус:</h2>
 <hr>
 <div class="floatLeft halfWide">
-	<h3><a role="admin" id="user_admin" href="javascript:void(0);">Администратор</a></h3>
+	<h3><a role="admin" id="user_admin" class="user_status" href="javascript:void(0);">Администратор</a></h3>
     <p>Вам доступны любые действия с таблицами:</p>
     <ul>    	
     	<?php
 		$query = 'SELECT table_name FROM information_schema.TABLES 
  WHERE table_schema = "'.$db_name.'" ORDER BY table_name';
  		foreach($connect->query($query,PDO::FETCH_ASSOC) as $table_name):?>
-        	<li><a href="api/tables/<?php 
+        	<li><a href="<?php echo SITE_ROOT;?>api/tables/<?php 
 			echo $table_name['table_name'];?>"><?php 
 			echo $table_name['table_name'];?></a>
         	</li>
@@ -18,7 +18,7 @@
     </ul>
 </div>
 <div class="floatLeft halfWide">
-	<h3><a role="spectator" id="user_spectator" href="javascript:void(0);">Заказчик/зритель</a></h3>
+	<h3><a role="spectator" class="user_status" href="javascript:void(0);">Заказчик/зритель</a></h3>
   <p>Вам доступны следующие действия:</p>
     <ul>
       <li><a href="api/cinema/halls/seances">Просмотр расписания сеансов по кинотеатрам/залам</a></li>

@@ -11,9 +11,9 @@ ob_end_clean();
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link  media="screen, projection" rel="stylesheet" type="text/css" href="static/stylesheets/screen.css">
-        <script src="static/jquery/dist/jquery.min.js"></script>
-        <script src="static/js/common.js"></script>
+        <link  media="screen, projection" rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT;?>static/stylesheets/screen.css">
+        <script src="<?php echo SITE_ROOT;?>static/jquery/dist/jquery.min.js"></script>
+        <script src="<?php echo SITE_ROOT;?>static/js/common.js"></script>
     </head>
     <body>
     	<div id="container">
@@ -23,7 +23,9 @@ ob_end_clean();
                     echo SITE_ROOT;
 					?>">Главная</a>
                     	<div class="floatRight">
-                        	<a href="/?user_type=admin">Админ</a> | <a href="/?user_type=spectator">Зритель</a>
+                        	<a role="admin" class="user_status" href="javascript:void(0);">Админ</a>
+                            | 
+                            <a role="spectator" class="user_status" href="javascript:void(0);">Зритель</a>
                         </div>
                     </div>                    
                 </nav>
