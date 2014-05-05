@@ -27,12 +27,13 @@ $template_path = $_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/templates/';
 
 //echo "<div>user_type: ".$_SESSION['user_type']."</div>";
 
-if(!isset($_SESSION['user_type'])){
+if(!isset($_SESSION['user_type'])||!$segments[1]){
     $template_path.= 'default';
 }else{
-    $template.= $_SESSION['user_type'];
+    $template_path.= ($segments[2]=='tables')?
+        $segments[2] : $_SESSION['user_type'];
 }
 ob_start();
 //echo "<div>".$_SERVER['DOCUMENT_ROOT']."</div>";
-// var_dump("<pre>",$segments,"<pre/>");
+//var_dump("<pre>",$segments,"<pre/>");
 require_once $template_path.'.php';

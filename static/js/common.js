@@ -1,7 +1,11 @@
 $(function(){
+    var startSlash = (location.href.indexOf('localhost')==-1)? 2:3;
+    var site_name = 'http://'+window.location.hostname+'/'+window.location.href.split('/')[startSlash]+'/';
+
     $('.user_status').on('click', function(){
+        console.log('url= '+site_name+'api/user_status.php');
         $.get(
-            'api/user_status.php',
+            site_name+'api/user_status.php',
             {'role':this.getAttribute('role')},
             onAjaxSuccess
         );
