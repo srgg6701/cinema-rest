@@ -1,0 +1,66 @@
+/* line 2, ../../sass/screen.scss */
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 8, ../../sass/screen.scss */
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+/* line 12, ../../sass/screen.scss */
+body * {
+  box-sizing: border-box;
+}
+
+/* line 17, ../../sass/screen.scss */
+#nav, main, #footer {
+  margin: auto !important;
+  max-width: 90%;
+  min-width: 640px;
+}
+
+/* line 23, ../../sass/screen.scss */
+#container {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+/* line 28, ../../sass/screen.scss */
+.offsetVertical10, section {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* line 33, ../../sass/screen.scss */
+nav {
+  margin: auto -10px;
+  padding: 10px;
+}
+
+/* line 38, ../../sass/screen.scss */
+footer {
+  background-color: #efefef;
+}
+
+/* line 42, ../../sass/screen.scss */
+#footer {
+  height: 60px;
+  line-height: 60px;
+  padding: 0 10px;
+}
+
+/* line 48, ../../sass/screen.scss */
+#main {
+  min-height: 100%;
+  margin-bottom: -60px;
+  padding: 0 10px 60px;
+}
+
+/* line 54, ../../sass/screen.scss */
+nav {
+  background-color: #eaebec;
+}

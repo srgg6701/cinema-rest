@@ -1,0 +1,44 @@
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+  body * {
+    box-sizing: border-box; }
+
+#nav, main, #footer {
+  margin: auto !important;
+  max-width: 90%;
+  min-width: 640px; }
+
+#container {
+  box-sizing: border-box;
+  height: 100%; }
+
+.offsetVertical10, section {
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
+nav {
+  margin: auto -10px;
+  padding: 10px; }
+
+footer {
+  background-color: #efefef; }
+
+#footer {
+  height: 60px;
+  line-height: 60px;
+  padding: 0 10px; }
+
+#main {
+  min-height: 100%;
+  margin-bottom: -60px;
+  padding: 0 10px 60px; }
+
+nav {
+  background-color: #eaebec; }
