@@ -1,4 +1,6 @@
-<?php	require "router.php"; 
+<?php	
+error_reporting(E_ALL);
+require "router.php"; 
 
 $content = ob_get_contents();
 ob_end_clean();

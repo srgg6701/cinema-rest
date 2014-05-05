@@ -11,7 +11,7 @@ if(!defined('SITE_ROOT')){
 $api_path=null;
 if(in_array('api',$location)) $api_path='';
 $segments = array();
-foreach(range(1,3) as $index) { // /site_name/segment1/segment2/segment3
+foreach(range(1,count($location)) as $index) { // /site_name/segment1/segment2/segment3
     $segments[$index-1]=(isset($location[$index]))? $location[$index]:NULL;
     if($api_path!==null)
         $api_path.'/'.$segments[$index-1];
