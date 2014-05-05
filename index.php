@@ -1,4 +1,8 @@
 <?php	require "router.php"; 
+
+$content = ob_get_contents();
+ob_end_clean();
+
 ?><!doctype html>
 <html>
     <head>
@@ -18,7 +22,7 @@
                 </nav>
                 <main>
                 	<section>
-                		Main content
+                		<?php echo $content;?>
                     </section>
                 </main>
             </div>

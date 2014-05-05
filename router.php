@@ -7,12 +7,29 @@ if(!defined('SITE_ROOT')){
         $common_path.='/'.$location[1];
     define('SITE_ROOT',$common_path);
 }
+
+$api_path=null;
+if(in_array('api',$location)) $api_path='';
 $segments = array();
-$included_file=(in_array('api',$location))? 'api':'';
 foreach(range(1,3) as $index) { // /site_name/segment1/segment2/segment3
     $segments[$index-1]=(isset($location[$index]))? $location[$index]:NULL;
-    $included_file.'/'.$segments[$index-1];
-}   // var_dump("<pre>",$segments,"<pre/>");
+    if($api_path!==null)
+        $api_path.'/'.$segments[$index-1];
+}
+
 require_once 'connect_db.php';
-echo "<div>".$included_file."</div>";
-//require_once $included_file;
+
+if($api_path) {
+    require_once $api_path;
+}
+$template_path = $_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/templates/';
+
+if(!isset($_SESSION['user_type'])){
+    $template_path.= 'default';
+}else{
+    $template.= $_SESSION['user_type'];
+}
+ob_start();
+echo "<div>".$_SERVER['DOCUMENT_ROOT']."</div>";
+// var_dump("<pre>",$segments,"<pre/>");
+require_once $template_path.'.php';
