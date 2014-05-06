@@ -15,7 +15,7 @@ function getAdminTables(){
  WHERE table_schema = "'.$db_name.'" ORDER BY table_name';
     foreach($connect->query($query,PDO::FETCH_ASSOC) as $table_name):?>
         <li><a href="<?php echo SITE_ROOT;?>admin/<?php
-            echo $table_name['table_name'];?>"><?php
+            echo $table_name['../api/table_name'];?>"><?php
                 echo $table_name['table_name'];?></a>
         </li>
     <?php

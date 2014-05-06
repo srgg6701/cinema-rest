@@ -13,8 +13,7 @@ foreach(range(1,count($location)) as $index) { // /site_name/segment1/segment2/s
 }
 
 // установить корневую директорию подключения файлов (DOCUMENT_ROOT/имя сайта)
-if(!defined('FILES_ROOT'))
-    define('FILES_ROOT',$_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/');
+define('FILES_ROOT',$_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/');
 
 // никаких файлов, только сегменты
 if(strstr($segments[1], '.php')) {
