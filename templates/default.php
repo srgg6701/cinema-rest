@@ -8,7 +8,7 @@
 		$query = 'SELECT table_name FROM information_schema.TABLES 
  WHERE table_schema = "'.$db_name.'" ORDER BY table_name';
  		foreach($connect->query($query,PDO::FETCH_ASSOC) as $table_name):?>
-        	<li><a href="<?php echo SITE_ROOT;?>api/tables/<?php 
+        	<li><a href="<?php echo SITE_ROOT;?>api/admin/<?php 
 			echo $table_name['table_name'];?>"><?php 
 			echo $table_name['table_name'];?></a>
         	</li>
