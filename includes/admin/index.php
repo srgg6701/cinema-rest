@@ -1,2 +1,2 @@
-<?php   //die(__FILE__);
+<?php
 require_once '../router.php';

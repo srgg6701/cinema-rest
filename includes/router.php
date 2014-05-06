@@ -26,7 +26,7 @@ if(!$segments[1]){
         //  /[site_name]/includes/user
         $path_to_files.='user';
         $path_to_template.='user';
-    }
+    }   //echo "<div>path_to_files: ".$path_to_files.".php</div>";
     // если вломились в пустоту
     if(!file_exists($path_to_files.'.php')){
         $error = 'Путь подключения <b>'.$path_to_files.'.php</b> не обнаружен';
