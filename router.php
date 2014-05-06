@@ -18,7 +18,7 @@ foreach(range(1,count($location)) as $index) { // /site_name/segment1/segment2/s
 if(!defined('FILES_ROOT'))
     define('FILES_ROOT',$_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/');
 // базовый путь к шаблонам
-$path_to_template   = FILES_ROOT.'templates/';
+$path_to_template_root = $path_to_template   = FILES_ROOT.'templates/';
 // базовый путь к ресурсам
 $path_to_files      = FILES_ROOT.'api/';
 
@@ -35,25 +35,38 @@ if(!$segments[1]){
     if($segments[2])
         // site_name/api/(admin|cinema|halls|movies|tickets)/
         $path_to_files.=$segments[2].'/';
-    // подключить ресурс
-    if($segments[3])
-        // site_name/api/***/(delete|get|post|put)/
+    // подключить ресурс и шаблон
+    /*if($segments[2]=='admin'){ // если админ
+        // GET | POST: site_name/api/admin/ -> (get|post).php
         $path_to_files.=$action;
-    if($segments[2]=='admin'){
         // будем подключать шаблон для таблиц админа
-        $path_to_template.= $segments[2]; // admin
-    }else
-        $path_to_template.= 'user';
-    if(in_array('filter',$segments)) {
-        $key_filter = array_search('filter',$segments)+1;
-        $filter_name = $segments[$key_filter];
-        $filter_value = $segments[$key_filter+1];
-        echo "filter: ".$filter_name." = ".$filter_value."\n";
-        //var_dump("<pre>",$segments,"<pre/>");
-        die();
+        $path_to_template = $path_to_template_root . $segments[2]; // admin
+    }*/
+    if($segments[2]=='admin')
+        $path_to_template = $path_to_template_root . 'admin';
+    else{ // если юзер
+        $path_to_template = $path_to_template_root . 'user'; /*
+        if(in_array('filter',$segments)) {
+            $key_filter = array_search('filter',$segments)+1;
+            $filter_name = $segments[$key_filter];
+            $filter_value = $segments[$key_filter+1];
+            switch($filter_name){
+                case '':
+                    break;
+            }
+        }*/
+        // GET | POST: site_name/api/[table]/ -> (get|post).php
+        if(isset($segments[3]))
+            $path_to_files.=$segments[3].'/';
     }
+    $path_to_files.=$action;
     //echo "<div>path_to_files = $path_to_files</div>"; die();
-    require_once $path_to_files.'.php';
+    if(!file_exists($path_to_files.'.php')){
+        $error = 'Путь подключения <b>'.$path_to_files.'.php</b> не обнаружен';
+        $path_to_template = $path_to_template_root . '404';
+    }else
+        require_once $path_to_files.'.php';
+    //echo "<div>path_to_templates = $path_to_template</div>"; die();
 }
 ob_start();
 // подключить шаблон и сохранить все сгенерированные данные в буфере

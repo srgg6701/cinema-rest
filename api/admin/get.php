@@ -1,4 +1,9 @@
 <?php
+/*if(isset($filter_name)){
+    getDataByFilter($filter_name,$filter_value);
+    exit();
+} */
+
 /**
  * генерация интерфейса управления таблицами БД для админа:
  просмотр, добавление, удаление */
@@ -35,13 +40,14 @@ $table_add.='</table>';
 $table.='<th>x</th>
         </tr>';
 //
-foreach(getAllRecords($segments[3]) as $row){
-    $table.='<tr>';
-    foreach($row as $i=>$col){
-        $table.="<td>$col</td>";
+if($records=getAllRecords($segments[3]))
+    foreach($records as $row){
+        $table.='<tr>';
+        foreach($row as $i=>$col){
+            $table.="<td>$col</td>";
+        }
+        // добавить ячейку для удаления записи
+        $table.='<td>x</td>';
+        $table.='</tr>';
     }
-    // добавить ячейку для удаления записи
-    $table.='<td>x</td>';
-    $table.='</tr>';
-}
 $table.= '</table>'; //var_dump("<pre>",$table,"<pre/>"); die();

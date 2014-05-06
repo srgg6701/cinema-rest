@@ -19,20 +19,40 @@ function getAdminTables(){
  */
 function getAllRecords($table_name){ // $segments[3]
     global $connect;
-    return $connect->query("SELECT * FROM $table_name ORDER BY id DESC", PDO::FETCH_NUM);
+    switch($table_name){
+        case 'seances':
+            $order='datetime';
+            break;
+        default:
+            $order='name';
+    } //echo "<div>SELECT * FROM $table_name ORDER BY `$order` DESC</div>";
+    return $connect->query("SELECT * FROM $table_name ORDER BY `$order` DESC", PDO::FETCH_NUM);
 }
+/**
+ *
+ */
+/*function getDataByFilter($filter_name,$filter_value){
+    echo "filter: ".$filter_name." = ".$filter_value."\n";
+} */
 /**
  * Сгенерировать выпадающий список
  */
-function makeSelect($fieldname, $xtra_field=false){
+function makeSelect($fieldname, $join_table=false){
     global $connect;
-    if($xtra_field)
-        return "Выберите кинофильм выше.";
     $select = "
             <select name='$fieldname'>
                 <option>- id : NAME -</option>";
-    $tbl = preg_replace('/\B_id$/','',$fieldname); //echo "<h1>tbl: $tbl</h1>";
-    $query="SELECT id, name FROM $tbl ORDER BY name DESC"; //echo "<div>$query</div>";
+    if($join_table)
+      $query = "SELECT halls.id,
+    CONCAT(cinema.name, \" :: \", halls.name)
+                   AS 'name'
+                  FROM halls, cinema
+                 WHERE halls.cinema_id = cinema.id
+              ORDER BY cinema.name";
+    else{
+        $tbl = preg_replace('/\B_id$/','',$fieldname); //echo "<h1>tbl: $tbl</h1>";
+        $query="SELECT id, name FROM $tbl ORDER BY `name` ASC"; //echo "<div>$query</div>";
+    }
     if($result=$connect->query($query, PDO::FETCH_ASSOC)){
         foreach($result as $row){
             $select.="<option value='$row[id]'>$row[id] : $row[name]</option>";

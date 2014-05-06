@@ -42,6 +42,26 @@ button{
   box-sizing: border-box;
   height: 100%;
 }
+.error_box{
+  background-color: rgb(255, 220, 220);
+  @include border-radius(6px);
+  @include opacity(0.4);
+  display: table;
+  margin-top: 20px;
+  padding: 24px;
+  &:hover{
+    cursor: default;
+    @include opacity(1);
+  }
+}
+.error_link{
+  border-bottom: dotted 2px;
+  color: darkred;
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px 0;
+  padding: 10px 0px 5px 0px;
+}
 .floatLeft{
   float: left;
 }
