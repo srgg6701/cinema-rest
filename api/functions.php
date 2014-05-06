@@ -17,16 +17,50 @@ function getAdminTables(){
 /**
  * Получить все записи из таблицы
  */
-function getAllRecords($table_name){ // $segments[3]
+function getAllRecords($table_name, $fields_names){ // $segments[3]
     global $connect;
     switch($table_name){
         case 'seances':
             $order='datetime';
             break;
+        case 'halls':
+            $order='cinema.name';
+            break;
         default:
             $order='name';
     } //echo "<div>SELECT * FROM $table_name ORDER BY `$order` DESC</div>";
-    return $connect->query("SELECT * FROM $table_name ORDER BY `$order` DESC", PDO::FETCH_NUM);
+    $query = "SELECT ".$table_name.".id, ";
+    switch($table_name){
+        case 'seances':
+            $query.="
+            movies.name AS '$fields_names[0]', -- Фильм,
+            cinema.name AS '$fields_names[1]', -- Кинотеатр,
+             halls.name AS '$fields_names[2]', -- Зал,
+               showtime AS '$fields_names[3]', -- Время показа
+     free_seats_numbers AS '$fields_names[4]', -- Своб. мест
+               datetime AS '$fields_names[5]'  -- Дата записи
+  FROM seances, movies, cinema, halls
+  WHERE seances.movies_id = movies.id
+    AND seances.halls_id = halls.id
+    AND halls.cinema_id = cinema.id ";
+            break;
+        case 'cinema': case 'movies':
+            $query.="name AS '$fields_names[0]'";
+            break;
+        case 'halls':
+            $query.="halls.name AS '$fields_names[0]', -- Название зала
+                    cinema.name AS '$fields_names[1]', -- Кинотеатр,
+                   seats_amount AS '$fields_names[2]'  -- Свободных мест
+  FROM cinema, halls WHERE halls.cinema_id = cinema.id";
+            break;
+        case 'tickets':
+            $query.="code AS '$fields_names[0]'"; // Код билета
+            break;
+        default:
+            $query ="SELECT * FROM $table_name ORDER BY `$order`";
+    }
+
+    return $connect->query($query, PDO::FETCH_NUM);
 }
 /**
  *

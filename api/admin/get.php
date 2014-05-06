@@ -7,13 +7,12 @@
 /**
  * генерация интерфейса управления таблицами БД для админа:
  просмотр, добавление, удаление */
-$table = '<table class="db_table">
-            <tr>';
+$table_name = $segments[3];
 $table_add='<table class="db_table_add">';
-// сгенерировать строку с заголовками
+// сгенерировать строки добавления записей
 $xtra_field=false; // макс. колич. мест в зале
-foreach($connect->query("DESC $segments[3]", PDO::FETCH_ASSOC) as $row){
-    $table.="<th>$row[Field]</th>";
+foreach($connect->query("DESC $table_name", PDO::FETCH_ASSOC) as $row){
+    //$table.="<th>$row[Field]</th>";
 
     if($row['Key']!="PRI"&&$row['Type']!="datetime"){
         $table_add.="<tr>
@@ -41,10 +40,31 @@ foreach($connect->query("DESC $segments[3]", PDO::FETCH_ASSOC) as $row){
 }
 $table_add.='</table>';
 // добавить столбец для удаления записи
+switch($table_name){
+    case 'cinema':
+        $fields=$array('Название');
+        break;
+    case 'halls':
+        $fields=$array('Название зала','Кинотеатр', 'Свободных мест');
+        break;
+    case 'movies':
+        $fields=$array('Название фильма');
+        break;
+    case 'seances':
+        $fields=$array('Фильм','Кинотеатр','Зал','Время показа','Своб. мест','Дата записи');
+        break;
+    case 'tickets':
+        $fields=$array('Код билета');
+        break;
+}
+
+$table = '<table class="db_table">
+            <tr>';
+
 $table.='<th>x</th>
         </tr>';
 //
-if($records=getAllRecords($segments[3]))
+if($records=getAllRecords($table_name,$fields))
     foreach($records as $row){
         $table.='<tr>';
         foreach($row as $i=>$col){
