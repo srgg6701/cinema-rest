@@ -1,6 +1,6 @@
 <?php echo "<h3>".getOptionName()."</h3>";?>
-
-<div style="width:70%" class="floatLeft">
+<br>
+<div class="floatLeft" id="user-content">
     Таблицы
 <?php
 
@@ -8,4 +8,8 @@ echo $content;
 
 ?>
 </div>
-<div style="width:30%" class="floatLeft">Menu</div>
+<div class="floatLeft" id="vertical-menu">
+    <menu>
+    <?php echo getUserOptions(true);?>
+    </menu>
+</div>

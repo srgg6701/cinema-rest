@@ -1,5 +1,5 @@
 RewriteEngine On
-Options -Indexes
+#Options -Indexes
 RewriteCond %{REQUEST_METHOD}  !=POST
 RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
 RewriteCond %{REQUEST_URI} /[^.]*|\.(php|html?|feed|pdf|vcf|raw)$ [NC]

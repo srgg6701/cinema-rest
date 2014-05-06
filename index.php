@@ -12,7 +12,7 @@ ob_end_clean();
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
+        <title>We love Cinema! &copy;</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link  media="screen, projection" rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT;?>static/stylesheets/screen.css">
@@ -29,7 +29,7 @@ ob_end_clean();
                     </div>                    
                 </nav>
                 <main>
-                	<section>
+                	<section class="clearfix">
                 		<?php echo $content;?>
                     </section>
                 </main>

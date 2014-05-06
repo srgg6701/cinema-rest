@@ -38,7 +38,7 @@ if(!$segments[1]){
 }else{
     // подключить ресурс и шаблон
     if($segments[2])
-        // site_name/api/(admin|cinema|halls|movies|tickets)/
+        // site_name/api/(admin|[table])/
         $path_to_files.=$segments[2].'/';
     if($segments[2]=='admin')
         $path_to_template = $path_to_template_root . 'admin';
@@ -51,7 +51,9 @@ if(!$segments[1]){
         $path_to_template = $path_to_template_root . '404';
     }else{
         ob_start();
-        require_once $path_to_files.'.php';
+        //if($segments[2]!='admin')
+            //require_once FILES_ROOT.'api/request.php';
+        require_once $path_to_files.'.php'; // api/(admin|[table])/(delete|get|post|put).php
         $content = ob_get_contents();
         ob_end_clean();
     }   // echo "<div>path_to_templates = $path_to_template</div>"; //die();

@@ -113,7 +113,7 @@ function makeSelect($fieldname, $join_table=false){
  * Получить имя выбранной опции
  */
 function getOptionName(){
-    global $segments;
+    global $segments; var_dump("<pre>",$segments,"<pre/>");
     if($segments[count($segments)-1]===NULL)
         $d = array_pop($segments);
     $active_segments = implode('/',array_slice($segments,2));
@@ -135,7 +135,7 @@ function getUserOptions($listing=false){
         $links='';
         foreach($user_options as $link=>$text)
             $links.='<li>
-                <a href="api/'.$link.'">'.$text.'</a>
+                <a href="'.SITE_ROOT.'api/'.$link.'">'.$text.'</a>
             </li>';
         return $links;
     }
