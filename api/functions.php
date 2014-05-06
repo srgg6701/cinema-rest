@@ -41,7 +41,7 @@ function makeSelect($fieldname, $join_table=false){
     global $connect;
     $select = "
             <select name='$fieldname'>
-                <option>- id : NAME -</option>";
+                <option value=\"0\">- id : NAME -</option>";
     if($join_table)
       $query = "SELECT halls.id,
     CONCAT(cinema.name, \" :: \", halls.name)

@@ -5,15 +5,15 @@ $query = "INSERT INTO $_POST[table] (";
 $fields=$values=array();
 foreach($_POST as $key => $val){
     if($key!=='table'){
-        $fields[]=$key;
-        $values[]=$val;
-        if($key=='showtime'){
-            $key = 'datetime';
-            $fields[]= $key;
-            $values[]=date('Y-m-d H:i:s');
+        if($key=='showtime')
+            $val.=" ".$_POST['time'].":00";
+        if($key!='time'){
+            $fields[]=$key;
+            $values[]=$val;
         }
     }
 }
-$query.="`" . implode("`,`",$fields) . "`) VALUES (";
-$query.="'" . implode("','",$values) . "')";
-var_dump("<pre>",$query,"<pre/>"); die();
+$query.="`" . implode("`, `",$fields) . "`) VALUES (";
+$query.="'" . implode("', '",$values) . "')";
+var_dump("<pre>",$_POST,"<pre/>");
+var_dump($query); die();

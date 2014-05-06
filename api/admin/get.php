@@ -27,8 +27,12 @@ foreach($connect->query("DESC $segments[3]", PDO::FETCH_ASSOC) as $row){
             if(preg_match('/\B_id$/',$row['Field']))
                 $table_add.=makeSelect($row['Field'],$xtra_field);
             else{
-                $ftype=($row['Field']=='showtime')? 'date':'text';
-                $table_add.="<input type=\"$ftype\" name=\"$row[Field]\">";
+                if($row['Field']=='showtime'){ // и дата, и время
+                    $table_add.="<input type=\"date\" name=\"$row[Field]\" value=\"\">";
+                    $table_add.="<input type=\"time\" name=\"time\" value=\"\">";
+                }
+                else // текстовое поле
+                    $table_add.="<input type=\"text\" name=\"$row[Field]\" value=\"\">";
             }
         }
         $table_add.="</td>
