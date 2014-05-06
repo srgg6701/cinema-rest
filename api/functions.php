@@ -1,5 +1,12 @@
 <?php
 /**
+ * Удалить запись из таблицы по её id
+ */
+function deleteRecord($table,$id){
+    global $connect;
+    return $connect->exec("DELETE FROM $table WHERE id = $id");
+}
+/**
  * Сгенерировать список таблиц БД
  */
 function getAdminTables(){
@@ -28,7 +35,7 @@ function getAllRecords($table_name, $fields_names){ // $segments[3]
             break;
         default:
             $order='name';
-    } //echo "<div>SELECT * FROM $table_name ORDER BY `$order` DESC</div>";
+    }
     $query = "SELECT ".$table_name.".id, ";
     switch($table_name){
         case 'seances':
@@ -36,30 +43,36 @@ function getAllRecords($table_name, $fields_names){ // $segments[3]
             movies.name AS '$fields_names[0]', -- Фильм,
             cinema.name AS '$fields_names[1]', -- Кинотеатр,
              halls.name AS '$fields_names[2]', -- Зал,
-               showtime AS '$fields_names[3]', -- Время показа
+DATE_FORMAT(showtime,'%d.%m.%Y %k:%i')
+                        AS '$fields_names[3]', -- Время показа
      free_seats_numbers AS '$fields_names[4]', -- Своб. мест
-               datetime AS '$fields_names[5]'  -- Дата записи
+DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
+                        AS '$fields_names[5]'  -- Дата записи
   FROM seances, movies, cinema, halls
   WHERE seances.movies_id = movies.id
     AND seances.halls_id = halls.id
     AND halls.cinema_id = cinema.id ";
             break;
         case 'cinema': case 'movies':
-            $query.="name AS '$fields_names[0]'";
+            $query.="name AS '$fields_names[0]'
+            FROM $table_name
+            ORDER BY $order";
             break;
         case 'halls':
             $query.="halls.name AS '$fields_names[0]', -- Название зала
                     cinema.name AS '$fields_names[1]', -- Кинотеатр,
                    seats_amount AS '$fields_names[2]'  -- Свободных мест
-  FROM cinema, halls WHERE halls.cinema_id = cinema.id";
+                FROM cinema, halls
+            WHERE halls.cinema_id = cinema.id
+            ORDER BY $order";
             break;
         case 'tickets':
-            $query.="code AS '$fields_names[0]'"; // Код билета
+            $query.="code AS '$fields_names[0]' FROM $table_name
+            ORDER BY $order"; // Код билета
             break;
         default:
             $query ="SELECT * FROM $table_name ORDER BY `$order`";
-    }
-
+    }   //echo "<div>$query</div>";
     return $connect->query($query, PDO::FETCH_NUM);
 }
 /**

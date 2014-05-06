@@ -14,6 +14,10 @@ foreach($_POST as $key => $val){
         }
     }
 }
+if($_POST[table]=="seances"){
+    $fields[]="datetime";
+    $values[]=date("Y-m-d H:i:s");
+}
 $query.="`" . implode("`, `",$fields) . "`) VALUES (";
 $query.="'" . implode("', '",$values) . "')";
 //var_dump("<pre>",$_POST,"<pre/>");

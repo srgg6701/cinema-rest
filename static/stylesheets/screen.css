@@ -163,26 +163,31 @@ table {
 table.db_table_add {
   width: 100%;
 }
-/* line 116, ../../sass/screen.scss */
+/* line 117, ../../sass/screen.scss */
+table.db_table tr td:last-child {
+  color: red;
+  cursor: pointer;
+  text-align: center;
+}
+/* line 121, ../../sass/screen.scss */
+table.db_table tr td:last-child:hover {
+  background-color: lightpink;
+}
+/* line 130, ../../sass/screen.scss */
 table tr td:first-child {
   text-align: right;
 }
-/* line 119, ../../sass/screen.scss */
-table tr td:last-child {
-  color: red;
-  text-align: center;
-}
-/* line 125, ../../sass/screen.scss */
+/* line 135, ../../sass/screen.scss */
 table td, table th {
   border-bottom: solid 1px #ccc;
   border-right: solid 1px #ccc;
   padding: 3px 5px;
 }
-/* line 131, ../../sass/screen.scss */
+/* line 141, ../../sass/screen.scss */
 table.db_table th {
   background-color: #eaebec;
 }
-/* line 140, ../../sass/screen.scss */
+/* line 150, ../../sass/screen.scss */
 table.db_table_add input[type="text"],
 table.db_table_add input[type="password"],
 table.db_table_add input[type="email"],

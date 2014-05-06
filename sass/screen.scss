@@ -111,14 +111,24 @@ table{
   &.db_table_add{
     width: 100%;
   }
+  &.db_table{
+    tr{
+      td{
+        &:last-child{
+          color: red;
+          cursor: pointer;
+          text-align: center;
+          &:hover{
+            background-color: lightpink;
+          }
+        }
+      }
+    }
+  }
   tr{
     td{
       &:first-child{
         text-align: right;
-      }
-      &:last-child{
-        color: red;
-        text-align: center;
       }
     }
   }

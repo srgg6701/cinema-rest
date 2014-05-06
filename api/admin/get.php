@@ -42,24 +42,28 @@ $table_add.='</table>';
 // добавить столбец для удаления записи
 switch($table_name){
     case 'cinema':
-        $fields=$array('Название');
+        $fields=array('Название');
         break;
     case 'halls':
-        $fields=$array('Название зала','Кинотеатр', 'Свободных мест');
+        $fields=array('Название зала','Кинотеатр', 'Свободных мест');
         break;
     case 'movies':
-        $fields=$array('Название фильма');
+        $fields=array('Название фильма');
         break;
     case 'seances':
-        $fields=$array('Фильм','Кинотеатр','Зал','Время показа','Своб. мест','Дата записи');
+        $fields=array('Фильм','Кинотеатр','Зал','Время показа','Своб. мест','Дата записи');
         break;
     case 'tickets':
-        $fields=$array('Код билета');
+        $fields=array('Код билета');
         break;
 }
 
 $table = '<table class="db_table">
-            <tr>';
+            <tr>
+                <th>id</th>';
+
+foreach($fields as $field)
+    $table.='<th>'.$field.'</th>';
 
 $table.='<th>x</th>
         </tr>';
