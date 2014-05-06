@@ -39,7 +39,7 @@ foreach($connect->query("DESC $table_name", PDO::FETCH_ASSOC) as $row){
     }
 }
 $table_add.='</table>';
-// добавить столбец для удаления записи
+
 switch($table_name){
     case 'cinema':
         $fields=array('Название');
@@ -64,7 +64,7 @@ $table = '<table class="db_table">
 
 foreach($fields as $field)
     $table.='<th>'.$field.'</th>';
-
+// добавить столбец для удаления записи
 $table.='<th>x</th>
         </tr>';
 //

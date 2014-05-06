@@ -109,3 +109,36 @@ function makeSelect($fieldname, $join_table=false){
             </select>";
     return $select;
 }
+/**
+ * Получить имя выбранной опции
+ */
+function getOptionName(){
+    global $segments;
+    if($segments[count($segments)-1]===NULL)
+        $d = array_pop($segments);
+    $active_segments = implode('/',array_slice($segments,2));
+    $options = getUserOptions();
+    return $options[$active_segments];
+}
+/**
+ * Список доступных юзеру опций
+ */
+function getUserOptions($listing=false){
+    $user_options = array( //
+        'cinema/seances/halls'  =>'Просмотр расписания сеансов по кинотеатрам/залам',
+        'halls/movie'           =>'Просмотр залов, в которых идёт выбранный вами фильм',
+        'seances/free_seats'    =>'Проверка наличия свободных мест на сеанс',
+        'tickets/order'         =>'Заказ билетов',
+        'tickets/cancel'        =>'Отмена заказа билетов (не позже, чем за час до начала сеанса).'
+    );
+    if($listing){
+        $links='';
+        foreach($user_options as $link=>$text)
+            $links.='<li>
+                <a href="api/'.$link.'">'.$text.'</a>
+            </li>';
+        return $links;
+    }
+    else
+        return $user_options;
+}
