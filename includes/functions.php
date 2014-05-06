@@ -1,12 +1,5 @@
 <?php
 /**
- * Удалить запись из таблицы по её id
- */
-function deleteRecord($table,$id){
-    global $connect;
-    return $connect->exec("DELETE FROM $table WHERE id = $id");
-}
-/**
  * Сгенерировать список таблиц БД
  */
 function getAdminTables(){
@@ -75,12 +68,6 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
     }   //echo "<div>$query</div>";
     return $connect->query($query, PDO::FETCH_NUM);
 }
-/**
- *
- */
-/*function getDataByFilter($filter_name,$filter_value){
-    echo "filter: ".$filter_name." = ".$filter_value."\n";
-} */
 /**
  * Сгенерировать выпадающий список
  */
