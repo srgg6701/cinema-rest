@@ -18,6 +18,7 @@ $(function(){
             return false;
         }
     });
+	//
     var startSlash = (location.href.indexOf('localhost')==-1)? 2:3;
     var site_name = 'http://'+window.location.hostname+'/'+window.location.href.split('/')[startSlash]+'/';
     var table_name = $('[name="table"]').val();
@@ -34,19 +35,8 @@ $(function(){
                 if(data==record_id)
                     $(rowToDelete).fadeOut(300);
                 else
-                    console.log("%cid удаляемой строки не совпадает...", 'color:red');
+                    console.log("%cid id удаляемой строки не совпадают...", 'color:red');
             }
         });
     });
-    /*
-
-    $('select[name="movies_id"]').on('change', function(){
-
-        $.ajax({
-            url: site_name+'api/admin/halls/filter/movie/'+$('option:selected',this).val(),
-            success:function(data){
-                alert(data);
-            }
-        });
-    });*/
 });

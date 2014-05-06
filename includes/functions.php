@@ -15,7 +15,7 @@ function getAdminTables(){
  WHERE table_schema = "'.$db_name.'" ORDER BY table_name';
     foreach($connect->query($query,PDO::FETCH_ASSOC) as $table_name):?>
         <li><a href="<?php echo SITE_ROOT;?>admin/<?php
-            echo $table_name['../api/table_name'];?>"><?php
+            echo $table_name['table_name'];?>"><?php
                 echo $table_name['table_name'];?></a>
         </li>
     <?php
@@ -113,7 +113,7 @@ function makeSelect($fieldname, $join_table=false){
  * Получить имя выбранной опции
  */
 function getOptionName(){
-    global $segments; var_dump("<pre>",$segments,"<pre/>");
+    global $segments; //echo "getOptionName"; var_dump("<pre>",$segments,"<pre/>");
     if($segments[count($segments)-1]===NULL)
         $d = array_pop($segments);
     $active_segments = implode('/',array_slice($segments,2));

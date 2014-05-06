@@ -3,7 +3,8 @@
     echo $table_name; ?></h3>
 <?php echo $table;
 if($table_name!='tickets'){?>
-    <form id="admin-form" class="clearfix" method="post" action="<?php echo SITE_ROOT.'admin/'?>">
+    <form id="admin-form" class="clearfix" method="post" action="<?php
+        echo SITE_ROOT.'includes/admin/create.php'?>">
         <h4>Добавить запись:</h4>
         <div class="floatLeft halfWide">
             <?php echo $table_add;?>
