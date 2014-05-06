@@ -6,13 +6,9 @@ $(function(){
     $('select[name="movies_id"]').on('change', function(){
 
         $.ajax({
-            url: site_name+'api/tables/halls/',
-            data:{
-                // передать фильтр по фильмам
-                movie:$('option:selected',this).val()
-            },
+            url: site_name+'api/admin/halls/filter/movie/'+$('option:selected',this).val(),
             success:function(data){
-                alert('OK: '+data);
+                alert(data);
             }
         });
     });

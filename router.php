@@ -38,14 +38,22 @@ if(!$segments[1]){
     // подключить ресурс
     if($segments[3])
         // site_name/api/***/(delete|get|post|put)/
-        $path_to_files.=$action.'.php';
+        $path_to_files.=$action;
     if($segments[2]=='admin'){
         // будем подключать шаблон для таблиц админа
         $path_to_template.= $segments[2]; // admin
     }else
         $path_to_template.= 'user';
+    if(in_array('filter',$segments)) {
+        $key_filter = array_search('filter',$segments)+1;
+        $filter_name = $segments[$key_filter];
+        $filter_value = $segments[$key_filter+1];
+        echo "filter: ".$filter_name." = ".$filter_value."\n";
+        //var_dump("<pre>",$segments,"<pre/>");
+        die();
+    }
     //echo "<div>path_to_files = $path_to_files</div>"; die();
-    require_once $path_to_files;
+    require_once $path_to_files.'.php';
 }
 ob_start();
 // подключить шаблон и сохранить все сгенерированные данные в буфере
