@@ -1,5 +1,4 @@
 <?php
-require_once $path."connect_db.php";
 
 function makeSelect($fieldname, $connect, $xtra_field=false){
     if($xtra_field)
@@ -67,4 +66,4 @@ foreach($table_data as $row){
     $table.='<td>x</td>';
     $table.='</tr>';
 }
-$table.= '</table>';
+$table.= '</table>'; //var_dump("<pre>",$table,"<pre/>"); die();

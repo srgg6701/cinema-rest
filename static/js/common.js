@@ -8,8 +8,8 @@ $(function(){
         $.ajax({
             url: site_name+'api/tables/halls/',
             data:{
-                filter:'movie',
-                'id':$('option:selected',this).val()
+                // передать фильтр по фильмам
+                movie:$('option:selected',this).val()
             },
             success:function(data){
                 alert('OK: '+data);

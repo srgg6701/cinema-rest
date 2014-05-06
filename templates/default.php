@@ -1,8 +1,8 @@
-<h2>Пожалуйста, укажите свой статус:</h2>
+<h2>Пожалуйста, выберите статус/действие:</h2>
 <hr>
 <div class="floatLeft halfWide">
-	<h3>Администратор</h3>
-    <p>Вам доступны любые действия со всеми таблицами БД:</p>
+	<h3 class="box" role="admin">Администратор</h3>
+    <p>Вам доступны действия со всеми таблицами БД:</p>
     <ul>    	
     	<?php
 		$query = 'SELECT table_name FROM information_schema.TABLES 
@@ -18,7 +18,7 @@
     </ul>
 </div>
 <div class="floatLeft halfWide">
-	<h3>Заказчик/зритель</h3>
+	<h3 class="box" role="spectator">Заказчик/зритель</h3>
   <p>Вам доступны следующие действия:</p>
     <ul>
       <li><a href="api/cinema/halls/seances">Просмотр расписания сеансов по кинотеатрам/залам</a></li>

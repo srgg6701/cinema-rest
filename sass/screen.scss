@@ -21,13 +21,19 @@ a{
     text-decoration: underline;
   }
 }
+.box{
+  border-radius: 4px;
+  display: inline-block;
+  padding: 20px 30px;
+  &[role="admin"]{
+    background-color: lightskyblue;
+  }
+  &[role="spectator"]{
+    background-color: lightgreen;
+  }
+}
 button{
   margin-top: 6px;
-}
-#nav, main, #footer {
-  margin: auto !important;
-  max-width: 90%;
-  min-width: 640px;
 }
 .clearfix{ //
   @include clearfix;
@@ -50,6 +56,12 @@ footer {
   line-height: 60px;
   padding: 0 10px;
 }
+.halfWide{
+  width: 50%;
+}
+li{
+  line-height: 1.5em;
+}
 #main {
   min-height: 100%;
   margin-bottom: -60px;
@@ -58,11 +70,10 @@ footer {
 nav {
   background-color: #eaebec;
 }
-.halfWide{
-  width: 50%;
-}
-li{
-  line-height: 1.5em;
+#nav, main, #footer {
+  margin: auto !important;
+  max-width: 90%;
+  min-width: 640px;
 }
 nav {
   margin: auto -10px;
