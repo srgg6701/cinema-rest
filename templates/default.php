@@ -4,17 +4,7 @@
 	<h3 class="box" role="admin">Администратор</h3>
     <p>Вам доступны действия со всеми таблицами БД:</p>
     <ul>    	
-    	<?php
-		$query = 'SELECT table_name FROM information_schema.TABLES 
- WHERE table_schema = "'.$db_name.'" ORDER BY table_name';
- 		foreach($connect->query($query,PDO::FETCH_ASSOC) as $table_name):?>
-        	<li><a href="<?php echo SITE_ROOT;?>api/admin/<?php 
-			echo $table_name['table_name'];?>"><?php 
-			echo $table_name['table_name'];?></a>
-        	</li>
-		<?php
-		endforeach;
-		?>
+    	<?php	getAdminTables();	?>
     </ul>
 </div>
 <div class="floatLeft halfWide">

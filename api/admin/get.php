@@ -1,31 +1,13 @@
 <?php
-
-function makeSelect($fieldname, $connect, $xtra_field=false){
-    if($xtra_field)
-        return "Выберите кинофильм выше.";
-    $select = "
-            <select name='$fieldname'>
-                <option>- id : NAME -</option>";
-    $tbl = preg_replace('/\B_id$/','',$fieldname); //echo "<h1>tbl: $tbl</h1>";
-    $query="SELECT id, name FROM $tbl ORDER BY name DESC"; //echo "<div>$query</div>";
-    if($result=$connect->query($query, PDO::FETCH_ASSOC)){
-        foreach($result as $row){
-            $select.="<option value='$row[id]'>$row[id] : $row[name]</option>";
-        }
-    }
-    $select.="
-            </select>";
-    return $select;
-}
-
-//echo "<div>rows: ".$table_data->rowCount()."</div>";
+/**
+ * генерация интерфейса управления таблицами БД для админа:
+ просмотр, добавление, удаление */
 $table = '<table class="db_table">
             <tr>';
 $table_add='<table class="db_table_add">';
-$table_data=$connect->query("DESC $segments[3]", PDO::FETCH_ASSOC);
 // сгенерировать строку с заголовками
 $xtra_field=false; // макс. колич. мест в зале
-foreach($table_data as $row){
+foreach($connect->query("DESC $segments[3]", PDO::FETCH_ASSOC) as $row){
     $table.="<th>$row[Field]</th>";
 
     if($row['Key']!="PRI"&&$row['Type']!="datetime"){
@@ -34,11 +16,11 @@ foreach($table_data as $row){
                 <td>";
         // добавить контроль максимального количества мест в зале:
         $xtra_field=($row['Field']=='halls_id')? true:false;
-        if($row['Type']=='text')
-            $table_add.="<textarea></textarea>";
+        if($row['Type']=='text') // пока нет, но в будущем, возможно, появится поле типа "текст"
+            $table_add.="<textarea name=\"$row[Field]\"></textarea>";
         else{
             if(preg_match('/\B_id$/',$row['Field']))
-                $table_add.=makeSelect($row['Field'],$connect,$xtra_field);
+                $table_add.=makeSelect($row['Field'],$xtra_field);
             else{
                 $ftype=($row['Field']=='showtime')? 'date':'text';
                 $table_add.="<input type=\"$ftype\" name=\"$row[Field]\">";
@@ -52,14 +34,10 @@ $table_add.='</table>';
 // добавить столбец для удаления записи
 $table.='<th>x</th>
         </tr>';
-
-$query="SELECT * FROM $segments[3] ORDER BY id DESC";
-$table_data = $connect->query($query, PDO::FETCH_NUM);
-
-foreach($table_data as $row){
+//
+foreach(getAllRecords($segments[3]) as $row){
     $table.='<tr>';
     foreach($row as $i=>$col){
-
         $table.="<td>$col</td>";
     }
     // добавить ячейку для удаления записи

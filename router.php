@@ -24,6 +24,8 @@ $path_to_files      = FILES_ROOT.'api/';
 
 // подключиться к БД (здесь это должно происходить в любом случае)
 require_once FILES_ROOT."connect_db.php";
+// подключить функции
+require_once $path_to_files."functions.php";
 
 $action = mb_strtolower($_SERVER['REQUEST_METHOD']);
 if(!$segments[1]){
