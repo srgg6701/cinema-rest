@@ -23,8 +23,8 @@ if(!$segments[1]){
         $path_to_files.='admin/'.mb_strtolower($_SERVER['REQUEST_METHOD']);
         $path_to_template.='admin';
     }else{
-        //  /[site_name]/includes/user
-        $path_to_files.='user';
+        //  /[site_name]/includes/user/default
+        $path_to_files.='user/default';
         $path_to_template.='user';
     }   //echo "<div>path_to_files: ".$path_to_files.".php</div>";
     // если вломились в пустоту

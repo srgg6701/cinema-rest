@@ -1,4 +1,4 @@
-<?php echo "<h3>".getOptionName()."</h3>";?>
+<?php echo "<h3>".Data::getOptionName()."</h3>";?>
 <br>
 <div class="floatLeft" id="user-content">
     Таблицы
@@ -10,6 +10,6 @@ echo $content;
 </div>
 <div class="floatLeft" id="vertical-menu">
     <menu>
-    <?php echo getUserOptions(true);?>
+    <?php echo Data::getUserOptions(true);?>
     </menu>
 </div>
