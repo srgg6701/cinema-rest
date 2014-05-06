@@ -16,5 +16,9 @@ foreach($_POST as $key => $val){
 }
 $query.="`" . implode("`, `",$fields) . "`) VALUES (";
 $query.="'" . implode("', '",$values) . "')";
-var_dump("<pre>",$_POST,"<pre/>");
-var_dump($query); die();
+//var_dump("<pre>",$_POST,"<pre/>");
+//var_dump($query); die();
+//echo "<div>table name: $_POST[table]</div>";
+$connect->exec($query);
+header("location:".SITE_ROOT.'api/admin/'.$_POST['table']);
+
