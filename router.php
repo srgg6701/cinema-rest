@@ -51,7 +51,7 @@ if(!$segments[1]){
     if(!file_exists($path_to_files.'.php')){
         $error = 'Путь подключения <b>'.$path_to_files.'.php</b> не обнаружен';
         $path_to_template = $path_to_template_root . '404';
-    }else{
+    }else{  //echo "<div>path_to_files: ".$path_to_files.".php</div>";
         ob_start();
         // /[site_name]/(admin|api/[table])/(delete|get|post|put).php
         require_once $path_to_files.'.php';

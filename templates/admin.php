@@ -1,5 +1,5 @@
 <h3>Таблица: <?php
-    $table_name=$segments[3];
+    $table_name=$segments[2];
     echo $table_name; ?></h3>
 <?php echo $table;
 if($table_name!='tickets'){?>

@@ -1,6 +1,6 @@
 <?php
 // если запись удалена, возвращаем её id
-if(deleteRecord($segments[3],$segments[4])){
-    echo $segments[4];
+if(deleteRecord($segments[2],$segments[3])){
+    echo $segments[3];
     exit();
 }

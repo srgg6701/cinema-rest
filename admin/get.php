@@ -1,13 +1,8 @@
 <?php
-/*if(isset($filter_name)){
-    getDataByFilter($filter_name,$filter_value);
-    exit();
-} */
-
 /**
  * генерация интерфейса управления таблицами БД для админа:
  просмотр, добавление, удаление */
-$table_name = $segments[3];
+$table_name = $segments[2];
 $table_add='<table class="db_table_add">';
 // сгенерировать строки добавления записей
 $xtra_field=false; // макс. колич. мест в зале
