@@ -31,17 +31,10 @@ $action = mb_strtolower($_SERVER['REQUEST_METHOD']);
 if(!$segments[1]){
     $path_to_template.= 'default';
 }else{
-    // модифицировать путь подключения файлов
+    // подключить ресурс и шаблон
     if($segments[2])
         // site_name/api/(admin|cinema|halls|movies|tickets)/
         $path_to_files.=$segments[2].'/';
-    // подключить ресурс и шаблон
-    /*if($segments[2]=='admin'){ // если админ
-        // GET | POST: site_name/api/admin/ -> (get|post).php
-        $path_to_files.=$action;
-        // будем подключать шаблон для таблиц админа
-        $path_to_template = $path_to_template_root . $segments[2]; // admin
-    }*/
     if($segments[2]=='admin')
         $path_to_template = $path_to_template_root . 'admin';
     else{ // если юзер
@@ -56,17 +49,18 @@ if(!$segments[1]){
             }
         }*/
         // GET | POST: site_name/api/[table]/ -> (get|post).php
-        if(isset($segments[3]))
-            $path_to_files.=$segments[3].'/';
+        //if(isset($segments[3]))
+            //$path_to_files.=$segments[3].'/';
+        //if(isset($segments[4]));
     }
     $path_to_files.=$action;
-    //echo "<div>path_to_files = $path_to_files</div>"; die();
+    echo "<div>path_to_files = $path_to_files</div>"; //die();
     if(!file_exists($path_to_files.'.php')){
         $error = 'Путь подключения <b>'.$path_to_files.'.php</b> не обнаружен';
         $path_to_template = $path_to_template_root . '404';
     }else
         require_once $path_to_files.'.php';
-    //echo "<div>path_to_templates = $path_to_template</div>"; die();
+    echo "<div>path_to_templates = $path_to_template</div>"; //die();
 }
 ob_start();
 // подключить шаблон и сохранить все сгенерированные данные в буфере
