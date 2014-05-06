@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 if($_SERVER['REQUEST_METHOD']!='POST')
     die('Ты куда собрался, Малыш? Сюда можно ходить только методом POST!');
 $query = "INSERT INTO $_POST[table] (";
