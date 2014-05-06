@@ -21,39 +21,40 @@ if(strstr($segments[1], '.php')) {
     header("location:".SITE_ROOT);
 }
 
-// базовый путь к шаблонам
-$path_to_template_root = $path_to_template   = FILES_ROOT.'templates/';
-// базовый путь к ресурсам
-$path_to_files      = FILES_ROOT.'api/';
-
 // подключиться к БД (здесь это должно происходить в любом случае)
 require_once FILES_ROOT."connect_db.php";
+
+// базовый путь к шаблонам
+$path_to_template_root = $path_to_template = FILES_ROOT.'templates/';
+// базовый путь к ресурсам
+$path_to_files = FILES_ROOT;
 // подключить функции
-require_once $path_to_files."functions.php";
-
+require_once $path_to_files."api/functions.php";
+// delete|get|post|put
 $action = mb_strtolower($_SERVER['REQUEST_METHOD']);
-
+// определить окончательные параметры подключения шаблонов и служебных файлов
 if(!$segments[1]){
     $path_to_template.= 'default';
 }else{
-    // подключить ресурс и шаблон
-    if($segments[2])
-        // site_name/api/(admin|[table])/
-        $path_to_files.=$segments[2].'/';
-    if($segments[2]=='admin')
-        $path_to_template = $path_to_template_root . 'admin';
-    else // если юзер
-        $path_to_template = $path_to_template_root . 'user';
-    //
+    if($segments[1]=='admin'){
+        $path_to_files.='admin/';
+        $path_to_template.='admin';
+    }else{
+        $path_to_files.='api/';
+        $path_to_template.='user';
+        if($segments[2]) // site_name/[table])/
+            $path_to_files.=$segments[2].'/';
+    }
+    //  /[site_name]/(admin|api/[table])/(delete|get|post|put)
     $path_to_files.=$action; //echo "<div>path_to_files = $path_to_files</div>"; //die();
+    // если вломились в пустоту
     if(!file_exists($path_to_files.'.php')){
         $error = 'Путь подключения <b>'.$path_to_files.'.php</b> не обнаружен';
         $path_to_template = $path_to_template_root . '404';
     }else{
         ob_start();
-        //if($segments[2]!='admin')
-            //require_once FILES_ROOT.'api/request.php';
-        require_once $path_to_files.'.php'; // api/(admin|[table])/(delete|get|post|put).php
+        // /[site_name]/(admin|api/[table])/(delete|get|post|put).php
+        require_once $path_to_files.'.php';
         $content = ob_get_contents();
         ob_end_clean();
     }   // echo "<div>path_to_templates = $path_to_template</div>"; //die();
