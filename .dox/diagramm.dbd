@@ -125,7 +125,7 @@
             </Location>
             <Size>
               <Width>249 px</Width>
-              <Height>231 px</Height>
+              <Height>248 px</Height>
             </Size>
             <DbOid>
               <Path>cinema.seances</Path>
@@ -196,7 +196,7 @@
               <Port xsi:type="LinkPort">
                 <Location>
                   <X>-122.75 px</X>
-                  <Y>-202.5 px</Y>
+                  <Y>-185.5 px</Y>
                 </Location>
                 <Anchors>None</Anchors>
                 <Align>Bottom</Align>
@@ -271,12 +271,81 @@
               <Port xsi:type="LinkPort">
                 <Location>
                   <X>0 px</X>
-                  <Y>-101.25 px</Y>
+                  <Y>-92.75 px</Y>
                 </Location>
                 <Anchors>None</Anchors>
                 <Align>Bottom</Align>
                 <CustomProperties>
                   <OID>14</OID>
+                  <PortType>FixedAnchor</PortType>
+                </CustomProperties>
+                <LinkPortAnchor>OutPoint</LinkPortAnchor>
+              </Port>
+            </PortAnchors>
+            <CommentOffset>
+              <X>22 px</X>
+              <Y>2 px</Y>
+            </CommentOffset>
+          </Model>
+          <Model xsi:type="RelationLinkModel">
+            <CustomProperties>
+              <OID>15</OID>
+              <Comment>16</Comment>
+              <OutModel>2</OutModel>
+              <InModel>1</InModel>
+              <OutPort>17</OutPort>
+              <InPort>18</InPort>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <PortAnchors>
+              <Port>
+                <Location>
+                  <X>82 px</X>
+                  <Y>0 px</Y>
+                </Location>
+                <Anchors>Left Right</Anchors>
+                <Align>Top</Align>
+                <CustomProperties>
+                  <OID>17</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+              <Port>
+                <Location>
+                  <X>72 px</X>
+                  <Y>0 px</Y>
+                </Location>
+                <Anchors>Left Right</Anchors>
+                <Align>Bottom</Align>
+                <CustomProperties>
+                  <OID>18</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+            </PortAnchors>
+            <IsManuallyRouted>false</IsManuallyRouted>
+            <DbOid>
+              <Path>cinema.halls.FK_halls_cinema_id</Path>
+              <TypeName>ForeignKey</TypeName>
+            </DbOid>
+          </Model>
+          <Model xsi:type="RelationCommentModel">
+            <CustomProperties>
+              <OID>16</OID>
+              <HolderModel>15</HolderModel>
+              <Port>19</Port>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <PortAnchors>
+              <Port xsi:type="LinkPort">
+                <Location>
+                  <X>0 px</X>
+                  <Y>101.5 px</Y>
+                </Location>
+                <Anchors>None</Anchors>
+                <Align>Top</Align>
+                <CustomProperties>
+                  <OID>19</OID>
                   <PortType>FixedAnchor</PortType>
                 </CustomProperties>
                 <LinkPortAnchor>OutPoint</LinkPortAnchor>

@@ -1,5 +1,7 @@
 <?php	
 error_reporting(E_ALL); //E_ERROR | E_WARNING
+header('Content-Type: text/html; charset=utf-8');
+
 require "router.php"; 
 
 $content = ob_get_contents();

@@ -27,8 +27,8 @@ $path = $_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/';
 $template_path = $path.'templates/';
 
 //echo "<div>user_type: ".$_SESSION['user_type']."</div>";
-
-if(!isset($_SESSION['user_type'])||!$segments[1]){
+$action = mb_strtolower($_SERVER['REQUEST_METHOD']);
+if(/*!isset($_SESSION['user_type'])||*/!$segments[1]){
     $template_path.= 'default';
 }else{
     if($segments[2]=='tables'){
@@ -36,12 +36,14 @@ if(!isset($_SESSION['user_type'])||!$segments[1]){
         if($segments[3]){
             $last_segment=($segments[3]=='records')?
                 'table_records':'tables';
+            if(isset($_GET['filter'])) {
+                // подключить сервис обработки таблицы по фильтру:
+                require_once $path.'api/'.$segments[3].'/'. $action .'.php';
+            }
             require_once $path.'api/'.$last_segment.'.php';
         }
     }
     else  $template_path.= $_SESSION['user_type'];
 }
 ob_start();
-//echo "<div>".$_SERVER['DOCUMENT_ROOT']."</div>";
-//var_dump("<pre>",$segments,"<pre/>");
 require_once $template_path.'.php';

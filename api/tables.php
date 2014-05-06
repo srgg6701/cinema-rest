@@ -2,23 +2,16 @@
 require_once $path."connect_db.php";
 
 function makeSelect($fieldname, $connect, $xtra_field=false){
-    if($x=$xtra_field) {
-        $xtra_field=", $xtra_field";
-        $max_seats = ', макс.колич.мест';
-    }else{
-        $x=false;
-        $max_seats = false;
-    }
+    if($xtra_field)
+        return "Выберите кинофильм выше.";
     $select = "
             <select name='$fieldname'>
-                <option>- id : NAME{$max_seats} -</option>";
+                <option>- id : NAME -</option>";
     $tbl = preg_replace('/\B_id$/','',$fieldname); //echo "<h1>tbl: $tbl</h1>";
-    $query="SELECT id, name{$xtra_field} FROM $tbl ORDER BY name DESC"; //echo "<div>$query</div>";
+    $query="SELECT id, name FROM $tbl ORDER BY name DESC"; //echo "<div>$query</div>";
     if($result=$connect->query($query, PDO::FETCH_ASSOC)){
         foreach($result as $row){
-            $select.="<option value='$row[id]'>$row[id]";
-            if($max_seats) $select.= " (мест: $row[$x])";
-            $select.=" : $row[name]</option>";
+            $select.="<option value='$row[id]'>$row[id] : $row[name]</option>";
         }
     }
     $select.="
@@ -41,7 +34,7 @@ foreach($table_data as $row){
                 <td>$row[Field]</td>
                 <td>";
         // добавить контроль максимального количества мест в зале:
-        $xtra_field=($row['Field']=='halls_id')? 'seats_amount':false;
+        $xtra_field=($row['Field']=='halls_id')? true:false;
         if($row['Type']=='text')
             $table_add.="<textarea></textarea>";
         else{
