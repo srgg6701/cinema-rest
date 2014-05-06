@@ -24,5 +24,5 @@ $query.="'" . implode("', '",$values) . "')";
 //var_dump($query); die();
 //echo "<div>table name: $_POST[table]</div>";
 $connect->exec($query);
-header("location:".SITE_ROOT.'api/admin/'.$_POST['table']);
+header("location:".SITE_ROOT.'admin/'.$_POST['table']);
 

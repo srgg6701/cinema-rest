@@ -25,9 +25,9 @@ $(function(){
     $('.db_table tr td:last-child').on('click', function(){
         var rowToDelete = $(this).parent('tr');
         var record_id = $(rowToDelete).find('td:first-child').text();
-        console.log('record id = '+record_id);
+        //console.log('record id = '+record_id);
         $.ajax({
-            url: site_name+'api/admin/'+table_name+'/'+record_id,
+            url: site_name+'admin/'+table_name+'/'+record_id,
             type:'DELETE',
             success:function(data){
                 //alert(data);
