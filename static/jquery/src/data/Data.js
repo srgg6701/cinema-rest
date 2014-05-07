@@ -4,7 +4,7 @@ define([
 	"./accepts"
 ], function( jQuery, rnotwhite ) {
 
-function Common() {
+function Data() {
 	// Support: Android < 4,
 	// Old WebKit does not have Object.preventExtensions/freeze method,
 	// return new empty object instead with no [[set]] accessor
@@ -17,15 +17,15 @@ function Common() {
 	this.expando = jQuery.expando + Math.random();
 }
 
-Common.uid = 1;
-Common.accepts = jQuery.acceptData;
+Data.uid = 1;
+Data.accepts = jQuery.acceptData;
 
-Common.prototype = {
+Data.prototype = {
 	key: function( owner ) {
-		// We can accept Common for non-element nodes in modern browsers,
+		// We can accept data for non-element nodes in modern browsers,
 		// but we should not, see #8335.
 		// Always return the key for a frozen object.
-		if ( !Common.accepts( owner ) ) {
+		if ( !Data.accepts( owner ) ) {
 			return 0;
 		}
 
@@ -35,7 +35,7 @@ Common.prototype = {
 
 		// If not, create one
 		if ( !unlock ) {
-			unlock = Common.uid++;
+			unlock = Data.uid++;
 
 			// Secure it in a non-enumerable, non-writable property
 			try {
@@ -57,7 +57,7 @@ Common.prototype = {
 
 		return unlock;
 	},
-	set: function( owner, Common, value ) {
+	set: function( owner, data, value ) {
 		var prop,
 			// There may be an unlock assigned to this node,
 			// if there is no entry for this "owner", create one inline
@@ -66,18 +66,18 @@ Common.prototype = {
 			cache = this.cache[ unlock ];
 
 		// Handle: [ owner, key, value ] args
-		if ( typeof Common === "string" ) {
-			cache[ Common ] = value;
+		if ( typeof data === "string" ) {
+			cache[ data ] = value;
 
 		// Handle: [ owner, { properties } ] args
 		} else {
 			// Fresh assignments by object are shallow copied
 			if ( jQuery.isEmptyObject( cache ) ) {
-				jQuery.extend( this.cache[ unlock ], Common );
+				jQuery.extend( this.cache[ unlock ], data );
 			// Otherwise, copy the properties one-by-one to the cache object
 			} else {
-				for ( prop in Common ) {
-					cache[ prop ] = Common[ prop ];
+				for ( prop in data ) {
+					cache[ prop ] = data[ prop ];
 				}
 			}
 		}
@@ -87,7 +87,7 @@ Common.prototype = {
 		// Either a valid cache is found, or will be created.
 		// New caches will be created and the unlock returned,
 		// allowing direct access to the newly created
-		// empty Common object. A valid owner object must be provided.
+		// empty data object. A valid owner object must be provided.
 		var cache = this.cache[ this.key( owner ) ];
 
 		return key === undefined ?
@@ -104,7 +104,7 @@ Common.prototype = {
 		// which value to return, respectively either:
 		//
 		//   1. The entire cache object
-		//   2. The Common stored at the key
+		//   2. The data stored at the key
 		//
 		if ( key === undefined ||
 				((key && typeof key === "string") && value === undefined) ) {
@@ -124,7 +124,7 @@ Common.prototype = {
 		this.set( owner, key, value );
 
 		// Since the "set" path can have two possible entry points
-		// return the expected Common based on which path was taken[*]
+		// return the expected data based on which path was taken[*]
 		return value !== undefined ? value : key;
 	},
 	remove: function( owner, key ) {
@@ -139,7 +139,7 @@ Common.prototype = {
 			// Support array or space separated string of keys
 			if ( jQuery.isArray( key ) ) {
 				// If "name" is an array of keys...
-				// When Common is initially created, via ("key", "val") signature,
+				// When data is initially created, via ("key", "val") signature,
 				// keys will be converted to camelCase.
 				// Since there is no way to tell _how_ a key was added, remove
 				// both plain key and camelCase key. #12786
@@ -177,5 +177,5 @@ Common.prototype = {
 	}
 };
 
-return Common;
+return Data;
 });

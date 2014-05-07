@@ -5,7 +5,7 @@ define([
 	"./callbacks",
 	"./deferred",
 	"./core/ready",
-	"./Common",
+	"./data",
 	"./queue",
 	"./queue/delay",
 	"./attributes",

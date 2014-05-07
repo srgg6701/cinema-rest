@@ -332,7 +332,7 @@ jQuery.extend({
 		}
 	},
 
-	// Convert dashed to camelCase; used by the css and Common modules
+	// Convert dashed to camelCase; used by the css and data modules
 	// Microsoft forgot to hump their vendor prefix (#9572)
 	camelCase: function( string ) {
 		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
@@ -581,7 +581,7 @@ var i,
 	matches,
 	contains,
 
-	// Instance-specific Common
+	// Instance-specific data
 	expando = "sizzle" + -(new Date()),
 	preferredDoc = window.document,
 	dirruns = 0,
@@ -845,7 +845,7 @@ function Sizzle( selector, context, results, seed ) {
 
 /**
  * Create key-value caches of limited size
- * @returns {Function(string, Object)} Returns the Object Common after storing it on itself with
+ * @returns {Function(string, Object)} Returns the Object data after storing it on itself with
  *	property name the (space-suffixed) string and (if the cache is larger than Expr.cacheLength)
  *	deleting the oldest entry
  */
@@ -1683,7 +1683,7 @@ Expr = Sizzle.selectors = {
 
 						start = [ forward ? parent.firstChild : parent.lastChild ];
 
-						// non-xml :nth-child(...) stores cache Common on `parent`
+						// non-xml :nth-child(...) stores cache data on `parent`
 						if ( forward && useCache ) {
 							// Seek `elem` from a previously-cached index
 							outerCache = parent[ expando ] || (parent[ expando ] = {});
@@ -2083,7 +2083,7 @@ function addCombinator( matcher, combinator, base ) {
 			var oldCache, outerCache,
 				newCache = [ dirruns, doneName ];
 
-			// We can't set arbitrary Common on XML nodes, so they don't benefit from dir caching
+			// We can't set arbitrary data on XML nodes, so they don't benefit from dir caching
 			if ( xml ) {
 				while ( (elem = elem[ dir ]) ) {
 					if ( elem.nodeType === 1 || checkNonElements ) {
@@ -3062,15 +3062,15 @@ jQuery.Callbacks = function( options ) {
 		// Stack of fire calls for repeatable lists
 		stack = !options.once && [],
 		// Fire callbacks
-		fire = function( Common ) {
-			memory = options.memory && Common;
+		fire = function( data ) {
+			memory = options.memory && data;
 			fired = true;
 			firingIndex = firingStart || 0;
 			firingStart = 0;
 			firingLength = list.length;
 			firing = true;
 			for ( ; list && firingIndex < firingLength; firingIndex++ ) {
-				if ( list[ firingIndex ].apply( Common[ 0 ], Common[ 1 ] ) === false && options.stopOnFalse ) {
+				if ( list[ firingIndex ].apply( data[ 0 ], data[ 1 ] ) === false && options.stopOnFalse ) {
 					memory = false; // To prevent further calls using add
 					break;
 				}
@@ -3492,7 +3492,7 @@ var access = jQuery.access = function( elems, fn, key, value, chainable, emptyGe
 
 
 /**
- * Determines whether an object can have Common
+ * Determines whether an object can have data
  */
 jQuery.acceptData = function( owner ) {
 	// Accepts only:
@@ -3506,7 +3506,7 @@ jQuery.acceptData = function( owner ) {
 };
 
 
-function Common() {
+function Data() {
 	// Support: Android < 4,
 	// Old WebKit does not have Object.preventExtensions/freeze method,
 	// return new empty object instead with no [[set]] accessor
@@ -3519,15 +3519,15 @@ function Common() {
 	this.expando = jQuery.expando + Math.random();
 }
 
-Common.uid = 1;
-Common.accepts = jQuery.acceptData;
+Data.uid = 1;
+Data.accepts = jQuery.acceptData;
 
-Common.prototype = {
+Data.prototype = {
 	key: function( owner ) {
-		// We can accept Common for non-element nodes in modern browsers,
+		// We can accept data for non-element nodes in modern browsers,
 		// but we should not, see #8335.
 		// Always return the key for a frozen object.
-		if ( !Common.accepts( owner ) ) {
+		if ( !Data.accepts( owner ) ) {
 			return 0;
 		}
 
@@ -3537,7 +3537,7 @@ Common.prototype = {
 
 		// If not, create one
 		if ( !unlock ) {
-			unlock = Common.uid++;
+			unlock = Data.uid++;
 
 			// Secure it in a non-enumerable, non-writable property
 			try {
@@ -3559,7 +3559,7 @@ Common.prototype = {
 
 		return unlock;
 	},
-	set: function( owner, Common, value ) {
+	set: function( owner, data, value ) {
 		var prop,
 			// There may be an unlock assigned to this node,
 			// if there is no entry for this "owner", create one inline
@@ -3568,18 +3568,18 @@ Common.prototype = {
 			cache = this.cache[ unlock ];
 
 		// Handle: [ owner, key, value ] args
-		if ( typeof Common === "string" ) {
-			cache[ Common ] = value;
+		if ( typeof data === "string" ) {
+			cache[ data ] = value;
 
 		// Handle: [ owner, { properties } ] args
 		} else {
 			// Fresh assignments by object are shallow copied
 			if ( jQuery.isEmptyObject( cache ) ) {
-				jQuery.extend( this.cache[ unlock ], Common );
+				jQuery.extend( this.cache[ unlock ], data );
 			// Otherwise, copy the properties one-by-one to the cache object
 			} else {
-				for ( prop in Common ) {
-					cache[ prop ] = Common[ prop ];
+				for ( prop in data ) {
+					cache[ prop ] = data[ prop ];
 				}
 			}
 		}
@@ -3589,7 +3589,7 @@ Common.prototype = {
 		// Either a valid cache is found, or will be created.
 		// New caches will be created and the unlock returned,
 		// allowing direct access to the newly created
-		// empty Common object. A valid owner object must be provided.
+		// empty data object. A valid owner object must be provided.
 		var cache = this.cache[ this.key( owner ) ];
 
 		return key === undefined ?
@@ -3606,7 +3606,7 @@ Common.prototype = {
 		// which value to return, respectively either:
 		//
 		//   1. The entire cache object
-		//   2. The Common stored at the key
+		//   2. The data stored at the key
 		//
 		if ( key === undefined ||
 				((key && typeof key === "string") && value === undefined) ) {
@@ -3626,7 +3626,7 @@ Common.prototype = {
 		this.set( owner, key, value );
 
 		// Since the "set" path can have two possible entry points
-		// return the expected Common based on which path was taken[*]
+		// return the expected data based on which path was taken[*]
 		return value !== undefined ? value : key;
 	},
 	remove: function( owner, key ) {
@@ -3641,7 +3641,7 @@ Common.prototype = {
 			// Support array or space separated string of keys
 			if ( jQuery.isArray( key ) ) {
 				// If "name" is an array of keys...
-				// When Common is initially created, via ("key", "val") signature,
+				// When data is initially created, via ("key", "val") signature,
 				// keys will be converted to camelCase.
 				// Since there is no way to tell _how_ a key was added, remove
 				// both plain key and camelCase key. #12786
@@ -3678,9 +3678,9 @@ Common.prototype = {
 		}
 	}
 };
-var data_priv = new Common();
+var data_priv = new Data();
 
-var data_user = new Common();
+var data_user = new Data();
 
 
 
@@ -3690,41 +3690,41 @@ var data_user = new Common();
 	1. Enforce API surface and semantic compatibility with 1.9.x branch
 	2. Improve the module's maintainability by reducing the storage
 		paths to a single mechanism.
-	3. Use the same single mechanism to support "private" and "user" Common.
-	4. _Never_ expose "private" Common to user code (TODO: Drop _data, _removeData)
+	3. Use the same single mechanism to support "private" and "user" data.
+	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
 	5. Avoid exposing implementation details on user objects (eg. expando properties)
 	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 */
 var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
 	rmultiDash = /([A-Z])/g;
 
-function dataAttr( elem, key, Common ) {
+function dataAttr( elem, key, data ) {
 	var name;
 
 	// If nothing was found internally, try to fetch any
-	// Common from the HTML5 Common-* attribute
-	if ( Common === undefined && elem.nodeType === 1 ) {
-		name = "Common-" + key.replace( rmultiDash, "-$1" ).toLowerCase();
-		Common = elem.getAttribute( name );
+	// data from the HTML5 data-* attribute
+	if ( data === undefined && elem.nodeType === 1 ) {
+		name = "data-" + key.replace( rmultiDash, "-$1" ).toLowerCase();
+		data = elem.getAttribute( name );
 
-		if ( typeof Common === "string" ) {
+		if ( typeof data === "string" ) {
 			try {
-				Common = Common === "true" ? true :
-					Common === "false" ? false :
-					Common === "null" ? null :
+				data = data === "true" ? true :
+					data === "false" ? false :
+					data === "null" ? null :
 					// Only convert to a number if it doesn't change the string
-					+Common + "" === Common ? +Common :
-					rbrace.test( Common ) ? jQuery.parseJSON( Common ) :
-					Common;
+					+data + "" === data ? +data :
+					rbrace.test( data ) ? jQuery.parseJSON( data ) :
+					data;
 			} catch( e ) {}
 
-			// Make sure we set the Common so it isn't changed later
-			data_user.set( elem, key, Common );
+			// Make sure we set the data so it isn't changed later
+			data_user.set( elem, key, data );
 		} else {
-			Common = undefined;
+			data = undefined;
 		}
 	}
-	return Common;
+	return data;
 }
 
 jQuery.extend({
@@ -3732,8 +3732,8 @@ jQuery.extend({
 		return data_user.hasData( elem ) || data_priv.hasData( elem );
 	},
 
-	Common: function( elem, name, Common ) {
-		return data_user.access( elem, name, Common );
+	data: function( elem, name, data ) {
+		return data_user.access( elem, name, data );
 	},
 
 	removeData: function( elem, name ) {
@@ -3742,8 +3742,8 @@ jQuery.extend({
 
 	// TODO: Now that all calls to _data and _removeData have been replaced
 	// with direct calls to data_priv methods, these can be deprecated.
-	_data: function( elem, name, Common ) {
-		return data_priv.access( elem, name, Common );
+	_data: function( elem, name, data ) {
+		return data_priv.access( elem, name, data );
 	},
 
 	_removeData: function( elem, name ) {
@@ -3752,15 +3752,15 @@ jQuery.extend({
 });
 
 jQuery.fn.extend({
-	Common: function( key, value ) {
-		var i, name, Common,
+	data: function( key, value ) {
+		var i, name, data,
 			elem = this[ 0 ],
 			attrs = elem && elem.attributes;
 
 		// Gets all values
 		if ( key === undefined ) {
 			if ( this.length ) {
-				Common = data_user.get( elem );
+				data = data_user.get( elem );
 
 				if ( elem.nodeType === 1 && !data_priv.get( elem, "hasDataAttrs" ) ) {
 					i = attrs.length;
@@ -3770,9 +3770,9 @@ jQuery.fn.extend({
 						// The attrs elements can be null (#14894)
 						if ( attrs[ i ] ) {
 							name = attrs[ i ].name;
-							if ( name.indexOf( "Common-" ) === 0 ) {
+							if ( name.indexOf( "data-" ) === 0 ) {
 								name = jQuery.camelCase( name.slice(5) );
-								dataAttr( elem, name, Common[ name ] );
+								dataAttr( elem, name, data[ name ] );
 							}
 						}
 					}
@@ -3780,7 +3780,7 @@ jQuery.fn.extend({
 				}
 			}
 
-			return Common;
+			return data;
 		}
 
 		// Sets multiple values
@@ -3791,47 +3791,47 @@ jQuery.fn.extend({
 		}
 
 		return access( this, function( value ) {
-			var Common,
+			var data,
 				camelKey = jQuery.camelCase( key );
 
 			// The calling jQuery object (element matches) is not empty
 			// (and therefore has an element appears at this[ 0 ]) and the
 			// `value` parameter was not undefined. An empty jQuery object
 			// will result in `undefined` for elem = this[ 0 ] which will
-			// throw an exception if an attempt to read a Common cache is made.
+			// throw an exception if an attempt to read a data cache is made.
 			if ( elem && value === undefined ) {
-				// Attempt to get Common from the cache
+				// Attempt to get data from the cache
 				// with the key as-is
-				Common = data_user.get( elem, key );
-				if ( Common !== undefined ) {
-					return Common;
+				data = data_user.get( elem, key );
+				if ( data !== undefined ) {
+					return data;
 				}
 
-				// Attempt to get Common from the cache
+				// Attempt to get data from the cache
 				// with the key camelized
-				Common = data_user.get( elem, camelKey );
-				if ( Common !== undefined ) {
-					return Common;
+				data = data_user.get( elem, camelKey );
+				if ( data !== undefined ) {
+					return data;
 				}
 
-				// Attempt to "discover" the Common in
-				// HTML5 custom Common-* attrs
-				Common = dataAttr( elem, camelKey, undefined );
-				if ( Common !== undefined ) {
-					return Common;
+				// Attempt to "discover" the data in
+				// HTML5 custom data-* attrs
+				data = dataAttr( elem, camelKey, undefined );
+				if ( data !== undefined ) {
+					return data;
 				}
 
-				// We tried really hard, but the Common doesn't exist.
+				// We tried really hard, but the data doesn't exist.
 				return;
 			}
 
-			// Set the Common...
+			// Set the data...
 			this.each(function() {
 				// First, attempt to store a copy or reference of any
-				// Common that might've been store with a camelCased key.
-				var Common = data_user.get( this, camelKey );
+				// data that might've been store with a camelCased key.
+				var data = data_user.get( this, camelKey );
 
-				// For HTML5 Common-* attribute interop, we have to
+				// For HTML5 data-* attribute interop, we have to
 				// store property names with dashes in a camelCase form.
 				// This might not apply to all properties...*
 				data_user.set( this, camelKey, value );
@@ -3839,7 +3839,7 @@ jQuery.fn.extend({
 				// *... In the case of properties that might _actually_
 				// have dashes, we need to also store a copy of that
 				// unchanged property.
-				if ( key.indexOf("-") !== -1 && Common !== undefined ) {
+				if ( key.indexOf("-") !== -1 && data !== undefined ) {
 					data_user.set( this, key, value );
 				}
 			});
@@ -3855,7 +3855,7 @@ jQuery.fn.extend({
 
 
 jQuery.extend({
-	queue: function( elem, type, Common ) {
+	queue: function( elem, type, data ) {
 		var queue;
 
 		if ( elem ) {
@@ -3863,11 +3863,11 @@ jQuery.extend({
 			queue = data_priv.get( elem, type );
 
 			// Speed up dequeue by getting out quickly if this is just a lookup
-			if ( Common ) {
-				if ( !queue || jQuery.isArray( Common ) ) {
-					queue = data_priv.access( elem, type, jQuery.makeArray(Common) );
+			if ( data ) {
+				if ( !queue || jQuery.isArray( data ) ) {
+					queue = data_priv.access( elem, type, jQuery.makeArray(data) );
 				} else {
-					queue.push( Common );
+					queue.push( data );
 				}
 			}
 			return queue || [];
@@ -3921,11 +3921,11 @@ jQuery.extend({
 });
 
 jQuery.fn.extend({
-	queue: function( type, Common ) {
+	queue: function( type, data ) {
 		var setter = 2;
 
 		if ( typeof type !== "string" ) {
-			Common = type;
+			data = type;
 			type = "fx";
 			setter--;
 		}
@@ -3934,10 +3934,10 @@ jQuery.fn.extend({
 			return jQuery.queue( this[0], type );
 		}
 
-		return Common === undefined ?
+		return data === undefined ?
 			this :
 			this.each(function() {
-				var queue = jQuery.queue( this, type, Common );
+				var queue = jQuery.queue( this, type, data );
 
 				// ensure a hooks for this queue
 				jQuery._queueHooks( this, type );
@@ -4059,7 +4059,7 @@ jQuery.event = {
 
 	global: {},
 
-	add: function( elem, types, handler, Common, selector ) {
+	add: function( elem, types, handler, data, selector ) {
 
 		var handleObjIn, eventHandle, tmp,
 			events, t, handleObj,
@@ -4071,7 +4071,7 @@ jQuery.event = {
 			return;
 		}
 
-		// Caller can pass in an object of custom Common in lieu of the handler
+		// Caller can pass in an object of custom data in lieu of the handler
 		if ( handler.handler ) {
 			handleObjIn = handler;
 			handler = handleObjIn.handler;
@@ -4122,7 +4122,7 @@ jQuery.event = {
 			handleObj = jQuery.extend({
 				type: type,
 				origType: origType,
-				Common: Common,
+				data: data,
 				handler: handler,
 				guid: handler.guid,
 				selector: selector,
@@ -4136,7 +4136,7 @@ jQuery.event = {
 				handlers.delegateCount = 0;
 
 				// Only use addEventListener if the special events handler returns false
-				if ( !special.setup || special.setup.call( elem, Common, namespaces, eventHandle ) === false ) {
+				if ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === false ) {
 					if ( elem.addEventListener ) {
 						elem.addEventListener( type, eventHandle, false );
 					}
@@ -4235,7 +4235,7 @@ jQuery.event = {
 		}
 	},
 
-	trigger: function( event, Common, elem, onlyHandlers ) {
+	trigger: function( event, data, elem, onlyHandlers ) {
 
 		var i, cur, tmp, bubbleType, ontype, handle, special,
 			eventPath = [ elem || document ],
@@ -4280,14 +4280,14 @@ jQuery.event = {
 			event.target = elem;
 		}
 
-		// Clone any incoming Common and prepend the event, creating the handler arg list
-		Common = Common == null ?
+		// Clone any incoming data and prepend the event, creating the handler arg list
+		data = data == null ?
 			[ event ] :
-			jQuery.makeArray( Common, [ event ] );
+			jQuery.makeArray( data, [ event ] );
 
 		// Allow special events to draw outside the lines
 		special = jQuery.event.special[ type ] || {};
-		if ( !onlyHandlers && special.trigger && special.trigger.apply( elem, Common ) === false ) {
+		if ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === false ) {
 			return;
 		}
 
@@ -4321,13 +4321,13 @@ jQuery.event = {
 			// jQuery handler
 			handle = ( data_priv.get( cur, "events" ) || {} )[ event.type ] && data_priv.get( cur, "handle" );
 			if ( handle ) {
-				handle.apply( cur, Common );
+				handle.apply( cur, data );
 			}
 
 			// Native handler
 			handle = ontype && cur[ ontype ];
 			if ( handle && handle.apply && jQuery.acceptData( cur ) ) {
-				event.result = handle.apply( cur, Common );
+				event.result = handle.apply( cur, data );
 				if ( event.result === false ) {
 					event.preventDefault();
 				}
@@ -4338,7 +4338,7 @@ jQuery.event = {
 		// If nobody prevented the default action, do it now
 		if ( !onlyHandlers && !event.isDefaultPrevented() ) {
 
-			if ( (!special._default || special._default.apply( eventPath.pop(), Common ) === false) &&
+			if ( (!special._default || special._default.apply( eventPath.pop(), data ) === false) &&
 				jQuery.acceptData( elem ) ) {
 
 				// Call a native DOM method on the target with the same name name as the event.
@@ -4403,7 +4403,7 @@ jQuery.event = {
 				if ( !event.namespace_re || event.namespace_re.test( handleObj.namespace ) ) {
 
 					event.handleObj = handleObj;
-					event.Common = handleObj.Common;
+					event.data = handleObj.data;
 
 					ret = ( (jQuery.event.special[ handleObj.origType ] || {}).handle || handleObj.handler )
 							.apply( matched.elem, args );
@@ -4782,36 +4782,36 @@ if ( !support.focusinBubbles ) {
 
 jQuery.fn.extend({
 
-	on: function( types, selector, Common, fn, /*INTERNAL*/ one ) {
+	on: function( types, selector, data, fn, /*INTERNAL*/ one ) {
 		var origFn, type;
 
 		// Types can be a map of types/handlers
 		if ( typeof types === "object" ) {
-			// ( types-Object, selector, Common )
+			// ( types-Object, selector, data )
 			if ( typeof selector !== "string" ) {
-				// ( types-Object, Common )
-				Common = Common || selector;
+				// ( types-Object, data )
+				data = data || selector;
 				selector = undefined;
 			}
 			for ( type in types ) {
-				this.on( type, selector, Common, types[ type ], one );
+				this.on( type, selector, data, types[ type ], one );
 			}
 			return this;
 		}
 
-		if ( Common == null && fn == null ) {
+		if ( data == null && fn == null ) {
 			// ( types, fn )
 			fn = selector;
-			Common = selector = undefined;
+			data = selector = undefined;
 		} else if ( fn == null ) {
 			if ( typeof selector === "string" ) {
 				// ( types, selector, fn )
-				fn = Common;
-				Common = undefined;
+				fn = data;
+				data = undefined;
 			} else {
-				// ( types, Common, fn )
-				fn = Common;
-				Common = selector;
+				// ( types, data, fn )
+				fn = data;
+				data = selector;
 				selector = undefined;
 			}
 		}
@@ -4832,11 +4832,11 @@ jQuery.fn.extend({
 			fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
 		}
 		return this.each( function() {
-			jQuery.event.add( this, types, fn, Common, selector );
+			jQuery.event.add( this, types, fn, data, selector );
 		});
 	},
-	one: function( types, selector, Common, fn ) {
-		return this.on( types, selector, Common, fn, 1 );
+	one: function( types, selector, data, fn ) {
+		return this.on( types, selector, data, fn, 1 );
 	},
 	off: function( types, selector, fn ) {
 		var handleObj, type;
@@ -4870,15 +4870,15 @@ jQuery.fn.extend({
 		});
 	},
 
-	trigger: function( type, Common ) {
+	trigger: function( type, data ) {
 		return this.each(function() {
-			jQuery.event.trigger( type, Common, this );
+			jQuery.event.trigger( type, data, this );
 		});
 	},
-	triggerHandler: function( type, Common ) {
+	triggerHandler: function( type, data ) {
 		var elem = this[0];
 		if ( elem ) {
-			return jQuery.event.trigger( type, Common, elem, true );
+			return jQuery.event.trigger( type, data, elem, true );
 		}
 	}
 });
@@ -4962,7 +4962,7 @@ function cloneCopyEvent( src, dest ) {
 		return;
 	}
 
-	// 1. Copy private Common: events, handlers, etc.
+	// 1. Copy private data: events, handlers, etc.
 	if ( data_priv.hasData( src ) ) {
 		pdataOld = data_priv.access( src );
 		pdataCur = data_priv.set( dest, pdataOld );
@@ -4980,7 +4980,7 @@ function cloneCopyEvent( src, dest ) {
 		}
 	}
 
-	// 2. Copy user Common
+	// 2. Copy user data
 	if ( data_user.hasData( src ) ) {
 		udataOld = data_user.access( src );
 		udataCur = jQuery.extend( {}, udataOld );
@@ -5145,7 +5145,7 @@ jQuery.extend({
 	},
 
 	cleanData: function( elems ) {
-		var Common, elem, type, key,
+		var data, elem, type, key,
 			special = jQuery.event.special,
 			i = 0;
 
@@ -5153,25 +5153,25 @@ jQuery.extend({
 			if ( jQuery.acceptData( elem ) ) {
 				key = elem[ data_priv.expando ];
 
-				if ( key && (Common = data_priv.cache[ key ]) ) {
-					if ( Common.events ) {
-						for ( type in Common.events ) {
+				if ( key && (data = data_priv.cache[ key ]) ) {
+					if ( data.events ) {
+						for ( type in data.events ) {
 							if ( special[ type ] ) {
 								jQuery.event.remove( elem, type );
 
 							// This is a shortcut to avoid jQuery.event.remove's overhead
 							} else {
-								jQuery.removeEvent( elem, type, Common.handle );
+								jQuery.removeEvent( elem, type, data.handle );
 							}
 						}
 					}
 					if ( data_priv.cache[ key ] ) {
-						// Discard any remaining `private` Common
+						// Discard any remaining `private` data
 						delete data_priv.cache[ key ];
 					}
 				}
 			}
-			// Discard any remaining `user` Common
+			// Discard any remaining `user` data
 			delete data_user.cache[ elem[ data_user.expando ] ];
 		}
 	}
@@ -5468,7 +5468,7 @@ function actualDisplay( name, doc ) {
 			// since it was removed from specification and supported only in FF
 			style.display : jQuery.css( elem[ 0 ], "display" );
 
-	// We don't have any Common stored on the element,
+	// We don't have any data stored on the element,
 	// so use "detach" method as fast way to get rid of the element
 	elem.detach();
 
@@ -6716,16 +6716,16 @@ jQuery.fn.extend({
 			var dequeue = true,
 				index = type != null && type + "queueHooks",
 				timers = jQuery.timers,
-				Common = data_priv.get( this );
+				data = data_priv.get( this );
 
 			if ( index ) {
-				if ( Common[ index ] && Common[ index ].stop ) {
-					stopQueue( Common[ index ] );
+				if ( data[ index ] && data[ index ].stop ) {
+					stopQueue( data[ index ] );
 				}
 			} else {
-				for ( index in Common ) {
-					if ( Common[ index ] && Common[ index ].stop && rrun.test( index ) ) {
-						stopQueue( Common[ index ] );
+				for ( index in data ) {
+					if ( data[ index ] && data[ index ].stop && rrun.test( index ) ) {
+						stopQueue( data[ index ] );
 					}
 				}
 			}
@@ -6752,14 +6752,14 @@ jQuery.fn.extend({
 		}
 		return this.each(function() {
 			var index,
-				Common = data_priv.get( this ),
-				queue = Common[ type + "queue" ],
-				hooks = Common[ type + "queueHooks" ],
+				data = data_priv.get( this ),
+				queue = data[ type + "queue" ],
+				hooks = data[ type + "queueHooks" ],
 				timers = jQuery.timers,
 				length = queue ? queue.length : 0;
 
-			// enable finishing flag on private Common
-			Common.finish = true;
+			// enable finishing flag on private data
+			data.finish = true;
 
 			// empty the queue first
 			jQuery.queue( this, type, [] );
@@ -6784,7 +6784,7 @@ jQuery.fn.extend({
 			}
 
 			// turn off finishing flag
-			delete Common.finish;
+			delete data.finish;
 		});
 	}
 });
@@ -7455,9 +7455,9 @@ jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblcl
 	"change select submit keydown keypress keyup error contextmenu").split(" "), function( i, name ) {
 
 	// Handle event binding
-	jQuery.fn[ name ] = function( Common, fn ) {
+	jQuery.fn[ name ] = function( data, fn ) {
 		return arguments.length > 0 ?
-			this.on( name, null, Common, fn ) :
+			this.on( name, null, data, fn ) :
 			this.trigger( name );
 	};
 });
@@ -7467,15 +7467,15 @@ jQuery.fn.extend({
 		return this.mouseenter( fnOver ).mouseleave( fnOut || fnOver );
 	},
 
-	bind: function( types, Common, fn ) {
-		return this.on( types, null, Common, fn );
+	bind: function( types, data, fn ) {
+		return this.on( types, null, data, fn );
 	},
 	unbind: function( types, fn ) {
 		return this.off( types, null, fn );
 	},
 
-	delegate: function( selector, types, Common, fn ) {
-		return this.on( types, selector, Common, fn );
+	delegate: function( selector, types, data, fn ) {
+		return this.on( types, selector, data, fn );
 	},
 	undelegate: function( selector, types, fn ) {
 		// ( namespace ) or ( selector, types [, fn] )
@@ -7492,28 +7492,28 @@ var rquery = (/\?/);
 
 // Support: Android 2.3
 // Workaround failure to string-cast null input
-jQuery.parseJSON = function( Common ) {
-	return JSON.parse( Common + "" );
+jQuery.parseJSON = function( data ) {
+	return JSON.parse( data + "" );
 };
 
 
 // Cross-browser xml parsing
-jQuery.parseXML = function( Common ) {
+jQuery.parseXML = function( data ) {
 	var xml, tmp;
-	if ( !Common || typeof Common !== "string" ) {
+	if ( !data || typeof data !== "string" ) {
 		return null;
 	}
 
 	// Support: IE9
 	try {
 		tmp = new DOMParser();
-		xml = tmp.parseFromString( Common, "text/xml" );
+		xml = tmp.parseFromString( data, "text/xml" );
 	} catch ( e ) {
 		xml = undefined;
 	}
 
 	if ( !xml || xml.getElementsByTagName( "parsererror" ).length ) {
-		jQuery.error( "Invalid XML: " + Common );
+		jQuery.error( "Invalid XML: " + data );
 	}
 	return xml;
 };
@@ -7537,7 +7537,7 @@ var
 	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
 	 * 2) These are called:
 	 *    - BEFORE asking for a transport
-	 *    - AFTER param serialization (s.Common is a string if s.processData is true)
+	 *    - AFTER param serialization (s.data is a string if s.processData is true)
 	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
 	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
@@ -7793,7 +7793,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 		}
 	}
 
-	return { state: "success", Common: response };
+	return { state: "success", data: response };
 }
 
 jQuery.extend({
@@ -7815,7 +7815,7 @@ jQuery.extend({
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		/*
 		timeout: 0,
-		Common: null,
+		data: null,
 		dataType: null,
 		username: null,
 		password: null,
@@ -7845,7 +7845,7 @@ jQuery.extend({
 			json: "responseJSON"
 		},
 
-		// Common converters
+		// Data converters
 		// Keys separate source (or catchall "*") and destination types with a single space
 		converters: {
 
@@ -8032,9 +8032,9 @@ jQuery.extend({
 			);
 		}
 
-		// Convert Common if not already a string
-		if ( s.Common && s.processData && typeof s.Common !== "string" ) {
-			s.Common = jQuery.param( s.Common, s.traditional );
+		// Convert data if not already a string
+		if ( s.data && s.processData && typeof s.data !== "string" ) {
+			s.data = jQuery.param( s.data, s.traditional );
 		}
 
 		// Apply prefilters
@@ -8066,11 +8066,11 @@ jQuery.extend({
 		// More options handling for requests with no content
 		if ( !s.hasContent ) {
 
-			// If Common is available, append Common to url
-			if ( s.Common ) {
-				cacheURL = ( s.url += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.Common );
-				// #9682: remove Common so that it's not used in an eventual retry
-				delete s.Common;
+			// If data is available, append data to url
+			if ( s.data ) {
+				cacheURL = ( s.url += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data );
+				// #9682: remove data so that it's not used in an eventual retry
+				delete s.data;
 			}
 
 			// Add anti-cache in url if needed
@@ -8095,8 +8095,8 @@ jQuery.extend({
 			}
 		}
 
-		// Set the correct header, if Common is being sent
-		if ( s.Common && s.hasContent && s.contentType !== false || options.contentType ) {
+		// Set the correct header, if data is being sent
+		if ( s.data && s.hasContent && s.contentType !== false || options.contentType ) {
 			jqXHR.setRequestHeader( "Content-Type", s.contentType );
 		}
 
@@ -8192,7 +8192,7 @@ jQuery.extend({
 			// Determine if successful
 			isSuccess = status >= 200 && status < 300 || status === 304;
 
-			// Get response Common
+			// Get response data
 			if ( responses ) {
 				response = ajaxHandleResponses( s, jqXHR, responses );
 			}
@@ -8223,10 +8223,10 @@ jQuery.extend({
 				} else if ( status === 304 ) {
 					statusText = "notmodified";
 
-				// If we have Common, let's convert it
+				// If we have data, let's convert it
 				} else {
 					statusText = response.state;
-					success = response.Common;
+					success = response.data;
 					error = response.error;
 					isSuccess = !error;
 				}
@@ -8242,7 +8242,7 @@ jQuery.extend({
 				}
 			}
 
-			// Set Common for the fake xhr object
+			// Set data for the fake xhr object
 			jqXHR.status = status;
 			jqXHR.statusText = ( nativeStatusText || statusText ) + "";
 
@@ -8277,8 +8277,8 @@ jQuery.extend({
 		return jqXHR;
 	},
 
-	getJSON: function( url, Common, callback ) {
-		return jQuery.get( url, Common, callback, "json" );
+	getJSON: function( url, data, callback ) {
+		return jQuery.get( url, data, callback, "json" );
 	},
 
 	getScript: function( url, callback ) {
@@ -8287,19 +8287,19 @@ jQuery.extend({
 });
 
 jQuery.each( [ "get", "post" ], function( i, method ) {
-	jQuery[ method ] = function( url, Common, callback, type ) {
-		// shift arguments if Common argument was omitted
-		if ( jQuery.isFunction( Common ) ) {
+	jQuery[ method ] = function( url, data, callback, type ) {
+		// shift arguments if data argument was omitted
+		if ( jQuery.isFunction( data ) ) {
 			type = type || callback;
-			callback = Common;
-			Common = undefined;
+			callback = data;
+			data = undefined;
 		}
 
 		return jQuery.ajax({
 			url: url,
 			type: method,
 			dataType: type,
-			Common: Common,
+			data: data,
 			success: callback
 		});
 	};
@@ -8599,7 +8599,7 @@ jQuery.ajaxTransport(function( options ) {
 									xhrSuccessStatus[ xhr.status ] || xhr.status,
 									xhr.statusText,
 									// Support: IE9
-									// Accessing binary-Common responseText throws an exception
+									// Accessing binary-data responseText throws an exception
 									// (#11426)
 									typeof xhr.responseText === "string" ? {
 										text: xhr.responseText
@@ -8620,7 +8620,7 @@ jQuery.ajaxTransport(function( options ) {
 
 				try {
 					// Do send the request (this may raise an exception)
-					xhr.send( options.hasContent && options.Common || null );
+					xhr.send( options.hasContent && options.data || null );
 				} catch ( e ) {
 					// #14683: Only rethrow if this hasn't been notified as an error yet
 					if ( callback ) {
@@ -8721,10 +8721,10 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 	var callbackName, overwritten, responseContainer,
 		jsonProp = s.jsonp !== false && ( rjsonp.test( s.url ) ?
 			"url" :
-			typeof s.Common === "string" && !( s.contentType || "" ).indexOf("application/x-www-form-urlencoded") && rjsonp.test( s.Common ) && "Common"
+			typeof s.data === "string" && !( s.contentType || "" ).indexOf("application/x-www-form-urlencoded") && rjsonp.test( s.data ) && "data"
 		);
 
-	// Handle iff the expected Common type is "jsonp" or we have a parameter to set
+	// Handle iff the expected data type is "jsonp" or we have a parameter to set
 	if ( jsonProp || s.dataTypes[ 0 ] === "jsonp" ) {
 
 		// Get callback name, remembering preexisting value associated with it
@@ -8732,14 +8732,14 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 			s.jsonpCallback() :
 			s.jsonpCallback;
 
-		// Insert callback into url or form Common
+		// Insert callback into url or form data
 		if ( jsonProp ) {
 			s[ jsonProp ] = s[ jsonProp ].replace( rjsonp, "$1" + callbackName );
 		} else if ( s.jsonp !== false ) {
 			s.url += ( rquery.test( s.url ) ? "&" : "?" ) + s.jsonp + "=" + callbackName;
 		}
 
-		// Use Common converter to retrieve json after script execution
+		// Use data converter to retrieve json after script execution
 		s.converters["script json"] = function() {
 			if ( !responseContainer ) {
 				jQuery.error( callbackName + " was not called" );
@@ -8786,11 +8786,11 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 
 
-// Common: string of html
+// data: string of html
 // context (optional): If specified, the fragment will be created in this context, defaults to document
 // keepScripts (optional): If true, will include scripts passed in the html string
-jQuery.parseHTML = function( Common, context, keepScripts ) {
-	if ( !Common || typeof Common !== "string" ) {
+jQuery.parseHTML = function( data, context, keepScripts ) {
+	if ( !data || typeof data !== "string" ) {
 		return null;
 	}
 	if ( typeof context === "boolean" ) {
@@ -8799,7 +8799,7 @@ jQuery.parseHTML = function( Common, context, keepScripts ) {
 	}
 	context = context || document;
 
-	var parsed = rsingleTag.exec( Common ),
+	var parsed = rsingleTag.exec( data ),
 		scripts = !keepScripts && [];
 
 	// Single tag
@@ -8807,7 +8807,7 @@ jQuery.parseHTML = function( Common, context, keepScripts ) {
 		return [ context.createElement( parsed[1] ) ];
 	}
 
-	parsed = jQuery.buildFragment( [ Common ], context, scripts );
+	parsed = jQuery.buildFragment( [ data ], context, scripts );
 
 	if ( scripts && scripts.length ) {
 		jQuery( scripts ).remove();
@@ -8857,7 +8857,7 @@ jQuery.fn.load = function( url, params, callback ) {
 			// if "type" variable is undefined, then "GET" method will be used
 			type: type,
 			dataType: "html",
-			Common: params
+			data: params
 		}).done(function( responseText ) {
 
 			// Save response for use in complete callback

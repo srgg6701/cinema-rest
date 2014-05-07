@@ -1,12 +1,12 @@
 define([
 	"./core",
-	"./Common/var/data_priv",
+	"./data/var/data_priv",
 	"./deferred",
 	"./callbacks"
 ], function( jQuery, data_priv ) {
 
 jQuery.extend({
-	queue: function( elem, type, Common ) {
+	queue: function( elem, type, data ) {
 		var queue;
 
 		if ( elem ) {
@@ -14,11 +14,11 @@ jQuery.extend({
 			queue = data_priv.get( elem, type );
 
 			// Speed up dequeue by getting out quickly if this is just a lookup
-			if ( Common ) {
-				if ( !queue || jQuery.isArray( Common ) ) {
-					queue = data_priv.access( elem, type, jQuery.makeArray(Common) );
+			if ( data ) {
+				if ( !queue || jQuery.isArray( data ) ) {
+					queue = data_priv.access( elem, type, jQuery.makeArray(data) );
 				} else {
-					queue.push( Common );
+					queue.push( data );
 				}
 			}
 			return queue || [];
@@ -72,11 +72,11 @@ jQuery.extend({
 });
 
 jQuery.fn.extend({
-	queue: function( type, Common ) {
+	queue: function( type, data ) {
 		var setter = 2;
 
 		if ( typeof type !== "string" ) {
-			Common = type;
+			data = type;
 			type = "fx";
 			setter--;
 		}
@@ -85,10 +85,10 @@ jQuery.fn.extend({
 			return jQuery.queue( this[0], type );
 		}
 
-		return Common === undefined ?
+		return data === undefined ?
 			this :
 			this.each(function() {
-				var queue = jQuery.queue( this, type, Common );
+				var queue = jQuery.queue( this, type, data );
 
 				// ensure a hooks for this queue
 				jQuery._queueHooks( this, type );

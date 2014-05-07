@@ -4,11 +4,11 @@ define([
 	"../manipulation" // buildFragment
 ], function( jQuery, rsingleTag ) {
 
-// Common: string of html
+// data: string of html
 // context (optional): If specified, the fragment will be created in this context, defaults to document
 // keepScripts (optional): If true, will include scripts passed in the html string
-jQuery.parseHTML = function( Common, context, keepScripts ) {
-	if ( !Common || typeof Common !== "string" ) {
+jQuery.parseHTML = function( data, context, keepScripts ) {
+	if ( !data || typeof data !== "string" ) {
 		return null;
 	}
 	if ( typeof context === "boolean" ) {
@@ -17,7 +17,7 @@ jQuery.parseHTML = function( Common, context, keepScripts ) {
 	}
 	context = context || document;
 
-	var parsed = rsingleTag.exec( Common ),
+	var parsed = rsingleTag.exec( data ),
 		scripts = !keepScripts && [];
 
 	// Single tag
@@ -25,7 +25,7 @@ jQuery.parseHTML = function( Common, context, keepScripts ) {
 		return [ context.createElement( parsed[1] ) ];
 	}
 
-	parsed = jQuery.buildFragment( [ Common ], context, scripts );
+	parsed = jQuery.buildFragment( [ data ], context, scripts );
 
 	if ( scripts && scripts.length ) {
 		jQuery( scripts ).remove();

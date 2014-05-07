@@ -23,7 +23,7 @@ function actualDisplay( name, doc ) {
 			// since it was removed from specification and supported only in FF
 			style.display : jQuery.css( elem[ 0 ], "display" );
 
-	// We don't have any Common stored on the element,
+	// We don't have any data stored on the element,
 	// so use "detach" method as fast way to get rid of the element
 	elem.detach();
 

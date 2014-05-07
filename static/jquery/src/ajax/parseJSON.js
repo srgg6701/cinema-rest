@@ -4,8 +4,8 @@ define([
 
 // Support: Android 2.3
 // Workaround failure to string-cast null input
-jQuery.parseJSON = function( Common ) {
-	return JSON.parse( Common + "" );
+jQuery.parseJSON = function( data ) {
+	return JSON.parse( data + "" );
 };
 
 return jQuery.parseJSON;
