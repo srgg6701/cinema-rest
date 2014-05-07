@@ -4,7 +4,9 @@ class Common{
 
     // будем сохранять набор полей и их имена для запросов
     public static $tableFields = array();
-
+    /**
+     *
+     */
     public static function getTableFields($table_name){
         if(empty(self::$tableFields)){
             switch($table_name){
@@ -28,7 +30,6 @@ class Common{
         }
         return self::$tableFields;
     }
-
     /**
      * Сгенерировать список таблиц БД
      */
@@ -146,7 +147,7 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
      */
     public static function getUserOptions($listing=false){
         $user_options = array( //
-            'schedule' =>'Просмотр расписания сеансов по кинотеатрам/залам',
+            'seances' =>'Просмотр расписания сеансов по кинотеатрам/залам',
             'halls'    =>'Просмотр залов, в которых идёт выбранный вами фильм',
             'seats'    =>'Проверка наличия свободных мест на сеанс',
             'order'    =>'Заказ билетов',
@@ -166,29 +167,4 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
     /**
      *
      */
-    public static function getSchedule(){
-        echo "<hr>".__FUNCTION__."<hr>";
-        //getAllRecords($table_name, $fields_names);
-    }
-    /**
-     *
-     */
-    public static function getHalls(){
-        echo "<hr>".__FUNCTION__."<hr>";
-    }/**
- *
- */
-    public static function getSeats(){
-        echo "<hr>".__FUNCTION__."<hr>";
-    }/**
- *
- */
-    public static function getOrder(){
-        echo "<hr>".__FUNCTION__."<hr>";
-    }/**
- *
- */
-    public static function getCancel(){
-        echo "<hr>".__FUNCTION__."<hr>";
-    }
 }
