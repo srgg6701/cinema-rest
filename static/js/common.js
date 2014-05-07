@@ -54,11 +54,12 @@ $(function(){
                 url:site_name+'api/halls/get.php?id='+hall_id,
                 success:function(data){
                     //console.log(data);
+                    var i=0;
                     for(var seance_id in data){
-                        var tlink =  site_name+'api/seances/';
+                        i++;
                         $(tr).before('<tr class="hidden">'+
-                            '<td>&nbsp;</td>'+
-                            '<td><a onclick="return showSeance('+seance_id+','+tlink+');" href="'+tlink+seance_id+'">'
+                            '<td align="right">'+i+'</td>'+
+                            '<td><a href="'+site_name+'seances/'+seance_id+'">'
                             +data[seance_id]['movie_name']+'</a></td>'+
                             '<td>'+data[seance_id]['showtime']+'</td>'+
                             '<td>'+data[seance_id]['free_seats_numbers']+'</td>'+
@@ -98,8 +99,5 @@ $(function(){
 
 function extractId(linkText){
     return linkText.substr(linkText.lastIndexOf("/")+1);
-}
-function showSeances(seance_id,link){
-    location.href=link+'get.php?i='+seance_id;
 }
 
