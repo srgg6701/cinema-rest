@@ -151,6 +151,23 @@ table{
       width: 100%;
     }
   }
+  &.user_table{
+    tr {
+      th{
+        background-color: #eaebec;
+        padding: 7px;
+      }
+      td{
+        text-align: left;
+        padding: 4px 8px 4px 18px;
+        &[colspan]{
+          background-color: #FFECFC;
+          font-weight: bold;
+          padding: 5px 8px;
+        }
+      }
+    }
+  }
 }
 #vertical-menu{
   background-color: lightyellow;

@@ -195,21 +195,37 @@ table.db_table_add input[type="tel"],
 table.db_table_add textarea {
   width: 100%;
 }
+/* line 156, ../../sass/screen.scss */
+table.user_table tr th {
+  background-color: #eaebec;
+  padding: 7px;
+}
+/* line 160, ../../sass/screen.scss */
+table.user_table tr td {
+  text-align: left;
+  padding: 4px 8px 4px 18px;
+}
+/* line 163, ../../sass/screen.scss */
+table.user_table tr td[colspan] {
+  background-color: #FFECFC;
+  font-weight: bold;
+  padding: 5px 8px;
+}
 
-/* line 155, ../../sass/screen.scss */
+/* line 172, ../../sass/screen.scss */
 #vertical-menu {
   background-color: lightyellow;
   border-radius: 6px;
   padding: 0 20px 20px 0;
   width: 30%;
 }
-/* line 160, ../../sass/screen.scss */
+/* line 177, ../../sass/screen.scss */
 #vertical-menu li {
   line-height: 1.2em;
   margin: 7px auto;
 }
 
-/* line 165, ../../sass/screen.scss */
+/* line 182, ../../sass/screen.scss */
 #user-content {
   width: 70%;
 }
