@@ -5,6 +5,7 @@ $common_path = 'http://'.$_SERVER['HTTP_HOST'];
 if($_SERVER['HTTP_HOST']=='127.0.0.1'||$_SERVER['HTTP_HOST']=='localhost')
     $common_path.='/'.$location[1];
 define('SITE_ROOT',$common_path.'/');
+define('API_ROOT', SITE_ROOT.'api/');
 
 // распарсить URL на сементы подключения файлов
 $segments = array();

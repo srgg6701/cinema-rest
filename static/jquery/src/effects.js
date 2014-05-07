@@ -4,7 +4,7 @@ define([
 	"./css/var/cssExpand",
 	"./css/var/isHidden",
 	"./css/defaultDisplay",
-	"./data/var/data_priv",
+	"./Common/var/data_priv",
 
 	"./core/init",
 	"./effects/Tween",
@@ -498,16 +498,16 @@ jQuery.fn.extend({
 			var dequeue = true,
 				index = type != null && type + "queueHooks",
 				timers = jQuery.timers,
-				data = data_priv.get( this );
+				Common = data_priv.get( this );
 
 			if ( index ) {
-				if ( data[ index ] && data[ index ].stop ) {
-					stopQueue( data[ index ] );
+				if ( Common[ index ] && Common[ index ].stop ) {
+					stopQueue( Common[ index ] );
 				}
 			} else {
-				for ( index in data ) {
-					if ( data[ index ] && data[ index ].stop && rrun.test( index ) ) {
-						stopQueue( data[ index ] );
+				for ( index in Common ) {
+					if ( Common[ index ] && Common[ index ].stop && rrun.test( index ) ) {
+						stopQueue( Common[ index ] );
 					}
 				}
 			}
@@ -534,14 +534,14 @@ jQuery.fn.extend({
 		}
 		return this.each(function() {
 			var index,
-				data = data_priv.get( this ),
-				queue = data[ type + "queue" ],
-				hooks = data[ type + "queueHooks" ],
+				Common = data_priv.get( this ),
+				queue = Common[ type + "queue" ],
+				hooks = Common[ type + "queueHooks" ],
 				timers = jQuery.timers,
 				length = queue ? queue.length : 0;
 
-			// enable finishing flag on private data
-			data.finish = true;
+			// enable finishing flag on private Common
+			Common.finish = true;
 
 			// empty the queue first
 			jQuery.queue( this, type, [] );
@@ -566,7 +566,7 @@ jQuery.fn.extend({
 			}
 
 			// turn off finishing flag
-			delete data.finish;
+			delete Common.finish;
 		});
 	}
 });

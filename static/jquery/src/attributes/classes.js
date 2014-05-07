@@ -2,7 +2,7 @@ define([
 	"../core",
 	"../var/rnotwhite",
 	"../var/strundefined",
-	"../data/var/data_priv",
+	"../Common/var/data_priv",
 	"../core/init"
 ], function( jQuery, rnotwhite, strundefined, data_priv ) {
 

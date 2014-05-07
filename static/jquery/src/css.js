@@ -11,7 +11,7 @@ define([
 	"./css/defaultDisplay",
 	"./css/addGetHookIf",
 	"./css/support",
-	"./data/var/data_priv",
+	"./Common/var/data_priv",
 
 	"./core/init",
 	"./css/swap",

@@ -5,10 +5,10 @@ define([
 	"./var/hasOwn",
 	"./var/slice",
 	"./event/support",
-	"./data/var/data_priv",
+	"./Common/var/data_priv",
 
 	"./core/init",
-	"./data/accepts",
+	"./Common/accepts",
 	"./selector"
 ], function( jQuery, strundefined, rnotwhite, hasOwn, slice, support, data_priv ) {
 
@@ -40,7 +40,7 @@ jQuery.event = {
 
 	global: {},
 
-	add: function( elem, types, handler, data, selector ) {
+	add: function( elem, types, handler, Common, selector ) {
 
 		var handleObjIn, eventHandle, tmp,
 			events, t, handleObj,
@@ -52,7 +52,7 @@ jQuery.event = {
 			return;
 		}
 
-		// Caller can pass in an object of custom data in lieu of the handler
+		// Caller can pass in an object of custom Common in lieu of the handler
 		if ( handler.handler ) {
 			handleObjIn = handler;
 			handler = handleObjIn.handler;
@@ -103,7 +103,7 @@ jQuery.event = {
 			handleObj = jQuery.extend({
 				type: type,
 				origType: origType,
-				data: data,
+				Common: Common,
 				handler: handler,
 				guid: handler.guid,
 				selector: selector,
@@ -117,7 +117,7 @@ jQuery.event = {
 				handlers.delegateCount = 0;
 
 				// Only use addEventListener if the special events handler returns false
-				if ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === false ) {
+				if ( !special.setup || special.setup.call( elem, Common, namespaces, eventHandle ) === false ) {
 					if ( elem.addEventListener ) {
 						elem.addEventListener( type, eventHandle, false );
 					}
@@ -216,7 +216,7 @@ jQuery.event = {
 		}
 	},
 
-	trigger: function( event, data, elem, onlyHandlers ) {
+	trigger: function( event, Common, elem, onlyHandlers ) {
 
 		var i, cur, tmp, bubbleType, ontype, handle, special,
 			eventPath = [ elem || document ],
@@ -261,14 +261,14 @@ jQuery.event = {
 			event.target = elem;
 		}
 
-		// Clone any incoming data and prepend the event, creating the handler arg list
-		data = data == null ?
+		// Clone any incoming Common and prepend the event, creating the handler arg list
+		Common = Common == null ?
 			[ event ] :
-			jQuery.makeArray( data, [ event ] );
+			jQuery.makeArray( Common, [ event ] );
 
 		// Allow special events to draw outside the lines
 		special = jQuery.event.special[ type ] || {};
-		if ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === false ) {
+		if ( !onlyHandlers && special.trigger && special.trigger.apply( elem, Common ) === false ) {
 			return;
 		}
 
@@ -302,13 +302,13 @@ jQuery.event = {
 			// jQuery handler
 			handle = ( data_priv.get( cur, "events" ) || {} )[ event.type ] && data_priv.get( cur, "handle" );
 			if ( handle ) {
-				handle.apply( cur, data );
+				handle.apply( cur, Common );
 			}
 
 			// Native handler
 			handle = ontype && cur[ ontype ];
 			if ( handle && handle.apply && jQuery.acceptData( cur ) ) {
-				event.result = handle.apply( cur, data );
+				event.result = handle.apply( cur, Common );
 				if ( event.result === false ) {
 					event.preventDefault();
 				}
@@ -319,7 +319,7 @@ jQuery.event = {
 		// If nobody prevented the default action, do it now
 		if ( !onlyHandlers && !event.isDefaultPrevented() ) {
 
-			if ( (!special._default || special._default.apply( eventPath.pop(), data ) === false) &&
+			if ( (!special._default || special._default.apply( eventPath.pop(), Common ) === false) &&
 				jQuery.acceptData( elem ) ) {
 
 				// Call a native DOM method on the target with the same name name as the event.
@@ -384,7 +384,7 @@ jQuery.event = {
 				if ( !event.namespace_re || event.namespace_re.test( handleObj.namespace ) ) {
 
 					event.handleObj = handleObj;
-					event.data = handleObj.data;
+					event.Common = handleObj.Common;
 
 					ret = ( (jQuery.event.special[ handleObj.origType ] || {}).handle || handleObj.handler )
 							.apply( matched.elem, args );
@@ -763,36 +763,36 @@ if ( !support.focusinBubbles ) {
 
 jQuery.fn.extend({
 
-	on: function( types, selector, data, fn, /*INTERNAL*/ one ) {
+	on: function( types, selector, Common, fn, /*INTERNAL*/ one ) {
 		var origFn, type;
 
 		// Types can be a map of types/handlers
 		if ( typeof types === "object" ) {
-			// ( types-Object, selector, data )
+			// ( types-Object, selector, Common )
 			if ( typeof selector !== "string" ) {
-				// ( types-Object, data )
-				data = data || selector;
+				// ( types-Object, Common )
+				Common = Common || selector;
 				selector = undefined;
 			}
 			for ( type in types ) {
-				this.on( type, selector, data, types[ type ], one );
+				this.on( type, selector, Common, types[ type ], one );
 			}
 			return this;
 		}
 
-		if ( data == null && fn == null ) {
+		if ( Common == null && fn == null ) {
 			// ( types, fn )
 			fn = selector;
-			data = selector = undefined;
+			Common = selector = undefined;
 		} else if ( fn == null ) {
 			if ( typeof selector === "string" ) {
 				// ( types, selector, fn )
-				fn = data;
-				data = undefined;
+				fn = Common;
+				Common = undefined;
 			} else {
-				// ( types, data, fn )
-				fn = data;
-				data = selector;
+				// ( types, Common, fn )
+				fn = Common;
+				Common = selector;
 				selector = undefined;
 			}
 		}
@@ -813,11 +813,11 @@ jQuery.fn.extend({
 			fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
 		}
 		return this.each( function() {
-			jQuery.event.add( this, types, fn, data, selector );
+			jQuery.event.add( this, types, fn, Common, selector );
 		});
 	},
-	one: function( types, selector, data, fn ) {
-		return this.on( types, selector, data, fn, 1 );
+	one: function( types, selector, Common, fn ) {
+		return this.on( types, selector, Common, fn, 1 );
 	},
 	off: function( types, selector, fn ) {
 		var handleObj, type;
@@ -851,15 +851,15 @@ jQuery.fn.extend({
 		});
 	},
 
-	trigger: function( type, data ) {
+	trigger: function( type, Common ) {
 		return this.each(function() {
-			jQuery.event.trigger( type, data, this );
+			jQuery.event.trigger( type, Common, this );
 		});
 	},
-	triggerHandler: function( type, data ) {
+	triggerHandler: function( type, Common ) {
 		var elem = this[0];
 		if ( elem ) {
-			return jQuery.event.trigger( type, data, elem, true );
+			return jQuery.event.trigger( type, Common, elem, true );
 		}
 	}
 });

@@ -203,8 +203,13 @@ table.db_table_add textarea {
   padding: 0 20px 20px 0;
   width: 30%;
 }
+/* line 160, ../../sass/screen.scss */
+#vertical-menu li {
+  line-height: 1.2em;
+  margin: 7px auto;
+}
 
-/* line 161, ../../sass/screen.scss */
+/* line 165, ../../sass/screen.scss */
 #user-content {
   width: 70%;
 }

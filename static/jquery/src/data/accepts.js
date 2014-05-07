@@ -3,7 +3,7 @@ define([
 ], function( jQuery ) {
 
 /**
- * Determines whether an object can have data
+ * Determines whether an object can have Common
  */
 jQuery.acceptData = function( owner ) {
 	// Accepts only:

@@ -30,9 +30,9 @@ $(function(){
         $.ajax({
             url: site_name+'admin/'+table_name+'/'+record_id,
             type:'DELETE',
-            success:function(data){
-                //alert(data);
-                if(data==record_id)
+            success:function(Common){
+                //alert(Common);
+                if(Common==record_id)
                     $(rowToDelete).fadeOut(300);
                 else
                     console.log("%cid id удаляемой строки не совпадают...", 'color:red');

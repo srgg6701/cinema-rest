@@ -13,7 +13,7 @@ foreach($connect->query("DESC $table_name", PDO::FETCH_ASSOC) as $row){
             $table_add.="<textarea name=\"$row[Field]\"></textarea>";
         else{
             if(preg_match('/\B_id$/',$row['Field']))
-                $table_add.=Data::makeSelect($row['Field'],$xtra_field);
+                $table_add.=Common::makeSelect($row['Field'],$xtra_field);
             else{
                 if($row['Field']=='showtime'){ // и дата, и время
                     $table_add.="<input type=\"date\" name=\"$row[Field]\" value=\"\">";

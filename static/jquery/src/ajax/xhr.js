@@ -93,7 +93,7 @@ jQuery.ajaxTransport(function( options ) {
 									xhrSuccessStatus[ xhr.status ] || xhr.status,
 									xhr.statusText,
 									// Support: IE9
-									// Accessing binary-data responseText throws an exception
+									// Accessing binary-Common responseText throws an exception
 									// (#11426)
 									typeof xhr.responseText === "string" ? {
 										text: xhr.responseText
@@ -114,7 +114,7 @@ jQuery.ajaxTransport(function( options ) {
 
 				try {
 					// Do send the request (this may raise an exception)
-					xhr.send( options.hasContent && options.data || null );
+					xhr.send( options.hasContent && options.Common || null );
 				} catch ( e ) {
 					// #14683: Only rethrow if this hasn't been notified as an error yet
 					if ( callback ) {

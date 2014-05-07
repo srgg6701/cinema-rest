@@ -3,22 +3,22 @@ define([
 ], function( jQuery ) {
 
 // Cross-browser xml parsing
-jQuery.parseXML = function( data ) {
+jQuery.parseXML = function( Common ) {
 	var xml, tmp;
-	if ( !data || typeof data !== "string" ) {
+	if ( !Common || typeof Common !== "string" ) {
 		return null;
 	}
 
 	// Support: IE9
 	try {
 		tmp = new DOMParser();
-		xml = tmp.parseFromString( data, "text/xml" );
+		xml = tmp.parseFromString( Common, "text/xml" );
 	} catch ( e ) {
 		xml = undefined;
 	}
 
 	if ( !xml || xml.getElementsByTagName( "parsererror" ).length ) {
-		jQuery.error( "Invalid XML: " + data );
+		jQuery.error( "Invalid XML: " + Common );
 	}
 	return xml;
 };

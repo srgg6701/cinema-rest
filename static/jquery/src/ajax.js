@@ -27,7 +27,7 @@ var
 	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
 	 * 2) These are called:
 	 *    - BEFORE asking for a transport
-	 *    - AFTER param serialization (s.data is a string if s.processData is true)
+	 *    - AFTER param serialization (s.Common is a string if s.processData is true)
 	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
 	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
@@ -283,7 +283,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 		}
 	}
 
-	return { state: "success", data: response };
+	return { state: "success", Common: response };
 }
 
 jQuery.extend({
@@ -305,7 +305,7 @@ jQuery.extend({
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		/*
 		timeout: 0,
-		data: null,
+		Common: null,
 		dataType: null,
 		username: null,
 		password: null,
@@ -335,7 +335,7 @@ jQuery.extend({
 			json: "responseJSON"
 		},
 
-		// Data converters
+		// Common converters
 		// Keys separate source (or catchall "*") and destination types with a single space
 		converters: {
 
@@ -522,9 +522,9 @@ jQuery.extend({
 			);
 		}
 
-		// Convert data if not already a string
-		if ( s.data && s.processData && typeof s.data !== "string" ) {
-			s.data = jQuery.param( s.data, s.traditional );
+		// Convert Common if not already a string
+		if ( s.Common && s.processData && typeof s.Common !== "string" ) {
+			s.Common = jQuery.param( s.Common, s.traditional );
 		}
 
 		// Apply prefilters
@@ -556,11 +556,11 @@ jQuery.extend({
 		// More options handling for requests with no content
 		if ( !s.hasContent ) {
 
-			// If data is available, append data to url
-			if ( s.data ) {
-				cacheURL = ( s.url += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data );
-				// #9682: remove data so that it's not used in an eventual retry
-				delete s.data;
+			// If Common is available, append Common to url
+			if ( s.Common ) {
+				cacheURL = ( s.url += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.Common );
+				// #9682: remove Common so that it's not used in an eventual retry
+				delete s.Common;
 			}
 
 			// Add anti-cache in url if needed
@@ -585,8 +585,8 @@ jQuery.extend({
 			}
 		}
 
-		// Set the correct header, if data is being sent
-		if ( s.data && s.hasContent && s.contentType !== false || options.contentType ) {
+		// Set the correct header, if Common is being sent
+		if ( s.Common && s.hasContent && s.contentType !== false || options.contentType ) {
 			jqXHR.setRequestHeader( "Content-Type", s.contentType );
 		}
 
@@ -682,7 +682,7 @@ jQuery.extend({
 			// Determine if successful
 			isSuccess = status >= 200 && status < 300 || status === 304;
 
-			// Get response data
+			// Get response Common
 			if ( responses ) {
 				response = ajaxHandleResponses( s, jqXHR, responses );
 			}
@@ -713,10 +713,10 @@ jQuery.extend({
 				} else if ( status === 304 ) {
 					statusText = "notmodified";
 
-				// If we have data, let's convert it
+				// If we have Common, let's convert it
 				} else {
 					statusText = response.state;
-					success = response.data;
+					success = response.Common;
 					error = response.error;
 					isSuccess = !error;
 				}
@@ -732,7 +732,7 @@ jQuery.extend({
 				}
 			}
 
-			// Set data for the fake xhr object
+			// Set Common for the fake xhr object
 			jqXHR.status = status;
 			jqXHR.statusText = ( nativeStatusText || statusText ) + "";
 
@@ -767,8 +767,8 @@ jQuery.extend({
 		return jqXHR;
 	},
 
-	getJSON: function( url, data, callback ) {
-		return jQuery.get( url, data, callback, "json" );
+	getJSON: function( url, Common, callback ) {
+		return jQuery.get( url, Common, callback, "json" );
 	},
 
 	getScript: function( url, callback ) {
@@ -777,19 +777,19 @@ jQuery.extend({
 });
 
 jQuery.each( [ "get", "post" ], function( i, method ) {
-	jQuery[ method ] = function( url, data, callback, type ) {
-		// shift arguments if data argument was omitted
-		if ( jQuery.isFunction( data ) ) {
+	jQuery[ method ] = function( url, Common, callback, type ) {
+		// shift arguments if Common argument was omitted
+		if ( jQuery.isFunction( Common ) ) {
 			type = type || callback;
-			callback = data;
-			data = undefined;
+			callback = Common;
+			Common = undefined;
 		}
 
 		return jQuery.ajax({
 			url: url,
 			type: method,
 			dataType: type,
-			data: data,
+			Common: Common,
 			success: callback
 		});
 	};

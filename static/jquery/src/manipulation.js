@@ -5,11 +5,11 @@ define([
 	"./core/access",
 	"./manipulation/var/rcheckableType",
 	"./manipulation/support",
-	"./data/var/data_priv",
-	"./data/var/data_user",
+	"./Common/var/data_priv",
+	"./Common/var/data_user",
 
 	"./core/init",
-	"./data/accepts",
+	"./Common/accepts",
 	"./traversing",
 	"./selector",
 	"./event"
@@ -93,7 +93,7 @@ function cloneCopyEvent( src, dest ) {
 		return;
 	}
 
-	// 1. Copy private data: events, handlers, etc.
+	// 1. Copy private Common: events, handlers, etc.
 	if ( data_priv.hasData( src ) ) {
 		pdataOld = data_priv.access( src );
 		pdataCur = data_priv.set( dest, pdataOld );
@@ -111,7 +111,7 @@ function cloneCopyEvent( src, dest ) {
 		}
 	}
 
-	// 2. Copy user data
+	// 2. Copy user Common
 	if ( data_user.hasData( src ) ) {
 		udataOld = data_user.access( src );
 		udataCur = jQuery.extend( {}, udataOld );
@@ -276,7 +276,7 @@ jQuery.extend({
 	},
 
 	cleanData: function( elems ) {
-		var data, elem, type, key,
+		var Common, elem, type, key,
 			special = jQuery.event.special,
 			i = 0;
 
@@ -284,25 +284,25 @@ jQuery.extend({
 			if ( jQuery.acceptData( elem ) ) {
 				key = elem[ data_priv.expando ];
 
-				if ( key && (data = data_priv.cache[ key ]) ) {
-					if ( data.events ) {
-						for ( type in data.events ) {
+				if ( key && (Common = data_priv.cache[ key ]) ) {
+					if ( Common.events ) {
+						for ( type in Common.events ) {
 							if ( special[ type ] ) {
 								jQuery.event.remove( elem, type );
 
 							// This is a shortcut to avoid jQuery.event.remove's overhead
 							} else {
-								jQuery.removeEvent( elem, type, data.handle );
+								jQuery.removeEvent( elem, type, Common.handle );
 							}
 						}
 					}
 					if ( data_priv.cache[ key ] ) {
-						// Discard any remaining `private` data
+						// Discard any remaining `private` Common
 						delete data_priv.cache[ key ];
 					}
 				}
 			}
-			// Discard any remaining `user` data
+			// Discard any remaining `user` Common
 			delete data_user.cache[ elem[ data_user.expando ] ];
 		}
 	}

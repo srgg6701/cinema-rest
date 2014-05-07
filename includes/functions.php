@@ -1,6 +1,6 @@
 <?php
 
-class Data{
+class Common{
 
     // будем сохранять набор полей и их имена для запросов
     public static $tableFields = array();
