@@ -30,13 +30,26 @@ $(function(){
         $.ajax({
             url: site_name+'admin/'+table_name+'/'+record_id,
             type:'DELETE',
-            success:function(Common){
-                //alert(Common);
-                if(Common==record_id)
+            success:function(data){
+                //alert(data);
+                if(data==record_id)
                     $(rowToDelete).fadeOut(300);
                 else
                     console.log("%cid id удаляемой строки не совпадают...", 'color:red');
             }
         });
+    });
+    // подгрузить расписание сеансов для зала
+    $('a[role="schedule"]').on('click', function(){
+        var linkText = $(this).attr('href');
+        var hall_id = linkText.substr(linkText.lastIndexOf("/")+1);
+        console.log('Go schedule! Hall id = '+hall_id);
+        $.ajax({
+            url:'http://localhost/api/halls/cinema/get.php?id='+hall_id,
+            success:function(data){
+
+            }
+        });
+        return false;
     });
 });

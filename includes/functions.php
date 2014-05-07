@@ -1,6 +1,14 @@
 <?php
 
 class Common{
+    // массив ссылок для получения данных сервиса
+    public static $resources_links = array( //
+        'seances' =>'Просмотр расписания сеансов по кинотеатрам/залам',
+        'halls'    =>'Просмотр залов, в которых идёт выбранный вами фильм',
+        'seats'    =>'Проверка наличия свободных мест на сеанс',
+        'order'    =>'Заказ билетов',
+        'cancel'   =>'Отмена заказа билетов (не позже, чем за час до начала сеанса).'
+    );
     // будем сохранять набор полей и их имена для запросов
     public static $tableFields = array();
     /**
@@ -131,37 +139,19 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
         return $select;
     }
     /**
-     * Получить имя выбранной опции
-     */
-    public static function getOptionName(){
-        global $segments; //echo "getOptionName"; var_dump("<pre>",$segments,"<pre/>");
-        if($segments[count($segments)-1]===NULL)
-            $d = array_pop($segments);
-        $active_segments = implode('/',array_slice($segments,1));
-        $options = self::getUserOptions();
-        return $options[$active_segments];
-    }
-    /**
      * Список доступных юзеру опций
      */
     public static function getUserOptions($listing=false){
-        $user_options = array( //
-            'seances' =>'Просмотр расписания сеансов по кинотеатрам/залам',
-            'halls'    =>'Просмотр залов, в которых идёт выбранный вами фильм',
-            'seats'    =>'Проверка наличия свободных мест на сеанс',
-            'order'    =>'Заказ билетов',
-            'cancel'   =>'Отмена заказа билетов (не позже, чем за час до начала сеанса).'
-        );
         if($listing){
             $links='';
-            foreach($user_options as $link=>$text)
+            foreach(self::$resources_links as $link=>$text)
                 $links.='<li>
                 <a href="'.SITE_ROOT.$link.'">'.$text.'</a>
             </li>';
             return $links;
         }
         else
-            return $user_options;
+            return self::$resources_links;
     }
     /**
      *
