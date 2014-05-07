@@ -4,7 +4,7 @@
 /*$status = 200;
 $status_message = "Everything all right!";
 
-// get real Common
+// get real data
 
 $data = "Some content. Anything you like";
 
