@@ -79,6 +79,9 @@ footer {
 .halfWide{
   width: 50%;
 }
+.hidden{
+  display: none;
+}
 li{
   line-height: 1.5em;
 }
@@ -156,11 +159,12 @@ table{
       th{
         background-color: #eaebec;
         padding: 7px;
+        text-align: left;
       }
       td{
         text-align: left;
         padding: 4px 8px 4px 18px;
-        &[colspan]{
+        &[colspan="4"]{
           background-color: #FFECFC;
           font-weight: bold;
           padding: 5px 8px;

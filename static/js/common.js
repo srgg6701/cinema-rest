@@ -28,6 +28,7 @@ $(function(){
         var record_id = $(rowToDelete).find('td:first-child').text();
         //console.log('record id = '+record_id);
         $.ajax({
+            // ВНИМАНИЕ: адрес будет обработан роутером
             url: site_name+'admin/'+table_name+'/'+record_id,
             type:'DELETE',
             success:function(data){
@@ -41,15 +42,64 @@ $(function(){
     });
     // подгрузить расписание сеансов для зала
     $('a[role="schedule"]').on('click', function(){
-        var linkText = $(this).attr('href');
-        var hall_id = linkText.substr(linkText.lastIndexOf("/")+1);
-        console.log('Go schedule! Hall id = '+hall_id);
-        $.ajax({
-            url:'http://localhost/api/halls/cinema/get.php?id='+hall_id,
-            success:function(data){
+        var link = this;
+        var myTr = $(this).parents('tr').eq(0);
+        var tr = $(myTr).next();
+        if(!$(this).attr('data-loaded')) {
+            var linkText = extractId($(this).attr('href'));
+                //$(this).attr('href');
+            var hall_id = linkText.substr(linkText.lastIndexOf("/")+1);
+            console.log('Go schedule! Hall id = '+hall_id);
+            $.ajax({
+                url:site_name+'api/halls/get.php?id='+hall_id,
+                success:function(data){
+                    //console.log(data);
+                    for(var seance_id in data){
+                        var tlink =  site_name+'api/seances/';
+                        $(tr).before('<tr class="hidden">'+
+                            '<td>&nbsp;</td>'+
+                            '<td><a onclick="return showSeance('+seance_id+','+tlink+');" href="'+tlink+seance_id+'">'
+                            +data[seance_id]['movie_name']+'</a></td>'+
+                            '<td>'+data[seance_id]['showtime']+'</td>'+
+                            '<td>'+data[seance_id]['free_seats_numbers']+'</td>'+
+                        '</tr>');/*
+                        console.log(seance_id);
+                        console.log(data[seance_id]['movie_id']);
+                        console.log(data[seance_id]['movie_name']);
+                        console.log(data[seance_id]['showtime']);
+                        console.log(data[seance_id]['free_seats_numbers']);
+                        //console.dir(data[seance_id]);
 
-            }
-        });
+                         [4]=>
+                         array(4) {
+                         ["movie_id"]=>
+                         string(1) "5"
+                         ["movie_name"]=>
+                         string(33) "Заводной апельсин"
+                         ["showtime"]=>
+                         string(11) "05.02 20:57"
+                         ["free_seats_numbers"]=>
+                         string(2) "11"
+                         }  */
+                    }
+                    $(myTr).nextUntil('tr.header').fadeIn(500);
+                    $(link).attr('data-loaded',1);
+                },
+                error:function(){
+                    console.log('error. Url: '+site_name+'api/halls/get.php?id='+hall_id);
+                }
+            });
+        }else{
+            $(myTr).nextUntil('tr.header').fadeToggle(500);
+        }
         return false;
     });
 });
+
+function extractId(linkText){
+    return linkText.substr(linkText.lastIndexOf("/")+1);
+}
+function showSeances(seance_id,link){
+    location.href=link+'get.php?i='+seance_id;
+}
+
