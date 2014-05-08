@@ -111,19 +111,40 @@ function makeOrder(){
 /**
 * Показать свободные места
 */
-function getSeats($seance_id=false){
+function getSeats($seance_id){
     global $connect;
-    $query = "SELECT
+    /*$query = "SELECT
     SUBSTRING(code, LOCATE("-",`code`)+1) AS places
   FROM cinema.tickets";
     if($seance_id)
     $query.="
-    WHERE id = $seance_id";
-    $taken_places=array();
-    foreach($connect->query($query, PDO::FETCH_COLUMN) as $row){
-        $taken_places[$seance_id]=$row;
+    WHERE id = $seance_id";*/
+    $query="SELECT (
+    SELECT seats_amount FROM halls, seances
+  WHERE halls_id = halls.id
+  AND seances.id = (
+        SELECT LEFT(code,LOCATE(\"-\",`code`)-1)
+          FROM cinema.tickets WHERE id = $seance_id
+      )
+  ) AS all_places,
+  SUBSTRING(code, LOCATE(\"-\",`code`)+1) AS taken_places
+  FROM cinema.tickets WHERE id = $seance_id";
+    echo "<div>query = ".$query."</div>";
+    $places=array();
+    foreach($connect->query($query, PDO::FETCH_ASSOC) as $row){
+        $places[]=$row['all_places'];
+        $places[]=explode(',',$row['taken_places']);
     }
-    return $taken_places;
+    $seatsHTML = '';
+    foreach(range(1,(int)$places[0]) as $current_place){
+        $seatsHTML.="<label id=\"seat[$current_place]\">";
+        $seatsHTML.="<input type=\"checkbox\"";
+        if(in_array($current_place,$places[1]))
+            $seatsHTML.=" checked=\"checked\"";
+        $seatsHTML.=">";
+        $seatsHTML.="</label>";
+    }   echo $seatsHTML; die();
+    return $seatsHTML;
 }
 /**
 *
