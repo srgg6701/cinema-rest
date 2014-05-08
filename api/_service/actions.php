@@ -2,13 +2,7 @@
 /**
     файл относится исключительно к REST-сервису и к роутеру
     (как и к какому-либо другому ресурсу сайта) не подключается */
-require_once dirname(__FILE__).'/../connect_db.php';
-
-function getSchedule(){
-    echo "<hr>".__FUNCTION__."<hr>";
-    //getAllRecords($table_name, $fields_names);
-}
-
+require_once dirname(__FILE__).'/../../includes/connect_db.php';
 
 /**
  *
@@ -29,10 +23,17 @@ function getHallsByCinema(){
     }
     return $halls;
 }
+
 /**
  *
  */
-function getSeancesByHall($id){
+function getMovie($id=NULL){
+
+}
+/**
+ *
+ */
+function getSeancesByHall($id=NULL){
     global $connect;
     $query = "SELECT
   s.id    AS 'seance_id',
@@ -43,10 +44,15 @@ function getSeancesByHall($id){
   s.free_seats_numbers
   FROM  seances s,
         movies m
-  WHERE s.movies_id = m.id
-    AND s.halls_id = $id
-  order by m.id";
-  	$result=$connect->query($query,PDO::FETCH_ASSOC);
+  WHERE s.movies_id = m.id";
+
+    if($id) $query.="
+    AND s.halls_id = $id";
+
+    $query.="
+  ORDER BY m.id";
+
+    $result=$connect->query($query,PDO::FETCH_ASSOC);
     $seances=array();
     foreach($result as $row){		
     	$seances[$row['seance_id']]=$row;
@@ -54,8 +60,6 @@ function getSeancesByHall($id){
 	}
     return $seances;
 }
-
-
 
 
 /**

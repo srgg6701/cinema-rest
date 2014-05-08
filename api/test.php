@@ -1,4 +1,4 @@
 <?php
-require_once '../includes/_rest/actions.php';
+require_once '_service/actions.php';
 
 var_dump("<pre>",getSeancesByHall(4),"<pre/>");

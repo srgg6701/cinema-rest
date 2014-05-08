@@ -1,12 +1,12 @@
 <?php // получить все сеансы
-if($segments[2]){
+if(isset($segments[2])){
     require_once 'singles/seance.php';
 }else{
 $data = json_decode(
     file_get_contents(
-        API_ROOT.'halls/cinema/get.php'
+        API_ROOT.'halls/cinema/'
     ), true);
-require_once FILES_ROOT.'includes/_rest/actions.php'; //var_dump(getHallsByCinema());
+require_once FILES_ROOT.'api/_service/actions.php'; //var_dump(getHallsByCinema());
 ?>
 <table class="user_table">
     <tr>

@@ -59,7 +59,7 @@ $(function(){
                         i++;
                         $(tr).before('<tr class="hidden">'+
                             '<td align="right">'+i+'</td>'+
-                            '<td><a href="'+site_name+'seances/'+seance_id+'">'
+                            '<td><a href="'+site_name+'movies/'+data[seance_id]['movie_id']+'">'
                             +data[seance_id]['movie_name']+'</a></td>'+
                             '<td>'+data[seance_id]['showtime']+'</td>'+
                             '<td>'+data[seance_id]['free_seats_numbers']+'</td>'+
