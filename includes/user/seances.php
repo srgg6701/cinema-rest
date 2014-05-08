@@ -1,6 +1,6 @@
 <?php // получить все сеансы
 if($segments[2]){
-    require_once 'seance.php';
+    require_once 'singles/seance.php';
 }else{
 $data = json_decode(
     file_get_contents(

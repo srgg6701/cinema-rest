@@ -1,12 +1,10 @@
 <?php session_start();
-
 require_once 'path.php';
 
-// никаких файлов, только сегменты
-if(strstr($segments[1], '.php')) {
+// никаких файлов, только сегменты!
+if(isset($segments[1]) && strstr($segments[1], '.php')) {
     header("location:".SITE_ROOT);
 }
-
 // базовый путь к шаблонам
 $path_to_template_root = $path_to_template = FILES_ROOT.'templates/';
 // базовый путь к ресурсам
@@ -14,7 +12,7 @@ $path_to_files = FILES_ROOT."includes/";
 // подключить функции
 require_once $path_to_files."functions.php";
 // определить окончательные параметры подключения шаблонов и служебных файлов
-if(!$segments[1]){
+if(!isset($segments[1])){
     $path_to_template.= 'default';
 }else{
 
