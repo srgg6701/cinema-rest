@@ -1,3 +1,7 @@
+//
+var startSlash = (location.href.indexOf('localhost')==-1)? 2:3;
+var site_name = 'http://'+window.location.hostname+'/'+window.location.href.split('/')[startSlash]+'/';
+
 $(function(){
     // валидировать форму добавления записей
     $('#admin-form').on('submit', function(){
@@ -18,10 +22,7 @@ $(function(){
             return false;
         }
     });
-	//
-    var startSlash = (location.href.indexOf('localhost')==-1)? 2:3;
-    var site_name = 'http://'+window.location.hostname+'/'+window.location.href.split('/')[startSlash]+'/';
-    var table_name = $('[name="table"]').val();
+	var table_name = $('[name="table"]').val();
     // удалить запись
     $('.db_table tr td:last-child').on('click', function(){
         var rowToDelete = $(this).parent('tr');
@@ -96,40 +97,17 @@ $(function(){
     });
     // открыть окно выбора мест
     $('#tbl-order button').on('click', function(){
-        var pTd = $(this).parent();
-        $(pTd).css('position', 'relative');
+        $(this).parent().css('position', 'relative');
         var btn = this;
-        var createHall = function(){
-            var showplace = $('<div/>',{
-                id:'hall-places-area',
-                class:'showplace'
-            }).addClass('showplace')
-            .attr('data-seance-id',btn.value);
-
-            $('body').append(showplace);
-            //console.log(btn.value);
-            $.ajax({
-                url:site_name+'api/tickets/taken/'+btn.value,
-                success:function(data){
-                    $('#hall-places-area').append(data);
-                    //console.log(data);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.status);
-                    console.log(thrownError);
-                    console.log('error. Url: '+site_name+'api/tickets/taken/'+btn.value);
-                }
-            });
-            $(showplace).fadeIn(150);
-        };
+        //
         if($('.showplace:visible').size())
             $('.showplace').fadeOut(150,function(){
+                console.dir(btn);
                 $('.showplace').remove();
-                createHall();
+                createHall(btn);
             });
         else{
-            createHall();
-            recalculateBoxParams();
+            createHall(btn);
         }
     });
     $(window).on('resize', function(){
@@ -139,6 +117,33 @@ $(function(){
 
 function extractId(linkText){
     return linkText.substr(linkText.lastIndexOf("/")+1);
+}
+
+function createHall(btn){
+    var showplace = $('<div/>',{
+        id:'hall-places-area',
+        class:'showplace'
+    }).addClass('showplace')
+        .attr('data-seance-id',btn.value);
+
+    $('body').append(showplace);
+    //console.log(btn.value);
+    $.ajax({
+        url:site_name+'api/tickets/taken/'+btn.value,
+        success:function(data){
+            $('#hall-places-area').load(site_name+'templates/partials/seats_box.php',
+                function(){
+                    $('#hall-places-area #seats').append(data);
+                }); //console.log(data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(thrownError);
+            console.log('error. Url: '+site_name+'api/tickets/taken/'+btn.value);
+        }
+    });
+    recalculateBoxParams();
+    $(showplace).fadeIn(150);
 }
 
 function recalculateBoxParams(){

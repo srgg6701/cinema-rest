@@ -81,6 +81,14 @@ footer {
   box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
   border-radius: 2px;
   z-index: 1;
+  button{
+    clear: both;
+    display: block;
+    margin: 12px auto 0;
+  }
+  h4{
+    margin: 4px auto 12px 4px;
+  }
   label{
     float: left;
     margin-right: 24px;

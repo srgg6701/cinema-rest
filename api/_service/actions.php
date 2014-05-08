@@ -115,10 +115,10 @@ function getSeats($seance_id){
     global $connect;
     $query = "SELECT seats_amount AS all_places,
                      seats AS taken_places
-                FROM halls, tickets, seances
-  WHERE halls_id = halls.id
-  AND seances.id = tickets.seance_id
-  AND seances.id =$seance_id"; //echo "<div>$query</div>";
+                FROM halls, seances
+           LEFT JOIN tickets ON tickets.seance_id = seances.id
+               WHERE halls_id = halls.id
+                 AND seances.id =$seance_id"; //echo "<div>$query</div>";
     $places=array();
     foreach($connect->query($query, PDO::FETCH_ASSOC) as $row){
         $places[]=$row['all_places'];
