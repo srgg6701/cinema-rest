@@ -95,6 +95,33 @@ $(function(){
         }
         return false;
     });
+    // открыть окно выбора мест
+    $('#tbl-order button').on('click', function(){
+        var pTd = $(this).parent();
+        $(pTd).css('position', 'relative');
+        var btn = this;
+        var createHall = function(){
+            var showplace = $('<div/>',{
+                id:'hall-places-area',
+                class:'showplace'
+            }).addClass('showplace');
+            $(pTd).append(showplace);
+            //console.log(btn.value);
+            $.ajax({
+                url:site_name+'tikets/taken/'+btn.value,
+                success:function(){
+
+                }
+            });
+            $(showplace).fadeIn(150);
+        };
+        if($('.showplace:visible').size())
+            $('.showplace').fadeOut(150,function(){
+                $('.showplace').remove();
+                createHall();
+            });
+        else    createHall();
+    });
 });
 
 function extractId(linkText){

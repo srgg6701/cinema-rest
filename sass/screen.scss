@@ -112,6 +112,14 @@ nav {
    padding-top: 10px;
    padding-bottom: 10px;
 }
+.showplace{
+  background-color: lightgoldenrodyellow;
+  display: none;
+  left:80px;
+  padding: 10px;
+  position: absolute;
+  top:-20px;
+}
 table{
   border: solid 2px #ccc;
   border-spacing: 0px;
@@ -198,4 +206,14 @@ table{
 }
 #user-content{
   width:70%;
+  h3:first-child{
+    margin-top: 0;
+  }
+}
+#user-form{
+  &.order{
+    button[type="button"]{
+      width: 54px;
+    }
+  }
 }

@@ -105,15 +105,25 @@ function getSeancesByHall($id=NULL){
  *
  */
 function makeOrder(){
+
     echo "<hr>".__FUNCTION__."<hr>";
 }
-
-
 /**
-*
+* Показать свободные места
 */
-function getSeats(){
-    echo "<hr>".__FUNCTION__."<hr>";
+function getSeats($seance_id=false){
+    global $connect;
+    $query = "SELECT
+    SUBSTRING(code, LOCATE("-",`code`)+1) AS places
+  FROM cinema.tickets";
+    if($seance_id)
+    $query.="
+    WHERE id = $seance_id";
+    $taken_places=array();
+    foreach($connect->query($query, PDO::FETCH_COLUMN) as $row){
+        $taken_places[$seance_id]=$row;
+    }
+    return $taken_places;
 }
 /**
 *
