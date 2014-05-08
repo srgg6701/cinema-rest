@@ -80,11 +80,17 @@ footer {
 #hall-places-area{
   box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
   border-radius: 2px;
+  overflow: auto;
   z-index: 1;
   button{
     clear: both;
     display: block;
     margin: 12px auto 0;
+  }
+  .close{
+    font-weight: 200;
+    color: navy;
+    cursor: pointer;
   }
   h4{
     margin: 4px auto 12px 4px;

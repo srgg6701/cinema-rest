@@ -116,19 +116,26 @@ footer {
 #hall-places-area {
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.3);
   border-radius: 2px;
+  overflow: auto;
   z-index: 1;
 }
-/* line 84, ../../sass/screen.scss */
+/* line 85, ../../sass/screen.scss */
 #hall-places-area button {
   clear: both;
   display: block;
   margin: 12px auto 0;
 }
-/* line 89, ../../sass/screen.scss */
+/* line 90, ../../sass/screen.scss */
+#hall-places-area .close {
+  font-weight: 200;
+  color: navy;
+  cursor: pointer;
+}
+/* line 95, ../../sass/screen.scss */
 #hall-places-area h4 {
   margin: 4px auto 12px 4px;
 }
-/* line 92, ../../sass/screen.scss */
+/* line 98, ../../sass/screen.scss */
 #hall-places-area label {
   float: left;
   margin-right: 24px;
@@ -137,58 +144,58 @@ footer {
   white-space: nowrap;
 }
 
-/* line 100, ../../sass/screen.scss */
+/* line 106, ../../sass/screen.scss */
 .halfWide {
   width: 50%;
 }
 
-/* line 103, ../../sass/screen.scss */
+/* line 109, ../../sass/screen.scss */
 .hidden {
   display: none;
 }
 
-/* line 106, ../../sass/screen.scss */
+/* line 112, ../../sass/screen.scss */
 li {
   line-height: 1.5em;
 }
 
-/* line 110, ../../sass/screen.scss */
+/* line 116, ../../sass/screen.scss */
 .light_green th {
   background-color: #EAF5FD !important;
 }
 
-/* line 114, ../../sass/screen.scss */
+/* line 120, ../../sass/screen.scss */
 #main {
   min-height: 100%;
   margin-bottom: -60px;
   padding: 0 10px 60px;
 }
 
-/* line 119, ../../sass/screen.scss */
+/* line 125, ../../sass/screen.scss */
 nav {
   background-color: #eaebec;
 }
 
-/* line 122, ../../sass/screen.scss */
+/* line 128, ../../sass/screen.scss */
 #nav, main, #footer {
   margin: auto !important;
   max-width: 90%;
   min-width: 640px;
 }
 
-/* line 127, ../../sass/screen.scss */
+/* line 133, ../../sass/screen.scss */
 nav {
   margin: auto -10px;
   padding: 10px;
 }
 
-/* line 131, ../../sass/screen.scss */
+/* line 137, ../../sass/screen.scss */
 .offsetVertical10, section {
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-/* line 135, ../../sass/screen.scss */
+/* line 141, ../../sass/screen.scss */
 .showplace {
   background-color: white;
   display: none;
@@ -197,42 +204,42 @@ nav {
   position: absolute;
 }
 
-/* line 142, ../../sass/screen.scss */
+/* line 148, ../../sass/screen.scss */
 table {
   border: solid 2px #ccc;
   border-spacing: 0px;
   border-collapse: separate;
   min-width: 50%;
 }
-/* line 147, ../../sass/screen.scss */
+/* line 153, ../../sass/screen.scss */
 table.db_table_add {
   width: 100%;
 }
-/* line 153, ../../sass/screen.scss */
+/* line 159, ../../sass/screen.scss */
 table.db_table tr td:last-child {
   color: red;
   cursor: pointer;
   text-align: center;
 }
-/* line 157, ../../sass/screen.scss */
+/* line 163, ../../sass/screen.scss */
 table.db_table tr td:last-child:hover {
   background-color: lightpink;
 }
-/* line 166, ../../sass/screen.scss */
+/* line 172, ../../sass/screen.scss */
 table tr td:first-child {
   text-align: right;
 }
-/* line 171, ../../sass/screen.scss */
+/* line 177, ../../sass/screen.scss */
 table td, table th {
   border-bottom: solid 1px #ccc;
   border-right: solid 1px #ccc;
   padding: 3px 5px;
 }
-/* line 177, ../../sass/screen.scss */
+/* line 183, ../../sass/screen.scss */
 table.db_table th {
   background-color: #eaebec;
 }
-/* line 186, ../../sass/screen.scss */
+/* line 192, ../../sass/screen.scss */
 table.db_table_add input[type="text"],
 table.db_table_add input[type="password"],
 table.db_table_add input[type="email"],
@@ -240,54 +247,54 @@ table.db_table_add input[type="tel"],
 table.db_table_add textarea {
   width: 100%;
 }
-/* line 193, ../../sass/screen.scss */
+/* line 199, ../../sass/screen.scss */
 table.user_table tr.header.cinema {
   background-color: #FFECFC;
 }
-/* line 195, ../../sass/screen.scss */
+/* line 201, ../../sass/screen.scss */
 table.user_table tr.header.cinema td {
   font-weight: bold;
   padding: 5px 8px;
 }
-/* line 199, ../../sass/screen.scss */
+/* line 205, ../../sass/screen.scss */
 table.user_table tr.header.cinema th {
   background-color: transparent;
 }
-/* line 204, ../../sass/screen.scss */
+/* line 210, ../../sass/screen.scss */
 table.user_table tr th {
   background-color: #eaebec;
   padding: 7px;
   text-align: left;
 }
-/* line 209, ../../sass/screen.scss */
+/* line 215, ../../sass/screen.scss */
 table.user_table tr td {
   text-align: left;
   padding: 4px 8px 4px 18px;
 }
 
-/* line 216, ../../sass/screen.scss */
+/* line 222, ../../sass/screen.scss */
 #vertical-menu {
   background-color: lightyellow;
   border-radius: 6px;
   padding: 0 20px 20px 0;
   width: 30%;
 }
-/* line 221, ../../sass/screen.scss */
+/* line 227, ../../sass/screen.scss */
 #vertical-menu li {
   line-height: 1.2em;
   margin: 7px auto;
 }
 
-/* line 226, ../../sass/screen.scss */
+/* line 232, ../../sass/screen.scss */
 #user-content {
   width: 70%;
 }
-/* line 228, ../../sass/screen.scss */
+/* line 234, ../../sass/screen.scss */
 #user-content h3:first-child {
   margin-top: 0;
 }
 
-/* line 234, ../../sass/screen.scss */
+/* line 240, ../../sass/screen.scss */
 #user-form.order button[type="button"] {
   width: 54px;
 }

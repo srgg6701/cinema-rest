@@ -131,9 +131,11 @@ function createHall(btn){
     $.ajax({
         url:site_name+'api/tickets/taken/'+btn.value,
         success:function(data){
-            $('#hall-places-area').load(site_name+'templates/partials/seats_box.php',
+            $(getBox()).load(site_name+'templates/partials/seats_box.php',
                 function(){
-                    $('#hall-places-area #seats').append(data);
+                    $('#seats', getBox()).append(data);
+                    recalculateBoxParams();
+                    $(showplace).fadeIn(150);
                 }); //console.log(data);
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -142,24 +144,42 @@ function createHall(btn){
             console.log('error. Url: '+site_name+'api/tickets/taken/'+btn.value);
         }
     });
-    recalculateBoxParams();
-    $(showplace).fadeIn(150);
+}
+function getBox(){
+    return $('#hall-places-area');
+}
+function hideBox(){
+    var box = getBox();
+    $(box).fadeOut(300, function(){
+        $(box).remove();
+    });
 }
 
 function recalculateBoxParams(){
-    var box = $('#hall-places-area');
-    var seance_id = $(box).attr('data-seance-id');
+    var box = getBox();
+    var all_seats = $('label', box).size(),
+        seance_id = $(box).attr('data-seance-id');
     var btn = $('button[value="'+seance_id+'"');
     $(box).css({
         width:function(){
-            return window.outerWidth/4+'px';
+            var maxW = window.outerWidth/100*60;
+            console.log(window.outerWidth+'/('+window.outerWidth+'/'+all_seats+'/'+6+')');
+            var ww = window.outerWidth*8*all_seats/window.outerWidth;
+            if (ww>maxW) ww = maxW;
+            return ww+'px';
         },
         left:function(){
             var offLeft = $(btn).offset().left+$(btn).outerWidth()+10;
             return offLeft+'px';
         },
         top:function(){
-            return $(btn).offset().top-12+'px';
+            var maxH = window.innerHeight;
+            var offTop = $(btn).offset().top-12;
+            if($(box).height()+offTop>maxH){
+                offTop=10;
+                $(box).css('max-height', maxH-24+'px');
+            }
+            return offTop+'px';
         }
     });
 }
