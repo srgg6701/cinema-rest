@@ -1,2 +1,4 @@
 <?php
-require_once '../../index.php';
+var_dump("<pre>",$_POST,"<pre/>");
+
+die();

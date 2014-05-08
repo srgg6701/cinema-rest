@@ -3,7 +3,7 @@ $table_add='<table class="db_table_add">';
 // сгенерировать строки добавления записей
 $xtra_field=false; // макс. колич. мест в зале
 foreach($connect->query("DESC $table_name", PDO::FETCH_ASSOC) as $row){
-    if($row['Key']!="PRI"&&$row['Type']!="datetime"){
+    if($row['Key']!="PRI"&&$row['Type']!="datetime"&&$row['Field']!='free_seats_numbers'){
         $table_add.="<tr>
                 <td>$row[Field]</td>
                 <td>";

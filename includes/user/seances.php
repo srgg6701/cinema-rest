@@ -5,8 +5,7 @@ if(isset($segments[2])){
 $data = json_decode(
     file_get_contents(
         API_ROOT.'halls/cinema/'
-    ), true);
-require_once FILES_ROOT.'api/_service/actions.php'; //var_dump(getHallsByCinema());
+    ), true); //var_dump(getHallsByCinema());
 ?>
 <table class="user_table">
     <tr>
@@ -15,18 +14,18 @@ require_once FILES_ROOT.'api/_service/actions.php'; //var_dump(getHallsByCinema(
             № сеанса, название фильма, время начала, колич. свободных мест
         </th>
     </tr>
-    <?php
+    <?php   require_once FILES_ROOT.'api/_service/actions.php';
+
     foreach(getHallsByCinema() as $cinema=>$hall_array):
         ?>
-        <tr class="header">
+        <tr class="header cinema">
             <td colspan="4"><?php echo $cinema;?></td>
         <tr>
         <?php
         foreach($hall_array as $id=>$data):
             ?>
-            <tr class="header">
-                <td colspan="3"><a role="schedule" href="halls/<?php echo $id;?>"><?php echo $data[0];?></a></td>
-                <td><?php echo $data[1];?></td>
+            <tr class="header hall">
+                <td colspan="4"><a role="schedule" href="halls/<?php echo $id;?>"><?php echo $data[0];?></a></td>
             </tr>
         <?	endforeach;
     endforeach;?>
