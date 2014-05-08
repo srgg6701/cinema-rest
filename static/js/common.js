@@ -49,9 +49,9 @@ $(function(){
             var linkText = extractId($(this).attr('href'));
                 //$(this).attr('href');
             var hall_id = linkText.substr(linkText.lastIndexOf("/")+1);
-            console.log('Go schedule! Hall id = '+hall_id);
+            //console.log('Go schedule! Hall id = '+hall_id);
             $.ajax({
-                url:site_name+'api/halls/get.php?id='+hall_id,
+                url:site_name+'api/halls/?id='+hall_id,
                 success:function(data){
                     //console.log(data);
                     var i=0;
@@ -87,7 +87,7 @@ $(function(){
                     $(link).attr('data-loaded',1);
                 },
                 error:function(){
-                    console.log('error. Url: '+site_name+'api/halls/get.php?id='+hall_id);
+                    console.log('error. Url: '+site_name+'api/halls/?id='+hall_id);
                 }
             });
         }else{
