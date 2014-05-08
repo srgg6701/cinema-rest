@@ -30,7 +30,7 @@ class Common{
                     $fields=array('Фильм','Кинотеатр','Зал','Время показа','Своб. мест','Дата записи');
                     break;
                 case 'tickets':
-                    $fields=array('Код билета');
+                    $fields=array('Заказанные места', 'id сеанса');
                     break;
             }
             self::$tableFields = $fields;
@@ -64,6 +64,9 @@ class Common{
                 break;
             case 'halls':
                 $order='cinema.name';
+                break;
+            case 'tickets':
+                $order='id';
                 break;
             default:
                 $order='name';
@@ -102,12 +105,14 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
             ORDER BY $order";
                 break;
             case 'tickets':
-                $query.="code AS '$fields_names[0]' FROM $table_name
+                $query.="seats AS '$fields_names[0]',
+                 seance_id AS '$fields_names[1]'
+                 FROM $table_name
             ORDER BY $order"; // Код билета
                 break;
             default:
                 $query ="SELECT * FROM $table_name ORDER BY `$order`";
-        }   //echo "<div>$query</div>";
+        }   //echo "<div>$query</div>"; die($table_name);
         return $connect->query($query, PDO::FETCH_NUM);
     }
     /**

@@ -118,7 +118,6 @@ $(function(){
 function extractId(linkText){
     return linkText.substr(linkText.lastIndexOf("/")+1);
 }
-
 function createHall(btn){
     var showplace = $('<div/>',{
         id:'hall-places-area',
@@ -154,7 +153,6 @@ function hideBox(){
         $(box).remove();
     });
 }
-
 function recalculateBoxParams(){
     var box = getBox();
     var all_seats = $('label', box).size(),

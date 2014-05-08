@@ -8,6 +8,3 @@ require_once '../../_service/deliver_response.php';
 
 $json_response= json_encode($response['data']);
 echo $json_response;
-//echo "Hello!";
-//var_dump("<pre>",$_POST,"<pre/>");
-//die();
