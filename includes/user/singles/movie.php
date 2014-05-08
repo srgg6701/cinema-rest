@@ -1,9 +1,10 @@
 <?php
 $data = json_decode(
     file_get_contents(
-        API_ROOT.'movies/'
+        API_ROOT.'movies/'.$segments[2]
     ), true);
-$movie_data=$data['data'];?>
+$movie_data=$data['data'];
+//echo "file: ". API_ROOT.'movies/'.$segments[2];?>
 <h3>Фильм: <?php echo array_shift($movie_data);?></h3>
 <p>Расписание киносеансов.<br>
     Для заказа билетов щёлкайте кнопки

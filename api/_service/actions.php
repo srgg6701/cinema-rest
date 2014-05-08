@@ -48,9 +48,9 @@ function getMovieSeances($id=NULL){
     AND s.halls_id = h.id";
     if($id)
         $query.="
-    AND m.id = 5";
+    AND m.id = $id";
     $query.="
-  ORDER BY c.name";
+  ORDER BY c.name"; //echo "<div>$query</div>";
     $seances = array();
     $movie_name=true;
     foreach($connect->query($query,PDO::FETCH_ASSOC) as $row){
