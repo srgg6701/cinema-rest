@@ -77,6 +77,18 @@ footer {
   line-height: 60px;
   padding: 0 10px;
 }
+#hall-places-area{
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
+  border-radius: 2px;
+  z-index: 1;
+  label{
+    float: left;
+    margin-right: 24px;
+    min-width: 46px;
+    padding: 2px 4px 2px 0;
+    white-space: nowrap;
+  }
+}
 .halfWide{
   width: 50%;
 }
@@ -113,12 +125,11 @@ nav {
    padding-bottom: 10px;
 }
 .showplace{
-  background-color: lightgoldenrodyellow;
+  background-color: white;
   display: none;
-  left:80px;
-  padding: 10px;
+  margin-right: 24px;
+  padding: 14px;
   position: absolute;
-  top:-20px;
 }
 table{
   border: solid 2px #ccc;

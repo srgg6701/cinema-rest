@@ -47,7 +47,6 @@ $(function(){
         var tr = $(myTr).next();
         if(!$(this).attr('data-loaded')) {
             var linkText = extractId($(this).attr('href'));
-                //$(this).attr('href');
             var hall_id = linkText.substr(linkText.lastIndexOf("/")+1);
             //console.log('Go schedule! Hall id = '+hall_id);
             $.ajax({
@@ -104,13 +103,21 @@ $(function(){
             var showplace = $('<div/>',{
                 id:'hall-places-area',
                 class:'showplace'
-            }).addClass('showplace');
-            $(pTd).append(showplace);
+            }).addClass('showplace')
+            .attr('data-seance-id',btn.value);
+
+            $('body').append(showplace);
             //console.log(btn.value);
             $.ajax({
-                url:site_name+'tikets/taken/'+btn.value,
-                success:function(){
-
+                url:site_name+'api/tickets/taken/'+btn.value,
+                success:function(data){
+                    $('#hall-places-area').append(data);
+                    //console.log(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                    console.log('error. Url: '+site_name+'api/tickets/taken/'+btn.value);
                 }
             });
             $(showplace).fadeIn(150);
@@ -120,11 +127,35 @@ $(function(){
                 $('.showplace').remove();
                 createHall();
             });
-        else    createHall();
+        else{
+            createHall();
+            recalculateBoxParams();
+        }
+    });
+    $(window).on('resize', function(){
+        recalculateBoxParams();
     });
 });
 
 function extractId(linkText){
     return linkText.substr(linkText.lastIndexOf("/")+1);
+}
+
+function recalculateBoxParams(){
+    var box = $('#hall-places-area');
+    var seance_id = $(box).attr('data-seance-id');
+    var btn = $('button[value="'+seance_id+'"');
+    $(box).css({
+        width:function(){
+            return window.outerWidth/4+'px';
+        },
+        left:function(){
+            var offLeft = $(btn).offset().left+$(btn).outerWidth()+10;
+            return offLeft+'px';
+        },
+        top:function(){
+            return $(btn).offset().top-12+'px';
+        }
+    });
 }
 
