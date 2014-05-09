@@ -57,7 +57,7 @@ class Admin{
 
         switch($table_name){
             case 'seances':
-                $order='datetime';
+                $order='movies.name, cinema.name, halls.name, showtime';
                 break;
             case 'halls':
                 $order='cinema.name';
@@ -86,7 +86,8 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
   FROM seances, movies, cinema, halls
   WHERE seances.movies_id = movies.id
     AND seances.halls_id = halls.id
-    AND halls.cinema_id = cinema.id ";
+    AND halls.cinema_id = cinema.id
+                    ORDER BY $order";
                 break;
             case 'cinema': case 'movies':
             $query.="name AS '$fields_names[0]'
@@ -109,7 +110,7 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
                 break;
             default:
                 $query ="SELECT * FROM $table_name ORDER BY `$order`";
-        }   //фecho "<div>$query</div>"; die($table_name);
+        }   //echo "<div><pre>$query</pre></div>"; die($table_name);
         return $connect->query($query, PDO::FETCH_NUM);
     }
     /**

@@ -3,11 +3,11 @@ class User{
 
     // массив ссылок для получения данных сервиса
     public static $resources_links = array( //
-        'seances'  =>'Просмотр расписания сеансов по кинотеатрам/залам',
+        'seances'  =>array('Просмотр расписания сеансов по кинотеатрам/залам', 'link'),
         'movies'   =>'Просмотр расписания сеансов выбранного фильма',
         'seats'    =>'Проверка наличия свободных мест на сеанс',
         'order'    =>'Заказ билетов',
-        'cancel'   =>'Отмена заказа билетов (не позже, чем за час до начала сеанса).'
+        'cancel'   =>array('Отмена заказа билетов (не позже, чем за час до начала сеанса).', 'link')
     );
     /**
      * Список доступных юзеру опций
@@ -15,13 +15,13 @@ class User{
     public static function getUserOptions($listing=false){
         if($listing){
             $links='';
-            $as_link=true;
             foreach(self::$resources_links as $link=>$text){
-                if($as_link){
-                    $links.='<li>
-                <a href="'.SITE_ROOT.$link.'">'.$text.'</a>
+                if(is_array($text)){
+                    if($text[1]=='link'){
+                        $links.='<li>
+                <a href="'.SITE_ROOT.$link.'">'.$text[0].'</a>
             </li>';
-                    $as_link=false;
+                    }
                 }
                 else{
                     $links.='<li>'.$text.'</li>';
@@ -60,5 +60,13 @@ class User{
     ?>
         </select>
 <?php
+    }
+    /**
+     * Установить заголовок секции для юзера
+     */
+    public static function setSectionHeader($segment){
+        return is_array(self::$resources_links[$segment]) ?
+            self::$resources_links[$segment][0]
+            : self::$resources_links[$segment];
     }
 }
