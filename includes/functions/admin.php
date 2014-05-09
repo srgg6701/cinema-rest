@@ -1,33 +1,10 @@
 <?php
-
+/**
+ * Получение данных. Create, Update, Delete - см. дир. CUD
+ */
 class Admin{
     // будем сохранять набор полей и их имена для запросов
     public static $tableFields = array();
-    /**
-     * Добавить запись в таблицу
-     */
-    public static function createRecord($post){
-        global $connect;
-        $query = "INSERT INTO $post[table] (";
-        $fields=$values=array();
-        foreach($_POST as $key => $val){
-            if($key!=='table'){
-                if($key=='showtime')
-                    $val.=" ".$post['time'].":00";
-                if($key!='time'){
-                    $fields[]=$key;
-                    $values[]=$val;
-                }
-            }
-        }
-        if($post[table]=="seances"){
-            $fields[]="datetime";
-            $values[]=date("Y-m-d H:i:s");
-        }
-        $query.="`" . implode("`, `",$fields) . "`) VALUES (";
-        $query.="'" . implode("', '",$values) . "')";
-        $connect->exec($query);
-    }
     /**
      *
      */

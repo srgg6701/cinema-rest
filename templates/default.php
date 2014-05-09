@@ -8,7 +8,8 @@
     </ul>
 </div>
 <div class="floatLeft halfWide">
-	<h3 class="box" role="spectator">Заказчик/зритель</h3>
+	<h3 class="box" role="spectator">Заказчик/зритель</h3> 
+	<?php echo User::makeUserList();?>
   <p>Вам доступны следующие действия:</p>
     <ul>
 	<?php echo User::getUserOptions(true);?>

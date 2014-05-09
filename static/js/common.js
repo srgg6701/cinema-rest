@@ -29,9 +29,9 @@ $(function(){
         var record_id = $(rowToDelete).find('td:first-child').text();
         //console.log('record id = '+record_id);
         $.ajax({
-            // ВНИМАНИЕ: адрес будет обработан роутером
-            url: site_name+'admin/'+table_name+'/'+record_id,
-            type:'DELETE',
+            //
+            url: site_name+'includes/admin/delete?table='+table_name+'&id='+record_id,
+            //type:'DELETE',
             success:function(data){
                 //alert(data);
                 if(data==record_id)
@@ -63,25 +63,7 @@ $(function(){
                             +data[seance_id]['movie_name']+'</a></td>'+
                             '<td>'+data[seance_id]['showtime']+'</td>'+
                             '<td>'+data[seance_id]['free_seats_numbers']+'</td>'+
-                        '</tr>');/*
-                        console.log(seance_id);
-                        console.log(data[seance_id]['movie_id']);
-                        console.log(data[seance_id]['movie_name']);
-                        console.log(data[seance_id]['showtime']);
-                        console.log(data[seance_id]['free_seats_numbers']);
-                        //console.dir(data[seance_id]);
-
-                         [4]=>
-                         array(4) {
-                         ["movie_id"]=>
-                         string(1) "5"
-                         ["movie_name"]=>
-                         string(33) "Заводной апельсин"
-                         ["showtime"]=>
-                         string(11) "05.02 20:57"
-                         ["free_seats_numbers"]=>
-                         string(2) "11"
-                         }  */
+                        '</tr>');
                     }
                     $(myTr).nextUntil('tr.header').fadeIn(500);
                     $(link).attr('data-loaded',1);
@@ -115,9 +97,6 @@ $(function(){
     });
 });
 
-function extractId(linkText){
-    return linkText.substr(linkText.lastIndexOf("/")+1);
-}
 function createHall(btn){
     var showplace = $('<div/>',{
         id:'hall-places-area',
@@ -143,6 +122,9 @@ function createHall(btn){
             console.log('error. Url: '+site_name+'api/tickets/taken/'+btn.value);
         }
     });
+}
+function extractId(linkText){
+    return linkText.substr(linkText.lastIndexOf("/")+1);
 }
 function getBox(){
     return $('#hall-places-area');
@@ -180,5 +162,10 @@ function recalculateBoxParams(){
             return offTop+'px';
         }
     });
+}
+function setActiveUser(){
+    /*$.ajax({
+        url:site_name+'';
+    });*/
 }
 

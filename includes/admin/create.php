@@ -4,7 +4,7 @@ if($_SERVER['REQUEST_METHOD']!='POST')
     die('Ты куда собрался, Малыш? Сюда можно ходить только методом POST!');
 
 require_once '../routing/path.php';
-require_once FILES_ROOT."includes/functions/admin.php";
+require_once FILES_ROOT."includes/functions/cud/cud.php";
 // добавляем запись
 createRecord($_POST);
 // go home

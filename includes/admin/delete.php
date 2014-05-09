@@ -1,6 +1,10 @@
 <?php
+require_once dirname(__FILE__).'/../connect_db.php';
 // если запись удалена, возвращаем её id
-if($connect->exec("DELETE FROM $segments[2] WHERE id = $segments[3]")){ // table id, record id
-    echo $segments[3];
-    exit();
+try{
+    deleteRecord($_GET['table'],$_GET['id']);
+    echo $_GET['id'];
+}catch(Exception $e){
+    echo $e->getMessage();
 }
+exit();
