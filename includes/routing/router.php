@@ -18,8 +18,11 @@ if(!isset($segments[1])){
 }else{
 
     if(in_array('admin',$segments)){
-        //  /[site_name]/includes/admin/(delete|get|post|put)
-        $path_to_files.='admin/'.mb_strtolower($_SERVER['REQUEST_METHOD']);
+        /**
+            /[site_name]/includes/admin/read.php - по умолчанию
+            нечто вроде примитивного front-controller'а. */
+        $path_to_files.='admin/read';
+        // подключить шаблоны
         $path_to_template.='admin';
     }else{
         //  /[site_name]/includes/user/default

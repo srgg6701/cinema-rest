@@ -42,15 +42,17 @@ class User{
     <?php $query = "SELECT
           id,username
      FROM user
-    ORDER BY username";
+    ORDER BY username"; //echo "<div>$query</div>";
     $result = $connect->query($query, PDO::FETCH_ASSOC);
         foreach ($result as $i=>$row) {
             // если нет активного юзера, установить дефолтного
             if(!isset($_SESSION['active_user_id'])&&!$i)
                 $_SESSION['active_user_id']=$row['id'];?>
-                <option value="<?php echo $row['id'];
+                <option value="<?php
+                echo $row['id'];
+                ?>"<?php
             if($_SESSION['active_user_id']==$row['id']){
-            ?>" selected<?php
+            ?> selected<?php
             }?>><?php echo $row['username']; ?></option>
             <?php
         }

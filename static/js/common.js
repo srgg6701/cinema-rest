@@ -23,11 +23,10 @@ $(function(){
         }
     });
 	var table_name = $('[name="table"]').val();
-    // удалить запись
+    // удалить запись админом
     $('.db_table tr td:last-child').on('click', function(){
         var rowToDelete = $(this).parent('tr');
         var record_id = $(rowToDelete).find('td:first-child').text();
-        //console.log('record id = '+record_id);
         var Url = site_name+'includes/admin/delete.php?table='+table_name+'&id='+record_id;
         $.ajax({
             //
