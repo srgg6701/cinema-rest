@@ -28,16 +28,22 @@ $(function(){
         var rowToDelete = $(this).parent('tr');
         var record_id = $(rowToDelete).find('td:first-child').text();
         //console.log('record id = '+record_id);
+        var Url = site_name+'includes/admin/delete.php?table='+table_name+'&id='+record_id;
         $.ajax({
             //
-            url: site_name+'includes/admin/delete?table='+table_name+'&id='+record_id,
+            url: Url,
             //type:'DELETE',
             success:function(data){
                 //alert(data);
                 if(data==record_id)
                     $(rowToDelete).fadeOut(300);
-                else
-                    console.log("%cid id удаляемой строки не совпадают...", 'color:red');
+                else{
+                    console.log("%cid id удаляемой строки не совпадают.", 'color:red');
+                    console.log('URL: '+Url+'\nrecord_id: '+record_id+'\ndata: '+data);
+                }
+            },
+            error:function(){
+                console.log('error. Url: '+site_name+'api/halls/'+hall_id);
             }
         });
     });
