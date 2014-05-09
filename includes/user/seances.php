@@ -2,11 +2,10 @@
 if(isset($segments[2])){
     require_once 'singles/seance.php';
 }else{
-$data = json_decode(
-    file_get_contents(
-        API_ROOT.'halls/cinema/'
-    ), true); //var_dump(getHallsByCinema());
-?>
+    $data = json_decode(
+        file_get_contents(
+            API_ROOT.'halls/cinema/'
+    ), true);?>
 <table class="user_table">
     <tr>
         <th colspan="4" nowrap>
@@ -25,9 +24,12 @@ $data = json_decode(
         foreach($hall_array as $id=>$data):
             ?>
             <tr class="header hall">
-                <td colspan="4"><a role="schedule" href="halls/<?php echo $id;?>"><?php echo $data[0];?></a></td>
+                <td colspan="4"><a role="schedule" href="halls/<?php
+                    echo $id;
+                ?>"><?php echo $data[0];?></a></td>
             </tr>
-        <?	endforeach;
+        <?php
+        endforeach;
     endforeach;?>
 </table>
 <?php

@@ -1,6 +1,12 @@
 //
-var startSlash = (location.href.indexOf('localhost')==-1)? 2:3;
-var site_name = 'http://'+window.location.hostname+'/'+window.location.href.split('/')[startSlash]+'/';
+var localPlace;
+if(location.href.indexOf('localhost')!=-1) localPlace = 'localhost';
+if(location.href.indexOf('/projects/')!=-1) localPlace = 'project';
+var startSlash = (localPlace == 'localhost'||localPlace == 'project')? 3:2;
+var locationArray = window.location.href.split('/');
+var site_name = 'http://'+window.location.hostname+'/'+locationArray[startSlash]+'/';
+if(localPlace == 'project') site_name+=locationArray[startSlash+1]+'/';
+console.log('startSlash = '+startSlash+'\nsite_name = '+site_name);
 
 $(function(){
     // валидировать форму добавления записей
@@ -54,11 +60,11 @@ $(function(){
         if(!$(this).attr('data-loaded')) {
             var linkText = extractId($(this).attr('href'));
             var hall_id = linkText.substr(linkText.lastIndexOf("/")+1);
-            //console.log('Go schedule! Hall id = '+hall_id);
+            console.log('Url = '+site_name+'api/halls/'+hall_id);
             $.ajax({
                 url:site_name+'api/halls/'+hall_id,
                 success:function(data){
-                    //console.log(data);
+                    console.log(data);
                     var i=0;
                     for(var seance_id in data){
                         i++;
