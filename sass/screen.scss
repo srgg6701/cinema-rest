@@ -121,6 +121,15 @@ li{
   min-height: 100%;
   margin-bottom: -60px;
   padding: 0 10px 60px;
+  nav{
+    &:first-child{
+      background-color: rgb(206, 206, 255);
+      height: 54px;
+      line-height: 54px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
 }
 nav {
   background-color: #eaebec;
@@ -129,6 +138,11 @@ nav {
   margin: auto !important;
   max-width: 90%;
   min-width: 640px;
+}
+#nav{
+  a{
+    font-size: 1.2em;
+  }
 }
 nav {
   margin: auto -10px;
@@ -234,6 +248,15 @@ table{
   h3:first-child{
     margin-top: 0;
   }
+}
+#user-list{
+  background-color: rgb(243, 243, 251);
+  border: none;
+  color: #333;
+  font-size: 1.1em;
+  height: 60px;
+  padding: 17px 22px;
+  border-radius: 4px;
 }
 #tbl-order{
     button[type="button"]{
