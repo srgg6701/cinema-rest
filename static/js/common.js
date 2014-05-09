@@ -97,8 +97,13 @@ $(function(){
             createHall(btn);
         }
     });
+    // переопраделить параметры окна выбора мест
     $(window).on('resize', function(){
         recalculateBoxParams();
+    });
+    // установить активного юзера
+    $('#user-list').on('change', function(){
+        setActiveUser($('option:selected', this));
     });
 });
 
@@ -168,9 +173,19 @@ function recalculateBoxParams(){
         }
     });
 }
-function setActiveUser(){
-    /*$.ajax({
-        url:site_name+'';
-    });*/
+function setActiveUser(selected_option){
+    var user_id     = $(selected_option).val(),
+        user_name   = $(selected_option).text(),
+        Url         = 'includes/admin/handle_session_data.php?user_id='+user_id;
+    $.ajax({
+        url:site_name,
+        success: function(data){
+            alert('Welcome, '+user_name);
+            console.log('user_id: '+data+':'+user_id+'\nUrl: '+Url);
+        },
+        error:function(){
+            console.log('error. Url: '+site_name+'api/halls/'+hall_id);
+        }
+});
 }
 
