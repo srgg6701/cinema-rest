@@ -13,9 +13,7 @@ $movie_data=$data['data'];
 //var_dump("<pre>",$movie_data,"<pre/>");
 /*require_once FILES_ROOT.'api/_service/actions.php';
 var_dump("<pre>",getMovieSeances($segments[2]),"<pre/>");*/?>
-<form id="user-form" class="clearfix order" method="post" action="<?php
-        echo SITE_ROOT.'api/tickets/index.php'?>">
-  <div class="floatLeft">
+<div class="floatLeft">
     <table id="tbl-order" class="user_table movie">
         <tr>
             <th colspan="3">Кинотеатр,</th>
@@ -48,7 +46,4 @@ var_dump("<pre>",getMovieSeances($segments[2]),"<pre/>");*/?>
         endforeach;
             ?>
     </table>
-    <button type="submit" class="floatRight">Оформить заказ!</button>
-  </div>
-</form>
-<?php
+</div>

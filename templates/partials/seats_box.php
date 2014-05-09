@@ -3,5 +3,5 @@
     <h4>Укажите нужные места <div class="floatRight close" onclick="hideBox()">Закрыть окно</div></h4>
     <div id="seats" class="clearfix">
     </div>
-    <button type="button">Оформить заказ!</button>
+    <button type="button" id="btn-make-order">Оформить заказ!</button>
 </div>
