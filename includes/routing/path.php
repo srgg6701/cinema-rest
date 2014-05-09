@@ -10,6 +10,5 @@ define('API_ROOT', SITE_ROOT.'api/');
 
 // установить корневую директорию подключения файлов (DOCUMENT_ROOT/имя сайта)
 define('FILES_ROOT',$_SERVER['DOCUMENT_ROOT'].'/'.$location[1].'/');
-
 // подключиться к БД (здесь это должно происходить в любом случае)
 require_once FILES_ROOT."includes/connect_db.php";

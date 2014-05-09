@@ -1,16 +1,33 @@
 <?php
 
-class Common{
-    // массив ссылок для получения данных сервиса
-    public static $resources_links = array( //
-        'seances'  =>'Просмотр расписания сеансов по кинотеатрам/залам',
-        'movies'   =>'Просмотр расписания сеансов выбранного фильма',
-        'seats'    =>'Проверка наличия свободных мест на сеанс',
-        'order'    =>'Заказ билетов',
-        'cancel'   =>'Отмена заказа билетов (не позже, чем за час до начала сеанса).'
-    );
+class Admin{
     // будем сохранять набор полей и их имена для запросов
     public static $tableFields = array();
+    /**
+     * Добавить запись в таблицу
+     */
+    public static function createRecord($post){
+        global $connect;
+        $query = "INSERT INTO $post[table] (";
+        $fields=$values=array();
+        foreach($_POST as $key => $val){
+            if($key!=='table'){
+                if($key=='showtime')
+                    $val.=" ".$post['time'].":00";
+                if($key!='time'){
+                    $fields[]=$key;
+                    $values[]=$val;
+                }
+            }
+        }
+        if($post[table]=="seances"){
+            $fields[]="datetime";
+            $values[]=date("Y-m-d H:i:s");
+        }
+        $query.="`" . implode("`, `",$fields) . "`) VALUES (";
+        $query.="'" . implode("', '",$values) . "')";
+        $connect->exec($query);
+    }
     /**
      *
      */
@@ -31,6 +48,9 @@ class Common{
                     break;
                 case 'tickets':
                     $fields=array('Заказанные места', 'id сеанса');
+                    break;
+                case 'user':
+                    $fields=array('Имя зрителя');
                     break;
             }
             self::$tableFields = $fields;
@@ -69,7 +89,7 @@ class Common{
                 $order='id';
                 break;
             default:
-                $order='name';
+                $order='id';
         }
         $fields_names = self::getTableFields($table_name);
 
@@ -112,12 +132,12 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
                 break;
             default:
                 $query ="SELECT * FROM $table_name ORDER BY `$order`";
-        }   //echo "<div>$query</div>"; die($table_name);
+        }   //фecho "<div>$query</div>"; die($table_name);
         return $connect->query($query, PDO::FETCH_NUM);
     }
     /**
-     * Сгенерировать выпадающий список
-     */
+    * Сгенерировать выпадающий список выбора связанных данных таблицы
+    */
     public static function makeSelect($fieldname, $join_table=false){
         global $connect;
         $select = "
@@ -143,30 +163,5 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
             </select>";
         return $select;
     }
-    /**
-     * Список доступных юзеру опций
-     */
-    public static function getUserOptions($listing=false){
-        if($listing){
-            $links='';
-            $as_link=true;
-            foreach(self::$resources_links as $link=>$text){
-                if($as_link){
-                    $links.='<li>
-                <a href="'.SITE_ROOT.$link.'">'.$text.'</a>
-            </li>';
-                    $as_link=false;
-                }
-                else{
-                    $links.='<li>'.$text.'</li>';
-                }
-            }
-            return $links;
-        }
-        else
-            return self::$resources_links;
-    }
-    /**
-     *
-     */
+
 }

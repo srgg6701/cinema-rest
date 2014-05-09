@@ -4,13 +4,13 @@ $table = '<table class="db_table">
             <tr>
                 <th>id</th>';
 
-foreach(Common::getTableFields($table_name) as $field)
+foreach(Admin::getTableFields($table_name) as $field)
     $table.='<th>'.$field.'</th>';
 // добавить столбец для удаления записи
 $table.='<th>x</th>
         </tr>';
 //
-if($records=Common::getAllRecords($table_name))//,$fields
+if($records=Admin::getAllRecords($table_name))//,$fields
     foreach($records as $row){
         $table.='<tr>';
         foreach($row as $i=>$col){

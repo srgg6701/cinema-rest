@@ -10,7 +10,8 @@ $path_to_template_root = $path_to_template = FILES_ROOT.'templates/';
 // базовый путь к ресурсам
 $path_to_files = FILES_ROOT."includes/";
 // подключить функции
-require_once $path_to_files."functions.php";
+require_once $path_to_files."functions/admin.php";
+require_once $path_to_files."functions/user.php";
 // определить окончательные параметры подключения шаблонов и служебных файлов
 if(!isset($segments[1])){
     $path_to_template.= 'default';
