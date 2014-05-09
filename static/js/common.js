@@ -176,9 +176,9 @@ function recalculateBoxParams(){
 function setActiveUser(selected_option){
     var user_id     = $(selected_option).val(),
         user_name   = $(selected_option).text(),
-        Url         = 'includes/admin/handle_session_data.php?user_id='+user_id;
+        Url         = site_name+'includes/admin/handle_session_data.php?user_id='+user_id;
     $.ajax({
-        url:site_name,
+        url:Url,
         success: function(data){
             alert('Welcome, '+user_name);
             console.log('user_id: '+data+':'+user_id+'\nUrl: '+Url);
