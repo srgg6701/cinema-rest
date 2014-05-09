@@ -294,7 +294,7 @@ table.user_table tr td {
   margin-top: 0;
 }
 
-/* line 240, ../../sass/screen.scss */
-#user-form.order button[type="button"] {
+/* line 239, ../../sass/screen.scss */
+#tbl-order button[type="button"] {
   width: 54px;
 }
