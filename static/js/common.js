@@ -135,7 +135,7 @@ function createHall(btn){
         .fadeIn(800, function(){
         //console.log('btn parent:'); console.dir(Td);
         $.ajax({
-            url:site_name+'api/tickets/taken/'+btn.value,
+            url:site_name+'api/tickets/seats/seances/'+btn.value,
             success:function(data){
                 $(getBox()).load(site_name+'templates/partials/seats_box.php',
                     function(){

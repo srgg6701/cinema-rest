@@ -123,18 +123,26 @@ function getSeats($seance_id){
     //
     foreach(range(1,(int)$all_places) as $current_place){
         $label='<label>';
-        $HTML='<input name="seat_'.$current_place.'" id="seat_'.$current_place.'" type="checkbox"';
+        $hidden='';
+        $input_name = ' name="seat_'.$current_place.'"';
+        $HTML='<input id="seat_'.$current_place.'" type="checkbox"';
         // проверить, не занято ли место, и, если да, то не текущим ли юзером
         foreach ($taken_places as $user_id=>$user_taken_places) {
             if(in_array($current_place,$user_taken_places)){
                 $HTML.=' checked disabled';
-                if($user_id==$current_user_id)
+                if($user_id==$current_user_id){
+                    // перезаписывает ранее созданный
                     $label='<label class="mine">';
-            }
+                    // нужен для отправки данных отмеченных (и заблокированных) чекбоксов
+                    $hidden='<input type="hidden" ' . $input_name .
+                        ' value="'.$current_place.'">';
+                }
+            }else
+                $HTML.=$input_name;
         }
         $HTML.=' value="'.$current_place.'">';
         $HTML.=$current_place;
-        $seatsHTML.=$label.$HTML.'</label>';
+        $seatsHTML.=$label.$HTML.'</label>'.$hidden;
     }
 
     return $seatsHTML;
@@ -173,7 +181,7 @@ function handleSeanceParams($post){
     return array('seats_amount'=>$seats_amount, 'seances_ids'=>$seances_ids);
 }
 /**
- *
+ * Оформить новый заказ
  */
 function makeOrder($post){
     global $connect;
@@ -192,7 +200,9 @@ function updateOrder($post){
     $seance_params=handleSeanceParams($post);
     // выяснить разницу между текущим колич. мест и тем, что пришло
     $cnt_query="SELECT (length(seats)-length(replace(seats, ',', '')))+1 AS seats_len
-  FROM tickets t WHERE seance_id = $post[seance_id]";
+                  FROM tickets
+                 WHERE seance_id = $post[seance_id]
+                     AND user_id = $post[active_user_id]";
     $result = $connect->query($cnt_query, PDO::FETCH_NUM)->fetchAll();
     $seances_ids = explode(",",$seance_params['seances_ids']);
     $diff = count($seances_ids)-intval($result[0][0]);
@@ -201,7 +211,8 @@ function updateOrder($post){
     //var_dump("<pre>",$seances_ids,"<pre/>");
     //
     $query = "UPDATE tickets SET seats = '$seance_params[seances_ids]'
-          WHERE seance_id = $post[seance_id]";
+          WHERE seance_id = $post[seance_id]
+          AND user_id = ".$post[active_user_id];
     //echo "<div>updateOrder: $query</div>"; //die();
     if ($connect->exec($query))
         return updateFreeSeatsAmount($diff, $post['seance_id']);
