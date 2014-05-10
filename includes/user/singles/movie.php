@@ -36,7 +36,7 @@ var_dump("<pre>",getMovieSeances($segments[2]),"<pre/>");*/?>
         <tr>
             <td><?php echo $seance_data['hall']['hall_name'];?></td>
             <td><?php echo $seance_data['showtime'];?></td>
-            <td><button type="button" value="<?php
+            <td><button role="show_hall_places" type="button" value="<?php
                 echo $seance_id;?>"><?php
                 echo $seats=$seance_data['free_seats_numbers']?
                     $seance_data['free_seats_numbers']:"нет";?></button></td>

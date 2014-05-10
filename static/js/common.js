@@ -1,14 +1,17 @@
 //
-var localPlace;
-if(location.href.indexOf('localhost')!=-1) localPlace = 'localhost';
-if(location.href.indexOf('/projects/')!=-1) localPlace = 'project';
-var startSlash = (localPlace == 'localhost'||localPlace == 'project')? 3:2;
-var locationArray = window.location.href.split('/');
-var site_name = 'http://'+window.location.hostname+'/'+locationArray[startSlash]+'/';
-if(localPlace == 'project') site_name+=locationArray[startSlash+1]+'/';
-console.log('startSlash = '+startSlash+'\nsite_name = '+site_name);
+var site_name='cinema-rest';
 
 $(function(){
+    // установить параметры роутинга
+    if(location.href.indexOf(site_name)==-1){
+        alert("Имя сайта указано неправильно, роутинг может не работать."+
+            "\nПроверьте значение глобальной пер. \"site_name\", "+
+            "устанавливаемой в начале файла common.js.");
+        return false;
+    }else
+        site_name = location.href.substr(0,location.href.indexOf(site_name)+site_name.length)+'/';
+    //console.log('site_name: '+site_name);
+
     // валидировать форму добавления записей
     $('#admin-form').on('submit', function(){
         var cancelSending = false;
@@ -89,14 +92,12 @@ $(function(){
         return false;
     });
     // открыть окно выбора мест
-    $('#tbl-order button').on('click', function(){
-        $(this).parent().css('position', 'relative');
-        var btn = this;
-        //
-        if($('.showplace:visible').size())
-            $('.showplace').fadeOut(150,function(){
-                console.dir(btn);
-                $('.showplace').remove();
+    $('[role="show_hall_places"]').on('click', function(){
+        var cinemaHall=null,
+            btn = this;
+        if(cinemaHall=getBox())
+            $(cinemaHall).fadeOut(150,function(){
+                $(cinemaHall).remove();
                 createHall(btn);
             });
         else{
@@ -114,36 +115,48 @@ $(function(){
 });
 
 function createHall(btn){
-    var showplace = $('<div/>',{
-        id:'hall-places-area',
-        class:'showplace'
-    }).addClass('showplace')
-        .attr('data-seance-id',btn.value);
 
-    $('body').append(showplace);
-    //console.log(btn.value);
-    $.ajax({
-        url:site_name+'api/tickets/taken/'+btn.value,
-        success:function(data){
-            $(getBox()).load(site_name+'templates/partials/seats_box.php',
-                function(){
-                    $('#seats', getBox()).append(data);
-                    recalculateBoxParams();
-                    $(showplace).fadeIn(150);
-                }); //console.log(data);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            console.log(xhr.status);
-            console.log(thrownError);
-            console.log('error. Url: '+site_name+'api/tickets/taken/'+btn.value);
-        }
+    var cinemaHall = $('<div/>',{
+        id:'hall-places-area'
+    });
+
+    var Td = $(btn).parent();
+    $(Td).css('position', 'relative')
+        .append(cinemaHall);
+    //console.log('btn, Td, cinemaHall: ');
+    //console.dir(btn);console.dir(Td);console.dir(cinemaHall);
+    $(cinemaHall)
+        .css({
+            left:calculateOffsetLeft(Td)+'.px',
+            top:calculateOffsetTop(Td)+'.px'
+        })
+        .html('Загрузка&nbsp;информации о наличии свободных мест в кинозале...')
+        .attr('data-seance-id',btn.value)
+        .fadeIn(800, function(){
+        //console.log('btn parent:'); console.dir(Td);
+        $.ajax({
+            url:site_name+'api/tickets/taken/'+btn.value,
+            success:function(data){
+                $(getBox()).load(site_name+'templates/partials/seats_box.php',
+                    function(){
+                        $('#seats', getBox()).append(data);
+                        recalculateBoxParams();
+                        $('body').append(cinemaHall);
+                    }); //console.log(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(thrownError);
+                console.log('error. Url: '+site_name+'api/tickets/taken/'+btn.value);
+            }
+        });
     });
 }
 function extractId(linkText){
     return linkText.substr(linkText.lastIndexOf("/")+1);
 }
 function getBox(){
-    return $('#hall-places-area');
+    return document.getElementById('hall-places-area');
 }
 function hideBox(){
     var box = getBox();
@@ -159,18 +172,18 @@ function recalculateBoxParams(){
     $(box).css({
         width:function(){
             var maxW = window.outerWidth/100*60;
-            console.log(window.outerWidth+'/('+window.outerWidth+'/'+all_seats+'/'+6+')');
+            //console.log(window.outerWidth+'/('+window.outerWidth+'/'+all_seats+'/'+6+')');
             var ww = window.outerWidth*8*all_seats/window.outerWidth;
             if (ww>maxW) ww = maxW;
             return ww+'px';
         },
         left:function(){
-            var offLeft = $(btn).offset().left+$(btn).outerWidth()+10;
+            var offLeft = calculateOffsetLeft(btn, true);
             return offLeft+'px';
         },
         top:function(){
             var maxH = window.innerHeight;
-            var offTop = $(btn).offset().top-12;
+            var offTop = calculateOffsetTop(btn, true);
             if($(box).height()+offTop>maxH){
                 offTop=10;
                 $(box).css('max-height', maxH-24+'px');
@@ -178,6 +191,16 @@ function recalculateBoxParams(){
             return offTop+'px';
         }
     });
+}
+function calculateOffsetLeft(btnPlace,fromPage){ //console.dir(btnPlace);
+    return (fromPage)?
+        $(btnPlace).offset().left+$(btnPlace).outerWidth()+10
+            : $(btnPlace).width()+10;
+}
+function calculateOffsetTop(btnPlace, fromTop){ //console.dir(btnPlace);
+    return (fromTop)?
+        $(btnPlace).offset().top-12
+            : $(btnPlace).height()-100;
 }
 function setActiveUser(selected_option){
     var user_id     = $(selected_option).val(),

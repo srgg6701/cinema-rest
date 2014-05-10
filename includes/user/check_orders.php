@@ -1,2 +1,2 @@
 <?php
-var_dump("<pre>",$_POST,"<pre/>");
+var_dump("<pre>",$_POST,"<pre/>"); die();

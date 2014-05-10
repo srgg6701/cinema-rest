@@ -78,8 +78,13 @@ footer {
   padding: 0 10px;
 }
 #hall-places-area{
+  background-color: white;
   box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
   border-radius: 2px;
+  display: none;
+  margin-right: 24px;
+  padding: 14px;
+  position: absolute;
   overflow: auto;
   z-index: 1;
   button{
@@ -151,13 +156,6 @@ nav {
 .offsetVertical10, section {
    padding-top: 10px;
    padding-bottom: 10px;
-}
-.showplace{
-  background-color: white;
-  display: none;
-  margin-right: 24px;
-  padding: 14px;
-  position: absolute;
 }
 table{
   border: solid 2px #ccc;
