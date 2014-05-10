@@ -141,13 +141,11 @@ function getCancel(){
  */
 function handleOder($post){
     global $connect;
-    $query="SELECT count(*) AS cnt
-        FROM tickets
-        WHERE seance_id = $post[seance_id]";
+    $query="SELECT count(*) AS cnt FROM tickets WHERE seance_id = $post[seance_id]";
     $result = $connect->query($query, PDO::FETCH_NUM)->fetchAll();
     $res = intval($result[0][0]);
     echo("<pre>res: ".$res."<pre/>");
-    echo "<div>$query</div>";
+    echo "<div>handleOder: $query</div>";
     return ($res) ? updateOrder($post) : makeOrder($post);
 }
 /**
@@ -170,7 +168,7 @@ function makeOrder($post){
     $seance_params=handleSeanceParams($post);
     $query = "INSERT INTO tickets (user_id, seance_id, seats)
     VALUES ($post[active_user_id],$post[seance_id],'".$seance_params['seances_ids']."')";
-    echo "<div>$query</div>"; // die();
+    //echo "<div>makeOrder: $query</div>"; // die();
     if($connect->exec($query))
         return updateFreeSeatsAmount($seance_params['seats_amount'], $post['seance_id']);
 }
@@ -184,13 +182,17 @@ function updateOrder($post){
     $cnt_query="SELECT (length(seats)-length(replace(seats, ',', '')))+1 AS seats_len
   FROM tickets t WHERE seance_id = $post[seance_id]";
     $result = $connect->query($cnt_query, PDO::FETCH_NUM)->fetchAll();
-    $diff = count(',',$seance_params['seances_ids'])-intval($result[0][0]);
+    $seances_ids = explode(",",$seance_params['seances_ids']);
+    $diff = count($seances_ids)-intval($result[0][0]);
+    //echo "<div>updateOrder: diff = $diff</div>";
+    //echo "--------------<br>seances_ids:";
+    //var_dump("<pre>",$seances_ids,"<pre/>");
     //
-    $query = "UPDATE tickets
-    SET seats = '$seance_params[seances_ids]' WHERE seance_id = $post[seance_id]";
-    echo "<div>$query</div>"; //die();
+    $query = "UPDATE tickets SET seats = '$seance_params[seances_ids]'
+          WHERE seance_id = $post[seance_id]";
+    //echo "<div>updateOrder: $query</div>"; //die();
     if ($connect->exec($query))
-        return updateFreeSeatsAmount($diff, $seance_params[seances_ids]);
+        return updateFreeSeatsAmount($diff, $post['seance_id']);
 }
 /**
  * Обновить колич. свободных мест на сеансе
@@ -200,6 +202,6 @@ function updateFreeSeatsAmount($taken_seats_number, $seance_id){
     $query = "UPDATE seances
     SET free_seats_numbers = free_seats_numbers-($taken_seats_number)
     WHERE id = $seance_id";
-    echo "<div>$query</div>";
+    //echo "<div>$query</div>";
     return $connect->exec($query);
 }
