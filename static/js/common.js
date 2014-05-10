@@ -149,7 +149,7 @@ function createHall(btn){
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
                 console.log(thrownError);
-                console.log('error. Url: '+site_name+'api/tickets/taken/'+btn.value);
+                console.log('error. Url: '+site_name+'api/tickets/seats/seances/'+btn.value);
             }
         });
     });

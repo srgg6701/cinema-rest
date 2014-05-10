@@ -5,7 +5,13 @@
 require_once dirname(__FILE__).'/../../includes/connect_db.php';
 
 /**
- *
+ * Отменить заказ
+ */
+function getCancel(){
+    echo "<hr>".__FUNCTION__."<hr>";
+}
+/**
+ * Показать залы по кинотеатрам
  */
 function getHallsByCinema(){
     global $connect;
@@ -24,7 +30,7 @@ function getHallsByCinema(){
     return $halls;
 }
 /**
- *
+ *  Показать сеансы по залам
  */
 function getMovieSeances($id=NULL){
     global $connect;
@@ -71,7 +77,7 @@ function getMovieSeances($id=NULL){
     return $seances;
 }
 /**
- *
+ * Показать сеансы зала
  */
 function getSeancesByHall($id=NULL){
     global $connect;
@@ -148,10 +154,33 @@ function getSeats($seance_id){
     return $seatsHTML;
 }
 /**
-*
-*/
-function getCancel(){
-    echo "<hr>".__FUNCTION__."<hr>";
+ * Получить заказы юзера
+ */
+function getUserOrders($user_id){
+    global $connect;
+    $query = "SELECT
+       tickets.seance_id,
+movies.name AS movie_name,
+cinema.name AS cinema_name,
+ halls.name AS hals_name,
+      seats AS taken_places,
+               showtime,
+  HOUR(TIMEDIFF(showtime,NOW()))
+            AS hours_left
+  FROM halls, seances, movies, tickets, cinema
+ WHERE halls_id = halls.id
+    AND tickets.seance_id = seances.id
+    AND seances.movies_id = movies.id
+    AND cinema.id = halls.cinema_id
+    AND user_id =".$user_id."
+ ORDER BY showtime, movie_name";
+    $result = $connect->query($query, PDO::FETCH_ASSOC);
+    $orders=array();
+    foreach ($result as $row) {
+        $orders[$row['seance_id']] = $row;
+        unset($orders[$row['seance_id']]['seance_id']);
+    }
+    return $orders;
 }
 /**
  * Проверить, есть ли уже такой заказ.
