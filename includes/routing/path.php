@@ -1,7 +1,7 @@
 <?php
 // получить сегменты URL
 require_once 'segments.php';
-// set root path
+// установить универсальный путь для роутинга
 // c:/WebServers/home/localhost/www
 // C:/PHPDevServer/data/localweb
 $common_path = 'http://'.$_SERVER['HTTP_HOST'];
@@ -18,15 +18,3 @@ define('API_ROOT', SITE_ROOT.'api/');
 
 // подключиться к БД (здесь это должно происходить в любом случае)
 require_once dirname(__FILE__)."/../connect_db.php";
-
-/*echo "<div>SERVER_NAME: ".$_SERVER['SERVER_NAME']."</div>";
-echo "<div>DOCUMENT_ROOT: ".$_SERVER['DOCUMENT_ROOT']."</div>";
-echo "<div>HTTP_HOST: ".$_SERVER['HTTP_HOST']."</div>";
-echo "<div><b>location:</b></div>";
-var_dump("<pre>",$location,"<pre/>");
-echo "<div><b>segments:</b></div>";
-var_dump("<pre>",$segments,"<pre/>");
-echo "<div>SITE_ROOT: ".SITE_ROOT."</div>";
-echo "<div>API_ROOT: ".API_ROOT."</div>";
-echo "<div>FILES_ROOT: ".FILES_ROOT."</div>";*/
-
