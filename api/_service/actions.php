@@ -23,7 +23,6 @@ function getHallsByCinema(){
     }
     return $halls;
 }
-
 /**
  *
  */
@@ -102,13 +101,6 @@ function getSeancesByHall($id=NULL){
     return $seances;
 }
 /**
- *
- */
-function makeOrder(){
-
-    echo "<hr>".__FUNCTION__."<hr>";
-}
-/**
 * Показать свободные места
 */
 function getSeats($seance_id){
@@ -130,7 +122,7 @@ function getSeats($seance_id){
         $seatsHTML.='<input name="seat_'.$current_place.'" id="seat_'.$current_place.'" type="checkbox"';
         if(in_array($current_place,$places[1]))
             $seatsHTML.=' checked="checked"';
-        $seatsHTML.=" value=\"1\">";
+        $seatsHTML.=' value="'.$current_place.'">';
         $seatsHTML.=$current_place;
         $seatsHTML.='</label>';
     }
@@ -141,4 +133,73 @@ function getSeats($seance_id){
 */
 function getCancel(){
     echo "<hr>".__FUNCTION__."<hr>";
+}
+/**
+ * Проверить, есть ли уже такой заказ.
+ * В зависимости от результата вызвать либо makeOrder(),
+ * либо updateOrder()
+ */
+function handleOder($post){
+    global $connect;
+    $query="SELECT count(*) AS cnt
+        FROM tickets
+        WHERE seance_id = $post[seance_id]";
+    $result = $connect->query($query, PDO::FETCH_NUM)->fetchAll();
+    $res = intval($result[0][0]);
+    echo("<pre>res: ".$res."<pre/>");
+    echo "<div>$query</div>";
+    return ($res) ? updateOrder($post) : makeOrder($post);
+}
+/**
+ * Обработать полученные места
+ */
+function handleSeanceParams($post){
+    $seances_ids = array();
+    foreach($post as $key=>$val)
+        if(strstr($key,'seat_'))
+            $seances_ids[]=$val;
+    $seats_amount = count($seances_ids);
+    $seances_ids=implode(",",$seances_ids);
+    return array('seats_amount'=>$seats_amount, 'seances_ids'=>$seances_ids);
+}
+/**
+ *
+ */
+function makeOrder($post){
+    global $connect;
+    $seance_params=handleSeanceParams($post);
+    $query = "INSERT INTO tickets (user_id, seance_id, seats)
+    VALUES ($post[active_user_id],$post[seance_id],'".$seance_params['seances_ids']."')";
+    echo "<div>$query</div>"; // die();
+    if($connect->exec($query))
+        return updateFreeSeatsAmount($seance_params['seats_amount'], $post['seance_id']);
+}
+/**
+ * Обновить данные заказа
+ */
+function updateOrder($post){
+    global $connect;
+    $seance_params=handleSeanceParams($post);
+    // выяснить разницу между текущим колич. мест и тем, что пришло
+    $cnt_query="SELECT (length(seats)-length(replace(seats, ',', '')))+1 AS seats_len
+  FROM tickets t WHERE seance_id = $post[seance_id]";
+    $result = $connect->query($cnt_query, PDO::FETCH_NUM)->fetchAll();
+    $diff = count(',',$seance_params['seances_ids'])-intval($result[0][0]);
+    //
+    $query = "UPDATE tickets
+    SET seats = '$seance_params[seances_ids]' WHERE seance_id = $post[seance_id]";
+    echo "<div>$query</div>"; //die();
+    if ($connect->exec($query))
+        return updateFreeSeatsAmount($diff, $seance_params[seances_ids]);
+}
+/**
+ * Обновить колич. свободных мест на сеансе
+ */
+function updateFreeSeatsAmount($taken_seats_number, $seance_id){
+    global $connect;
+    $query = "UPDATE seances
+    SET free_seats_numbers = free_seats_numbers-($taken_seats_number)
+    WHERE id = $seance_id";
+    echo "<div>$query</div>";
+    return $connect->exec($query);
 }

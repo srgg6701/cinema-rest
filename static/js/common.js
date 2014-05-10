@@ -141,7 +141,8 @@ function createHall(btn){
                     function(){
                         $('#seats', getBox()).append(data);
                         recalculateBoxParams();
-                        $('input:hidden',cinemaHall).val(btn.value);
+                        $('input:hidden[name="seance_id"]').val(btn.value);
+                        //console.log('btn.value = '+btn.value);
                         $('body').append(cinemaHall);
                     }); //console.log(data);
             },

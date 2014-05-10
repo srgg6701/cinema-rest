@@ -9,10 +9,6 @@ $movie_data=$data['data'];
 <p>Расписание киносеансов.<br>
     Для заказа билетов щёлкайте кнопки
     с колич. свободных мест.</p>
-<?php
-//var_dump("<pre>",$movie_data,"<pre/>");
-/*require_once FILES_ROOT.'api/_service/actions.php';
-var_dump("<pre>",getMovieSeances($segments[2]),"<pre/>");*/?>
 <div class="floatLeft">
     <table id="tbl-order" class="user_table movie">
         <tr>
