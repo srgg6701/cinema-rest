@@ -1,6 +1,6 @@
 <?php
+session_start();
 require_once '../../_service/includes.php';
-
 header("Content-Type:application/json");
 $status = 200;
 $data = getSeats($segments[4]);//

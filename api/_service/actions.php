@@ -104,28 +104,39 @@ function getSeancesByHall($id=NULL){
 * Показать свободные места
 */
 function getSeats($seance_id){
+
     global $connect;
-    $query = "SELECT seats_amount AS all_places,
+    $query = "SELECT  tickets.user_id,
+              seats_amount AS all_places,
                      seats AS taken_places
                 FROM halls, seances
            LEFT JOIN tickets ON tickets.seance_id = seances.id
                WHERE halls_id = halls.id
-                 AND seances.id =$seance_id"; //echo "<div>$query</div>";
-    $places=array();
-    foreach($connect->query($query, PDO::FETCH_ASSOC) as $row){
-        $places[]=$row['all_places'];
-        $places[]=explode(',',$row['taken_places']);
+                 AND seances.id =$seance_id"; //echo "<div>$query</div>"; die();
+    $taken_places=array();
+    foreach($connect->query($query, PDO::FETCH_ASSOC) as $i=>$row){
+        if(!$i) $all_places=$row['all_places'];
+        $taken_places[$row['user_id']]=explode(',',$row['taken_places']);
     }
+    $current_user_id = $_SESSION['active_user_id'];
     $seatsHTML = '';
-    foreach(range(1,(int)$places[0]) as $current_place){
-        $seatsHTML.='<label>';
-        $seatsHTML.='<input name="seat_'.$current_place.'" id="seat_'.$current_place.'" type="checkbox"';
-        if(in_array($current_place,$places[1]))
-            $seatsHTML.=' checked="checked"';
-        $seatsHTML.=' value="'.$current_place.'">';
-        $seatsHTML.=$current_place;
-        $seatsHTML.='</label>';
+    //
+    foreach(range(1,(int)$all_places) as $current_place){
+        $label='<label>';
+        $HTML='<input name="seat_'.$current_place.'" id="seat_'.$current_place.'" type="checkbox"';
+        // проверить, не занято ли место, и, если да, то не текущим ли юзером
+        foreach ($taken_places as $user_id=>$user_taken_places) {
+            if(in_array($current_place,$user_taken_places)){
+                $HTML.=' checked disabled';
+                if($user_id==$current_user_id)
+                    $label='<label class="mine">';
+            }
+        }
+        $HTML.=' value="'.$current_place.'">';
+        $HTML.=$current_place;
+        $seatsHTML.=$label.$HTML.'</label>';
     }
+
     return $seatsHTML;
 }
 /**
@@ -141,11 +152,12 @@ function getCancel(){
  */
 function handleOder($post){
     global $connect;
-    $query="SELECT count(*) AS cnt FROM tickets WHERE seance_id = $post[seance_id]";
+    $query="SELECT count(*) AS cnt FROM tickets
+      WHERE seance_id = $post[seance_id] AND user_id = ".$post['active_user_id'];
     $result = $connect->query($query, PDO::FETCH_NUM)->fetchAll();
     $res = intval($result[0][0]);
-    echo("<pre>res: ".$res."<pre/>");
-    echo "<div>handleOder: $query</div>";
+    //echo("<pre>res: ".$res."<pre/>");
+    //echo "<div>handleOder: $query</div>";
     return ($res) ? updateOrder($post) : makeOrder($post);
 }
 /**

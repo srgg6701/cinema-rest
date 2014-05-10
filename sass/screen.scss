@@ -1,5 +1,9 @@
 // include compass
 @import "compass";
+
+@mixin lightgreen(){
+  background-color: lightgreen;
+}
 html{
   height: 100%;
   margin: 0;
@@ -12,7 +16,7 @@ body {
   margin: 0;
   padding: 0;
   * {
-    box-sizing: border-box;
+    @include box-sizing(border-box);
   }
 }
 a{
@@ -40,7 +44,7 @@ button{
   @include clearfix;
 }
 #container {
-  box-sizing: border-box;
+  //box-sizing: border-box;
   height: 100%;
 }
 .error_box{
@@ -79,8 +83,9 @@ footer {
 }
 #hall-places-area{
   background-color: white;
-  box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
-  border-radius: 2px;
+  @include box-shadow(rgba(0,0,0,0.3) 0 0 0 4px);
+  //box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
+  @include border-radius(2px);
   display: none;
   margin-right: 24px;
   padding: 14px;
@@ -101,11 +106,15 @@ footer {
     margin: 4px auto 12px 4px;
   }
   label{
+    @include border-radius(6px);
     float: left;
-    margin-right: 24px;
+    margin:2px 24px 2px 2px;
     min-width: 46px;
     padding: 2px 4px 2px 0;
     white-space: nowrap;
+    &.mine{
+      @include lightgreen;
+    }
   }
 }
 .halfWide{
@@ -117,10 +126,8 @@ footer {
 li{
   line-height: 1.5em;
 }
-.light_green{
-  th{
-    background-color: #EAF5FD !important;
-  }
+.lightgreen{
+  @include lightgreen;
 }
 #main {
   min-height: 100%;
@@ -233,7 +240,7 @@ table{
 }
 #vertical-menu{
   background-color: lightyellow;
-  border-radius: 6px;
+  @include border-radius(6px);
   padding: 0 20px 20px 0;
   width: 30%;
   li{
@@ -254,7 +261,7 @@ table{
   font-size: 1.1em;
   height: 60px;
   padding: 17px 22px;
-  border-radius: 4px;
+  @include border-radius(4px);
 }
 #tbl-order{
     button[type="button"]{
