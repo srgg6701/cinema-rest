@@ -4,6 +4,15 @@
 @mixin lightgreen(){
   background-color: lightgreen;
 }
+@mixin label_place(){
+  @include border-radius(6px);
+  float: left;
+  white-space: nowrap;
+  &.mine{
+    @include lightgreen;
+  }
+}
+
 html{
   height: 100%;
   margin: 0;
@@ -106,15 +115,10 @@ footer {
     margin: 4px auto 12px 4px;
   }
   label{
-    @include border-radius(6px);
-    float: left;
+    @include label_place;
     margin:2px 24px 2px 2px;
     min-width: 46px;
     padding: 2px 4px 2px 0;
-    white-space: nowrap;
-    &.mine{
-      @include lightgreen;
-    }
   }
 }
 .halfWide{
@@ -234,6 +238,46 @@ table{
       td{
         text-align: left;
         padding: 4px 8px 4px 18px;
+      }
+    }
+  }
+  &.orders{
+    max-width: 92%;
+    white-space: normal;
+    h5{
+      margin: 8px auto;
+    }
+    label{
+      @include label_place;
+      margin: auto 8px auto 0;
+      min-width: 56px;
+      padding: 2px 4px 2px 0;
+    }
+    tr{
+      &.boxes{
+        aside{
+          width: 78%;
+        }
+        h5{
+          margin-right: 2%;
+          width: 20%;
+          button{
+            font-size: 0.9em;
+            margin-top: 16px;
+          }
+        }
+      }
+      &.movie_name{
+        td:nth-child(2){
+          font-size: 1.1em;
+          padding: 10px;
+        }
+      }
+      &.second{
+        background-color: lightcyan;
+        td{
+          padding: 10px;
+        }
       }
     }
   }

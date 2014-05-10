@@ -162,9 +162,9 @@ function getUserOrders($user_id){
        tickets.seance_id,
 movies.name AS movie_name,
 cinema.name AS cinema_name,
- halls.name AS hals_name,
+ halls.name AS halls_name,
       seats AS taken_places,
-               showtime,
+  DATE_FORMAT(showtime, \"%d.%m.%y %k:%i\") AS showtime,
   HOUR(TIMEDIFF(showtime,NOW()))
             AS hours_left
   FROM halls, seances, movies, tickets, cinema
