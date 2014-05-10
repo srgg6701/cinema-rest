@@ -1,4 +1,4 @@
 <?php
 require_once '../_service/includes.php';
-
-//var_dump("<pre>",$_POST,"<pre/>");
+echo "Got post?";
+var_dump("<pre>",$_POST,"<pre/>");

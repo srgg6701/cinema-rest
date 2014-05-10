@@ -7,6 +7,6 @@ echo SITE_ROOT;?>">
         <div id="seats" class="clearfix">
         </div>
         <input type="hidden" id="seance-id" name="seance-id" value="">
-        <button name="user_post_data" value="includes/user/check_orders" type="submit" id="btn-make-order">Оформить заказ!</button>
+        <button name="user_post_data" value="includes/user/post_order" type="submit" id="btn-make-order">Оформить заказ!</button>
     </div>
 </form>

@@ -127,10 +127,10 @@ function getSeats($seance_id){
     $seatsHTML = '';
     foreach(range(1,(int)$places[0]) as $current_place){
         $seatsHTML.='<label>';
-        $seatsHTML.='<input name="seat['.$current_place.']" id="seat['.$current_place.']" type="checkbox"';
+        $seatsHTML.='<input name="seat_'.$current_place.'" id="seat_'.$current_place.'" type="checkbox"';
         if(in_array($current_place,$places[1]))
             $seatsHTML.=' checked="checked"';
-        $seatsHTML.=">";
+        $seatsHTML.=" value=\"1\">";
         $seatsHTML.=$current_place;
         $seatsHTML.='</label>';
     }
