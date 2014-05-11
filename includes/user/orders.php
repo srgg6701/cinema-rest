@@ -8,10 +8,12 @@ $data = json_decode(
 	значения value элемента с name = user_post_data
 	Данный файл должен находиться в /includes/user/[имя_файла] */
 
-?>
-<form name="user-form" id="user-form" enctype="application/x-www-form-urlencoded" class="clearfix order" method="post" action="<?php
-echo SITE_ROOT;		?>api/tickets/orders/store">
-	<input type="hidden" name="user_post_data" value="includes/user/post_order_store">
+	$form_start='<form enctype="application/x-www-form-urlencoded" class="clearfix order" method="post" action="'.SITE_ROOT;
+
+	$form_start.='api/tickets/orders/store/';
+
+	$form_start.='">
+	<input type="hidden" name="user_post_data" value="includes/user/post_order_store">'?>
     <p style="margin-top:">Вы можете изменить заказ, если до начала сеанса осталось не менее 1 часа.</p>
 <table class="user_table orders">
 <?php   $i=0;
@@ -39,6 +41,7 @@ echo SITE_ROOT;		?>api/tickets/orders/store">
     </tr>
     <tr class="boxes">
         <td colspan="6">
+        <?php echo $form_start;?>
             <h5 class="floatLeft">Ваши места:<?php
             // если есть возможность изменить/отменить заказ:
 			if($seance_data['hours_left']):
@@ -48,33 +51,30 @@ echo SITE_ROOT;		?>api/tickets/orders/store">
 	 			следующий элемент нужен для того, чтобы обработчик запроса мог выявить
 				ситуацию, когда все чекбоксы были разотмечены, что, по сути, означает
 				удаление заказа	*/
-			?>
-            <input type="hidden" name="user_tickets_id_<?php echo $seance_data['tickets_id'];?>" value="<?php echo $seance_data['tickets_id'];?>">
-            <?php 
 			
 			endif;
 			
 			?></h5>
             <aside class="floatLeft clearfix">
-    <?php   foreach(explode(',' ,$seance_data['taken_places']) as $place):
+    <?php   //var_dump("<pre>",$seance_data['taken_places'],"<pre/>");
+			foreach(explode(',' ,$seance_data['taken_places']) as $place):
         ?>
         <label>
         	<input type="checkbox" <?php
             if(intval($seance_data['hours_left'])<1):
                 ?> disabled <?php
-            endif;?> checked name="seat_<?php
-            echo $seance_id;?>"> <?php echo $place;?>
+            endif;?> checked name="seat_<?php 
+			echo $place . "_" . $seance_id;?>" value="<?php echo $place;?>"> <?php echo $place;?>
         </label>
     <?php
     endforeach;?>
             </aside>
+        <input type="hidden" name="tickets_id" value="<?php echo $seance_data['tickets_id'];?>">
+        <input type="hidden" name="seance_id" value="<?php echo $seance_id;?>">
+    <?php echo '</form>';?>
         </td>
     </tr>
     <?php
         endforeach;
 ?>
 </table>
-    <input type="hidden" id="active-user-id" name="active_user_id" value="<?php
-    echo $_SESSION['active_user_id'];
-    ?>">   
-</form>

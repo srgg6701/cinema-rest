@@ -181,7 +181,9 @@ function handleSeanceParams($post){
             $seances_ids[]=$val;
     $seats_amount = count($seances_ids);
     $seances_ids=implode(",",$seances_ids);
-    return array('seats_amount'=>$seats_amount, 'seances_ids'=>$seances_ids);
+    $array = array('seats_amount'=>$seats_amount, 'seances_ids'=>$seances_ids);
+    var_dump("<pre>",$array,"<pre/>");
+    return $array;
 }
 /**
  * Оформить новый заказ
@@ -201,13 +203,14 @@ function makeOrder($post){
 function storeUserOrdersSet($post){ //  tickets_id
     global $connect;
     // подзапрос для получения количества билетов в ticket
-    $cnt_query  = "SELECT (length(seats)-length(replace(seats, ',', '')))+1 AS seats_len
-                  FROM tickets
-                  WHERE id = $post[tickets_id]";
+    $tickets_seats_len_query  = "\n
+                     SELECT ( length(seats)-length(replace(seats, ',', ''))
+                            )+1 AS seats_len
+                       FROM tickets
+                      WHERE id = $post[tickets_id]";
     // обновление данных сеанса
     $upd_seances_free_seats_amount_query = "UPDATE seances
-          SET free_seats_numbers = free_seats_numbers+($cnt_query)
-                  WHERE id = $post[seance_id];";
+          SET free_seats_numbers = free_seats_numbers+( $tickets_seats_len_query ) WHERE id = $post[seance_id];\n";
     /**
      * Сначала выяснить, не были ли разотмечены все чекбоксы.
      * Если да, - удалить ticket с обновлением данных сеанса
@@ -222,32 +225,50 @@ function storeUserOrdersSet($post){ //  tickets_id
             $query      = " $upd_seances_free_seats_amount_query
                       DELETE FROM tickets
                   WHERE id = $post[tickets_id]";
-            echo "<div>storeUserOrdersSet (удаление заказа): $query</div>"; die();
+            echo "<div>storeUserOrdersSet (удаление заказа): $query</div>"; //die();
             return $connect->exec($query);
         }catch(Exception $e){
             echo $e->getMessage();
             return false;
         }
-    }
-    // если таки места остались/добавились:
-    /*
-    // выяснить разницу между текущим колич. мест и тем, что пришло
-    $result = $connect->query($cnt_query, PDO::FETCH_NUM)->fetchAll();
-    $seances_ids = explode(",",$seance_params['seances_ids']);
-    $diff = count($seances_ids)-intval($result[0][0]);
-    //echo "<div>updateOrder: diff = $diff</div>";
-    //echo "--------------<br>seances_ids:";
-    //var_dump("<pre>",$seances_ids,"<pre/>"); */
-    // сначала обновить запись в tickets
-    $query = "UPDATE tickets SET seats = '$seance_params[seances_ids]'
-          WHERE id = ".$post[tickets_id] .
+    }else{
+        // если таки места остались/добавились:
+        /*
+        // выяснить разницу между текущим колич. мест и тем, что пришло
+        $result = $connect->query($tickets_seats_len_query, PDO::FETCH_NUM)->fetchAll();*/
+        /*
+        //$seances_ids = explode(",",$seance_params['seances_ids']);
+
+        //$diff = count($seance_params['seats_amount'])-intval($result[0][0]);
+
+        //echo "<div>updateOrder: diff = $diff</div>";
+        //echo "--------------<br>seances_ids:";
+        //var_dump("<pre>",$seances_ids,"<pre/>"); */
+
+        $query = "UPDATE seances
+          SET free_seats_numbers = free_seats_numbers-( " .
+            // количество пришедших отмеченных чекбоксов минус количество в заказе
+            $seance_params['seats_amount'] . "-(
+                $tickets_seats_len_query
+            )
+           ) WHERE id = $post[seance_id];
+        UPDATE tickets SET seats = '$seance_params[seances_ids]'
+          WHERE id = ".$post['tickets_id'];
+
+        // сначала обновить запись в tickets
+        /*$query = $upd_seances_free_seats_amount_query .
+            "UPDATE tickets SET seats = '$seance_params[seances_ids]'
+          WHERE id = ".$post['tickets_id'];*/
+
         // теперь обновить количество свободных мест на сеансе
-        $upd_seances_free_seats_amount_query;
-    echo "<div>storeUserOrdersSet (обновление заказа): $query</div>"; //die();
-    try{
-        return $connect->exec($query); //updateFreeSeatsAmount($diff, $post['seance_id']);
-    }catch(Exception $e){
-        echo "<div>Error: ".$e->getMessage()."</div>";
+        //;
+        echo "<div>storeUserOrdersSet (обновление заказа): $query</div>"; //die();
+        try{
+            $connect->exec($query); //updateFreeSeatsAmount($diff, $post['seance_id']);
+            //$connect->exec($upd_seances_free_seats_amount_query);
+        }catch(Exception $e){
+            echo "<div>Error: ".$e->getMessage()."</div>";
+        }
     }
 }
 /**
@@ -270,7 +291,7 @@ function updateOrder($post){
     //
     $query = "UPDATE tickets SET seats = '$seance_params[seances_ids]'
           WHERE seance_id = $post[seance_id]
-          AND user_id = ".$post[active_user_id];
+          AND user_id = ".$post['active_user_id'];
     //echo "<div>updateOrder: $query</div>"; //die();
     if ($connect->exec($query))
         return updateFreeSeatsAmount($diff, $post['seance_id']);
