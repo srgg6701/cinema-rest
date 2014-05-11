@@ -39,9 +39,7 @@ if(!isset($segments[1])){
         $path_to_files.='default';
         //
         $path_to_template.='user';
-        //echo "<div>user_include: ".$user_include.".php</div>";
-        //echo "<div>path_to_files: ".$path_to_files.".php</div>";
-    }   //echo "<div>path_to_files: ".$path_to_files.".php</div>";
+    }
     // если зашли в тупик -
     if(!file_exists($path_to_files.'.php')
        || (isset($user_include)
@@ -55,7 +53,7 @@ if(!isset($segments[1])){
         else
             $error = 'Путь подключения <b>'.$wrong_file_path.'.php</b> не обнаружен';
         $path_to_template = $path_to_template_root . '404';
-    }else{  //echo "<div>path_to_files: ".$path_to_files.".php</div>"; die();
+    }else{
         /**
          сохранить в буфере сгенерированный контент, чтобы далее
          вставить его в выбранный шаблон  */
@@ -64,7 +62,7 @@ if(!isset($segments[1])){
         require_once $path_to_files.'.php';
         $content = ob_get_contents();
         ob_end_clean();
-    }   // echo "<div>path_to_templates = $path_to_template</div>"; //die();
+    }
 }
 ob_start();
 // подключить шаблон и сохранить все сгенерированные данные в буфере

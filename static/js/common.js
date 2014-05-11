@@ -10,7 +10,6 @@ $(function(){
         return false;
     }else
         site_name = location.href.substr(0,location.href.indexOf(site_name)+site_name.length)+'/';
-    //console.log('site_name: '+site_name);
     // валидировать форму добавления записей
     $('#admin-form').on('submit', function(){
         var cancelSending = false;
@@ -39,9 +38,9 @@ $(function(){
         $.ajax({
             //
             url: Url,
-            //type:'DELETE',
+            //
             success:function(data){
-                //alert(data);
+                //
                 if(data==record_id)
                     $(rowToDelete).fadeOut(300);
                 else{
@@ -62,7 +61,7 @@ $(function(){
         if(!$(this).attr('data-loaded')) {
             var linkText = extractId($(this).attr('href'));
             var hall_id = linkText.substr(linkText.lastIndexOf("/")+1);
-            //console.log('Url = '+site_name+'api/halls/'+hall_id);
+            //
             $.ajax({
                 url:site_name+'api/halls/'+hall_id,
                 success:function(data){
@@ -122,8 +121,7 @@ function createHall(btn){
     var Td = $(btn).parent();
     $(Td).css('position', 'relative')
         .append(cinemaHall);
-    //console.log('btn, Td, cinemaHall: ');
-    //console.dir(btn);console.dir(Td);console.dir(cinemaHall);
+    //
     $(cinemaHall)
         .css({
             left:calculateOffsetLeft(Td)+'.px',
@@ -134,7 +132,7 @@ function createHall(btn){
         .fadeIn(800, function(){
             // публичный путь, далее (в .php-скрипте) обрабатывается путь к API
             var Url = site_name+'seats/'+btn.value;
-            console.log('Url: '+Url); //console.dir(Td);
+            console.log('Url: '+Url);
         $.ajax({
             url: Url,
             success:function(data){
@@ -144,9 +142,9 @@ function createHall(btn){
                         $('#seats', getBox()).append(data);
                         recalculateBoxParams();
                         $('input:hidden[name="seance_id"]').val(btn.value);
-                        //console.log('btn.value = '+btn.value);
+                        //
                         $('body').append(cinemaHall);
-                    }); //console.log(data);
+                    });
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr.status);
@@ -176,7 +174,7 @@ function recalculateBoxParams(){
     $(box).css({
         width:function(){
             var maxW = window.outerWidth/100*60;
-            //console.log(window.outerWidth+'/('+window.outerWidth+'/'+all_seats+'/'+6+')');
+            // перерасчитать размер окна
             var ww = window.outerWidth*8*all_seats/window.outerWidth;
             if (ww>maxW) ww = maxW;
             return ww+'px';
@@ -196,12 +194,12 @@ function recalculateBoxParams(){
         }
     });
 }
-function calculateOffsetLeft(btnPlace,fromPage){ //console.dir(btnPlace);
+function calculateOffsetLeft(btnPlace,fromPage){
     return (fromPage)?
         $(btnPlace).offset().left+$(btnPlace).outerWidth()+10
             : $(btnPlace).width()+10;
 }
-function calculateOffsetTop(btnPlace, fromTop){ //console.dir(btnPlace);
+function calculateOffsetTop(btnPlace, fromTop){
     return (fromTop)?
         $(btnPlace).offset().top-12
             : $(btnPlace).height()-100;

@@ -30,7 +30,7 @@ function createRecord($post){
         $query.="', (SELECT seats_amount FROM halls WHERE id = ".$post['halls_id']."))";
 
     else $query.= "')";
-    //echo "<div><pre>$query</pre></div>"; var_dump("<pre>",$_POST,"<pre/>"); die();
+    //
     try{
         $connect->exec($query);
     }catch (Exception $e){

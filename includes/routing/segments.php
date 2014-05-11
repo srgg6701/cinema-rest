@@ -5,7 +5,6 @@ if(!in_array($project_name,$location))
     die("<b style='color:red'>Имя проекта установлено неправильно!</b>
     <br>Это может привести к ошибке роутинга.");
 else{ // скорректировать путь в зависимости от структуры файловой системы сервера:
-    //echo "<div>key: ".array_search($project_name,$location)."</div>";
     $location_index_plus = array_search($project_name,$location)-1;
 }
 // распарсить URL на сементы подключения файлов

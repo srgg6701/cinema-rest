@@ -109,8 +109,8 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
             ORDER BY $order"; // Код билета
                 break;
             default:
-                $query ="SELECT * FROM $table_name ORDER BY `$order`";
-        }   //echo "<div><pre>$query</pre></div>"; die($table_name);
+                $query ="SELECT * FROM $table_name ORDER BY $order";
+        }
         return $connect->query($query, PDO::FETCH_NUM);
     }
     /**
@@ -141,5 +141,4 @@ DATE_FORMAT(datetime,'%d.%m.%Y %k:%i')
             </select>";
         return $select;
     }
-
 }
