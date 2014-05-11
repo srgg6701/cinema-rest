@@ -50,7 +50,7 @@ function getMovieSeances($id=NULL){
         $query.="
     AND m.id = $id";
     $query.="
-  ORDER BY c.name"; //echo "<div>$query</div>";
+  ORDER BY c.name";
     $seances = array();
     $movie_name=true;
     foreach($connect->query($query,PDO::FETCH_ASSOC) as $row){
@@ -68,7 +68,7 @@ function getMovieSeances($id=NULL){
         $seances[$row['cinema']][$row['seance_id']]['hall']=array('hall_id'=>$row['hall_id'],'hall_name'=>$row['hall']);
         $seances[$row['cinema']][$row['seance_id']]['showtime']=$row['showtime'];
         $seances[$row['cinema']][$row['seance_id']]['free_seats_numbers']=$row['free_seats_numbers'];
-    }   //var_dump("<pre>",$seances,"<pre/>");
+    }
     return $seances;
 }
 /**
@@ -113,7 +113,7 @@ function getSeats($seance_id){
                 FROM halls, seances
            LEFT JOIN tickets ON tickets.seance_id = seances.id
                WHERE halls_id = halls.id
-                 AND seances.id =$seance_id"; //echo "<div>$query</div>"; die();
+                 AND seances.id =$seance_id";
     $taken_places=array();
     foreach($connect->query($query, PDO::FETCH_ASSOC) as $i=>$row){
         if(!$i) $all_places=$row['all_places'];
@@ -177,7 +177,6 @@ function handleSeanceParams($post){
     $seats_amount = count($seances_ids);
     $seances_ids=implode(",",$seances_ids);
     $array = array('seats_amount'=>$seats_amount, 'seances_ids'=>$seances_ids);
-    //var_dump("<pre>",$array,"<pre/>");
     return $array;
 }
 /**
@@ -188,20 +187,19 @@ function makeOrder($post){
     $seance_params=handleSeanceParams($post);
     $query = "INSERT INTO tickets (user_id, seance_id, seats)
     VALUES ($post[active_user_id],$post[seance_id],'".$seance_params['seances_ids']."')";
-    //echo "<div>makeOrder: $query</div>"; // die();
     if($connect->exec($query))
         return updateFreeSeatsAmount($seance_params['seats_amount'], $post['seance_id']);
 }
 /**
  *
  */
-function storeUserOrdersSet($post){ //  tickets_id
+function storeUserOrdersSet($post){
     global $connect;
     // подзапрос для получения количества билетов в ticket
     $tickets_seats_len_query  = "\n
                      SELECT ( length(seats)-length(replace(seats, ',', ''))
                             )+1 FROM tickets
-                      WHERE id = $post[tickets_id]"; // 4
+                      WHERE id = $post[tickets_id]";
     // обновление данных сеанса
     /**
      * Сначала выяснить, не были ли разотмечены все чекбоксы.
@@ -222,7 +220,7 @@ function storeUserOrdersSet($post){ //  tickets_id
                WHERE id = $post[seance_id];
               DELETE FROM tickets
           WHERE id = $post[tickets_id]";
-            //echo "<div>storeUserOrdersSet (удаление заказа): $query</div>"; //die();
+
             return $connect->exec($query);
         }catch(Exception $e){
             echo $e->getMessage();
@@ -240,7 +238,7 @@ function storeUserOrdersSet($post){ //  tickets_id
             )
            ) WHERE id = $post[seance_id];
         UPDATE tickets SET seats = '$seance_params[seances_ids]'
-          WHERE id = ".$post['tickets_id']; //echo "<div>storeUserOrdersSet (обновление заказа): $query</div>"; //die();
+          WHERE id = ".$post['tickets_id'];
         try{
             $connect->exec($query);
         }catch(Exception $e){
@@ -262,14 +260,11 @@ function updateOrder($post){
     $result = $connect->query($cnt_query, PDO::FETCH_NUM)->fetchAll();
     $seances_ids = explode(",",$seance_params['seances_ids']);
     $diff = count($seances_ids)-intval($result[0][0]);
-    //echo "<div>updateOrder: diff = $diff</div>";
-    //echo "--------------<br>seances_ids:";
-    //var_dump("<pre>",$seances_ids,"<pre/>");
     //
     $query = "UPDATE tickets SET seats = '$seance_params[seances_ids]'
           WHERE seance_id = $post[seance_id]
           AND user_id = ".$post['active_user_id'];
-    //echo "<div>updateOrder: $query</div>"; //die();
+    //
     if ($connect->exec($query))
         return updateFreeSeatsAmount($diff, $post['seance_id']);
 }
@@ -281,6 +276,6 @@ function updateFreeSeatsAmount($taken_seats_number, $seance_id){
     $query = "UPDATE seances
     SET free_seats_numbers = free_seats_numbers-($taken_seats_number)
     WHERE id = $seance_id";
-    //echo "<div>$query</div>";
+    //
     return $connect->exec($query);
 }

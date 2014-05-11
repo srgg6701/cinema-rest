@@ -10,8 +10,8 @@ foreach(Admin::getTableFields($table_name) as $field)
 $table.='<th>x</th>
         </tr>';
 //
-if($records=Admin::getAllRecords($table_name))//,$fields
-    foreach($records as $row){
+if($records=Admin::getAllRecords($table_name))
+        foreach($records as $row){
         $table.='<tr>';
         foreach($row as $i=>$col){
             $table.="<td>$col</td>";
@@ -20,4 +20,4 @@ if($records=Admin::getAllRecords($table_name))//,$fields
         $table.='<td>x</td>';
         $table.='</tr>';
     }
-$table.= '</table>'; //var_dump("<pre>",$table,"<pre/>"); die();
+$table.= '</table>';
