@@ -34,7 +34,7 @@ class User{
             return self::$resources_links;
     }
     /**
-     *
+     * Обработать данные кинозала и вернуть в виде HTML
      */
     public static function showSeancePlaces($all_places,$taken_places){
         $current_user_id = $_SESSION['active_user_id'];

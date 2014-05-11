@@ -7,6 +7,9 @@ require "includes/routing/router.php";
 $content = ob_get_contents();
 ob_end_clean();
 
+if(isset($except_template)&&$except_template)
+	die($content);
+
 ?><!doctype html>
 <html>
     <head>

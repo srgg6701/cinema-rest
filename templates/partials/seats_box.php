@@ -9,9 +9,12 @@ echo SITE_ROOT;?>">
         <p>(Если вы заказывали места на данном сеансе, они выделены <span class="lightgreen">зелёным</span>.)</p>
         <div id="seats" class="clearfix"><?php
             /**
-             * контент подгружается из api/tickets/seats/seances/[id_сеанса] -> getSeats()
              * вызывается клиентским скриптом common.js -> createHall()
-            */
+             * Последовательность загрузки контента:
+             * /site_name/seats/[id_сеанса]
+             *      -> API_ROOT.'tickets/seats/seances/'.$segments[2] (id_сеанса)
+             *          -> getSeats([id_сеанса])
+             * /site_name/seats/[id_сеанса] -> User::showSeancePlaces([all_places],[taken_places]) */
         ?></div>
         <input type="hidden" id="active-user-id" name="active_user_id" value="<?php
 			echo $_SESSION['active_user_id'];

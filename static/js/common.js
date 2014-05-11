@@ -135,11 +135,9 @@ function createHall(btn){
         .fadeIn(800, function(){
             // публичный путь, далее (в .php-скрипте) обрабатывается путь к API
             var Url = site_name+'seats/'+btn.value;
-            //var Url = site_name+'includes/user/seats/?seance_id='+btn.value;
             console.log('Url: '+Url); //console.dir(Td);
         $.ajax({
             url: Url,
-            //site_name+'api/tickets/seats/seances/'+btn.value,
             success:function(data){
                 console.log('data = ');console.dir(data);
                 $(getBox()).load(site_name+'templates/partials/seats_box.php',

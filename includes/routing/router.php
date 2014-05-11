@@ -21,7 +21,8 @@ if(!isset($segments[1])){
 
     if(in_array('admin',$segments)){
         /**
-            /[site_name]/includes/admin/read.php - по умолчанию
+            /[site_name]/includes/admin/read.php
+            - функция по умолчанию
             нечто вроде примитивного front-controller'а. */
         $path_to_files.='admin/read';
         // подключить шаблоны
@@ -55,8 +56,11 @@ if(!isset($segments[1])){
             $error = 'Путь подключения <b>'.$wrong_file_path.'.php</b> не обнаружен';
         $path_to_template = $path_to_template_root . '404';
     }else{  //echo "<div>path_to_files: ".$path_to_files.".php</div>"; die();
+        /**
+         сохранить в буфере сгенерированный контент, чтобы далее
+         вставить его в выбранный шаблон  */
         ob_start();
-        // /[site_name]/(admin|api/[table])/(delete|get|post|put).php
+        // /[site_name]/includes/(admin|user)[/.../][file_name].php
         require_once $path_to_files.'.php';
         $content = ob_get_contents();
         ob_end_clean();
@@ -64,4 +68,4 @@ if(!isset($segments[1])){
 }
 ob_start();
 // подключить шаблон и сохранить все сгенерированные данные в буфере
-require_once $path_to_template.'.php';
+    require_once $path_to_template.'.php';
