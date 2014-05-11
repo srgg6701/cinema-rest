@@ -6,6 +6,3 @@ require_once '../_service/includes.php';
     Текущая процедура нужна исключительно для
     обработки данных на стороне сервиса. */
 handleOder($_POST);
-/*echo "<div>Обновлено записей (колич. свободных мест)
-        в табл. 'cinema_seances': " .
-    $result."</div>"; die();*/

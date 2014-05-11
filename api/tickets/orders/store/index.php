@@ -1,6 +1,6 @@
 <?php
 require_once '../../../_service/includes.php';
-//echo "<div>file: ".__FILE__."</div>";
+//echo "<div style='color:red'>file: ".__FILE__."</div>";
 //var_dump("<pre>",$_POST,"<pre/>"); // die();
 /**
  * обработать набор билетов.
