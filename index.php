@@ -1,4 +1,4 @@
-<?php	//echo __FILE__."<hr>";
+<?php
 error_reporting(E_ALL); //E_ERROR | E_WARNING
 header('Content-Type: text/html; charset=utf-8');
 
