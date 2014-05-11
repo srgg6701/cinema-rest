@@ -107,7 +107,7 @@ function getSeancesByHall($id=NULL){
     return $seances;
 }
 /**
-* Показать свободные места
+* Сформировать список мест по сеансу
 */
 function getSeats($seance_id){
 
@@ -124,7 +124,8 @@ function getSeats($seance_id){
         if(!$i) $all_places=$row['all_places'];
         $taken_places[$row['user_id']]=explode(',',$row['taken_places']);
     }
-    $current_user_id = $_SESSION['active_user_id'];
+    return array('all_places'=>$all_places,'taken_places'=>$taken_places);
+    /*$current_user_id = $_SESSION['active_user_id'];
     $seatsHTML = '';
     //
     foreach(range(1,(int)$all_places) as $current_place){
@@ -151,7 +152,7 @@ function getSeats($seance_id){
         $seatsHTML.=$label.$HTML.'</label>'.$hidden;
     }
 
-    return $seatsHTML;
+    return $seatsHTML;*/
 }
 /**
  * Получить заказы юзера

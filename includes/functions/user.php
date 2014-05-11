@@ -19,7 +19,7 @@ class User{
             foreach(self::$resources_links as $link=>$text){
                 if(is_array($text)){
                     if($text[1]=='link'){
-                        $links.='<li>
+                        $links.='<li class="no_marker">
                 <a href="'.SITE_ROOT.$link.'">'.$text[0].'</a>
             </li>';
                     }
@@ -32,6 +32,38 @@ class User{
         }
         else
             return self::$resources_links;
+    }
+    /**
+     *
+     */
+    public static function showSeancePlaces($all_places,$taken_places){
+        $current_user_id = $_SESSION['active_user_id'];
+        $seatsHTML = '';
+        //
+        foreach(range(1,(int)$all_places) as $current_place){
+            $label='<label>';
+            $hidden='';
+            $input_name = ' name="seat_'.$current_place.'"';
+            $HTML='<input id="seat_'.$current_place.'" type="checkbox"';
+            // проверить, не занято ли место, и, если да, то не текущим ли юзером
+            foreach ($taken_places as $user_id=>$user_taken_places) {
+                if(in_array($current_place,$user_taken_places)){
+                    $HTML.=' checked disabled';
+                    if($user_id==$current_user_id){
+                        // перезаписывает ранее созданный
+                        $label='<label class="mine">';
+                        // нужен для отправки данных отмеченных (и заблокированных) чекбоксов
+                        $hidden='<input type="hidden" ' . $input_name .
+                            ' value="'.$current_place.'">';
+                    }
+                }else
+                    $HTML.=$input_name;
+            }
+            $HTML.=' value="'.$current_place.'">';
+            $HTML.=$current_place;
+            $seatsHTML.=$label.$HTML.'</label>'.$hidden;
+        }
+        return $seatsHTML;
     }
     /**
      * Создать список юзеров

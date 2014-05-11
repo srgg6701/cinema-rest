@@ -179,19 +179,25 @@ footer {
 li {
   line-height: 1.5em;
 }
+/* line 132, ../../sass/screen.scss */
+li.no_marker {
+  font-weight: bold;
+  list-style: none;
+  margin-left: -16px;
+}
 
-/* line 133, ../../sass/screen.scss */
+/* line 138, ../../sass/screen.scss */
 .lightgreen {
   background-color: lightgreen;
 }
 
-/* line 136, ../../sass/screen.scss */
+/* line 141, ../../sass/screen.scss */
 #main {
   min-height: 100%;
   margin-bottom: -60px;
   padding: 0 10px 60px;
 }
-/* line 141, ../../sass/screen.scss */
+/* line 146, ../../sass/screen.scss */
 #main nav:first-child {
   background-color: #ceceff;
   height: 54px;
@@ -200,71 +206,71 @@ li {
   padding-bottom: 0;
 }
 
-/* line 150, ../../sass/screen.scss */
+/* line 155, ../../sass/screen.scss */
 nav {
   background-color: #eaebec;
 }
 
-/* line 153, ../../sass/screen.scss */
+/* line 158, ../../sass/screen.scss */
 #nav, main, #footer {
   margin: auto !important;
   max-width: 90%;
   min-width: 640px;
 }
 
-/* line 159, ../../sass/screen.scss */
+/* line 164, ../../sass/screen.scss */
 #nav a {
   font-size: 1.2em;
 }
 
-/* line 163, ../../sass/screen.scss */
+/* line 168, ../../sass/screen.scss */
 nav {
   margin: auto -10px;
   padding: 10px;
 }
 
-/* line 167, ../../sass/screen.scss */
+/* line 172, ../../sass/screen.scss */
 .offsetVertical10, section {
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-/* line 171, ../../sass/screen.scss */
+/* line 176, ../../sass/screen.scss */
 table {
   border: solid 2px #ccc;
   border-spacing: 0px;
   border-collapse: separate;
   min-width: 50%;
 }
-/* line 176, ../../sass/screen.scss */
+/* line 181, ../../sass/screen.scss */
 table.db_table_add {
   width: 100%;
 }
-/* line 182, ../../sass/screen.scss */
+/* line 187, ../../sass/screen.scss */
 table.db_table tr td:last-child {
   color: red;
   cursor: pointer;
   text-align: center;
 }
-/* line 186, ../../sass/screen.scss */
+/* line 191, ../../sass/screen.scss */
 table.db_table tr td:last-child:hover {
   background-color: lightpink;
 }
-/* line 195, ../../sass/screen.scss */
+/* line 200, ../../sass/screen.scss */
 table tr td:first-child {
   text-align: right;
 }
-/* line 200, ../../sass/screen.scss */
+/* line 205, ../../sass/screen.scss */
 table td, table th {
   border-bottom: solid 1px #ccc;
   border-right: solid 1px #ccc;
   padding: 3px 5px;
 }
-/* line 206, ../../sass/screen.scss */
+/* line 211, ../../sass/screen.scss */
 table.db_table th {
   background-color: #eaebec;
 }
-/* line 215, ../../sass/screen.scss */
+/* line 220, ../../sass/screen.scss */
 table.db_table_add input[type="text"],
 table.db_table_add input[type="password"],
 table.db_table_add input[type="email"],
@@ -272,40 +278,40 @@ table.db_table_add input[type="tel"],
 table.db_table_add textarea {
   width: 100%;
 }
-/* line 222, ../../sass/screen.scss */
+/* line 227, ../../sass/screen.scss */
 table.user_table tr.header.cinema {
   background-color: #FFECFC;
 }
-/* line 224, ../../sass/screen.scss */
+/* line 229, ../../sass/screen.scss */
 table.user_table tr.header.cinema td {
   font-weight: bold;
   padding: 5px 8px;
 }
-/* line 228, ../../sass/screen.scss */
+/* line 233, ../../sass/screen.scss */
 table.user_table tr.header.cinema th {
   background-color: transparent;
 }
-/* line 233, ../../sass/screen.scss */
+/* line 238, ../../sass/screen.scss */
 table.user_table tr th {
   background-color: #eaebec;
   padding: 7px;
   text-align: left;
 }
-/* line 238, ../../sass/screen.scss */
+/* line 243, ../../sass/screen.scss */
 table.user_table tr td {
   text-align: left;
   padding: 4px 8px 4px 18px;
 }
-/* line 244, ../../sass/screen.scss */
+/* line 249, ../../sass/screen.scss */
 table.orders {
   max-width: 92%;
   white-space: normal;
 }
-/* line 247, ../../sass/screen.scss */
+/* line 252, ../../sass/screen.scss */
 table.orders h5 {
   margin: 8px auto;
 }
-/* line 250, ../../sass/screen.scss */
+/* line 255, ../../sass/screen.scss */
 table.orders label {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
@@ -322,35 +328,35 @@ table.orders label {
 table.orders label.mine {
   background-color: lightgreen;
 }
-/* line 258, ../../sass/screen.scss */
+/* line 263, ../../sass/screen.scss */
 table.orders tr.boxes aside {
   width: 78%;
 }
-/* line 261, ../../sass/screen.scss */
+/* line 266, ../../sass/screen.scss */
 table.orders tr.boxes h5 {
   margin-right: 2%;
   width: 20%;
 }
-/* line 264, ../../sass/screen.scss */
+/* line 269, ../../sass/screen.scss */
 table.orders tr.boxes h5 button {
   font-size: 0.9em;
   margin-top: 16px;
 }
-/* line 271, ../../sass/screen.scss */
+/* line 276, ../../sass/screen.scss */
 table.orders tr.movie_name td:nth-child(2) {
   font-size: 1.1em;
   padding: 10px;
 }
-/* line 276, ../../sass/screen.scss */
+/* line 281, ../../sass/screen.scss */
 table.orders tr.second {
   background-color: lightcyan;
 }
-/* line 278, ../../sass/screen.scss */
+/* line 283, ../../sass/screen.scss */
 table.orders tr.second td {
   padding: 10px;
 }
 
-/* line 285, ../../sass/screen.scss */
+/* line 290, ../../sass/screen.scss */
 #vertical-menu {
   background-color: lightyellow;
   -webkit-border-radius: 6px;
@@ -361,22 +367,22 @@ table.orders tr.second td {
   padding: 0 20px 20px 0;
   width: 30%;
 }
-/* line 290, ../../sass/screen.scss */
+/* line 295, ../../sass/screen.scss */
 #vertical-menu li {
   line-height: 1.2em;
   margin: 7px auto;
 }
 
-/* line 295, ../../sass/screen.scss */
+/* line 300, ../../sass/screen.scss */
 #user-content {
   width: 70%;
 }
-/* line 297, ../../sass/screen.scss */
+/* line 302, ../../sass/screen.scss */
 #user-content h3:first-child {
   margin-top: 0;
 }
 
-/* line 301, ../../sass/screen.scss */
+/* line 306, ../../sass/screen.scss */
 #user-list {
   background-color: #f3f3fb;
   border: none;
@@ -391,7 +397,7 @@ table.orders tr.second td {
   border-radius: 4px;
 }
 
-/* line 311, ../../sass/screen.scss */
+/* line 316, ../../sass/screen.scss */
 #tbl-order button[type="button"] {
   width: 54px;
 }

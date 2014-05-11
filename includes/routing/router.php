@@ -27,12 +27,16 @@ if(!isset($segments[1])){
         // подключить шаблоны
         $path_to_template.='admin';
     }else{
-        //  /[site_name]/includes/user/default
+        //  /[site_name]/includes/user/
         $path_to_files.='user/';
-        // файл с контентом, подключаемый в шаблоне юзера. Будет проверен ниже.
-        //  /[site_name]/includes/user/[file_name]
+        /**
+            ВНИМАНИЕ! следующий сегмент подключается (в качестве
+            имени файла [file_name] для require_once) в файле
+            /[site_name]/includes/user/[file_name] секции юзера. */
         $user_include =$path_to_files.$segments[1];
+        //
         $path_to_files.='default';
+        //
         $path_to_template.='user';
         //echo "<div>user_include: ".$user_include.".php</div>";
         //echo "<div>path_to_files: ".$path_to_files.".php</div>";

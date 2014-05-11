@@ -133,10 +133,15 @@ function createHall(btn){
         .html('Загрузка&nbsp;информации о наличии свободных мест в кинозале...')
         .attr('data-seance-id',btn.value)
         .fadeIn(800, function(){
-        //console.log('btn parent:'); console.dir(Td);
+            // публичный путь, далее (в .php-скрипте) обрабатывается путь к API
+            var Url = site_name+'seats/'+btn.value;
+            //var Url = site_name+'includes/user/seats/?seance_id='+btn.value;
+            console.log('Url: '+Url); //console.dir(Td);
         $.ajax({
-            url:site_name+'api/tickets/seats/seances/'+btn.value,
+            url: Url,
+            //site_name+'api/tickets/seats/seances/'+btn.value,
             success:function(data){
+                console.log('data = ');console.dir(data);
                 $(getBox()).load(site_name+'templates/partials/seats_box.php',
                     function(){
                         $('#seats', getBox()).append(data);

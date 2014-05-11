@@ -129,6 +129,11 @@ footer {
 }
 li{
   line-height: 1.5em;
+  &.no_marker{
+    font-weight: bold;
+    list-style: none;
+    margin-left: -16px;
+  }
 }
 .lightgreen{
   @include lightgreen;
