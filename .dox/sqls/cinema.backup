@@ -3,11 +3,11 @@
 <!-- Modifying this generated file will probably render it invalid -->
 <ExportTemplate FormatVersion="1">
   <LastSuccessfullDate>0001-01-01T00:00:00</LastSuccessfullDate>
-  <ConnectionName>localhost</ConnectionName>
+  <ConnectionName>easyLocalhost</ConnectionName>
   <ConnectionString>User Id=root;Host=localhost;Character Set=utf8</ConnectionString>
   <Database>cinema</Database>
-  <OutputDirectory>C:\WebServers\home\localhost\www\cinema-rest\.dox\sqls</OutputDirectory>
-  <BaseFileName>cinema_db</BaseFileName>
+  <OutputDirectory>C:\PHPDevServer\data\localweb\projects\cinema-rest\.dox\sqls</OutputDirectory>
+  <BaseFileName>cinema</BaseFileName>
   <Mode>All</Mode>
   <AppendTimestamp>True</AppendTimestamp>
   <MaxDays>0</MaxDays>
@@ -48,7 +48,7 @@
     <PropertyValue Name="IgnoreColumnDefaultValues">false</PropertyValue>
     <PropertyValue Name="IgnoreUdfs">true</PropertyValue>
     <PropertyValue Name="WriteLog">false</PropertyValue>
-    <PropertyValue Name="LogFileName" xml:space="preserve">C:\WebServers\home\localhost\www\cinema-rest\.dox\sqls\Backup.log</PropertyValue>
+    <PropertyValue Name="LogFileName" xml:space="preserve">C:\PHPDevServer\data\localweb\projects\cinema-rest\.dox\sqls\Backup.log</PropertyValue>
     <PropertyValue Name="ErrorHandlingMode">0</PropertyValue>
     <PropertyValue Name="IncludeDrop">true</PropertyValue>
     <PropertyValue Name="IncludeIfExists">true</PropertyValue>
