@@ -6,7 +6,7 @@ class Admin{
     // будем сохранять набор полей и их имена для запросов
     public static $tableFields = array();
     /**
-     *
+     * Получить/сформировать список заголовков столбцов для таблиц админа
      */
     public static function getTableFields($table_name){
         if(empty(self::$tableFields)){

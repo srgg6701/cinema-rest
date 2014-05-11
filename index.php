@@ -7,6 +7,9 @@ require "includes/routing/router.php";
 $content = ob_get_contents();
 ob_end_clean();
 
+/** 
+	Проверка исключений для загрузки HTML-элементов шаблона.
+	В случае загрузки ajax'ом они не нужны. */
 if(isset($except_template)&&$except_template)
 	die($content);
 

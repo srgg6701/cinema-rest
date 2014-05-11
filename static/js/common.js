@@ -11,7 +11,6 @@ $(function(){
     }else
         site_name = location.href.substr(0,location.href.indexOf(site_name)+site_name.length)+'/';
     //console.log('site_name: '+site_name);
-
     // валидировать форму добавления записей
     $('#admin-form').on('submit', function(){
         var cancelSending = false;
@@ -108,7 +107,7 @@ $(function(){
     $(window).on('resize', function(){
         recalculateBoxParams();
     });
-    // установить активного юзера
+    // установить активного юзера (сохранить в сессии)
     $('#user-list').on('change', function(){
         setActiveUser($('option:selected', this));
     });

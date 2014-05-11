@@ -30,7 +30,7 @@ function getHallsByCinema(){
     return $halls;
 }
 /**
- *  Показать сеансы по залам
+ *  Показать сеансы по залам, в которых идёт фильм
  */
 function getMovieSeances($id=NULL){
     global $connect;
@@ -125,34 +125,6 @@ function getSeats($seance_id){
         $taken_places[$row['user_id']]=explode(',',$row['taken_places']);
     }
     return array('all_places'=>$all_places,'taken_places'=>$taken_places);
-    /*$current_user_id = $_SESSION['active_user_id'];
-    $seatsHTML = '';
-    //
-    foreach(range(1,(int)$all_places) as $current_place){
-        $label='<label>';
-        $hidden='';
-        $input_name = ' name="seat_'.$current_place.'"';
-        $HTML='<input id="seat_'.$current_place.'" type="checkbox"';
-        // проверить, не занято ли место, и, если да, то не текущим ли юзером
-        foreach ($taken_places as $user_id=>$user_taken_places) {
-            if(in_array($current_place,$user_taken_places)){
-                $HTML.=' checked disabled';
-                if($user_id==$current_user_id){
-                    // перезаписывает ранее созданный
-                    $label='<label class="mine">';
-                    // нужен для отправки данных отмеченных (и заблокированных) чекбоксов
-                    $hidden='<input type="hidden" ' . $input_name .
-                        ' value="'.$current_place.'">';
-                }
-            }else
-                $HTML.=$input_name;
-        }
-        $HTML.=' value="'.$current_place.'">';
-        $HTML.=$current_place;
-        $seatsHTML.=$label.$HTML.'</label>'.$hidden;
-    }
-
-    return $seatsHTML;*/
 }
 /**
  * Получить заказы юзера
@@ -160,6 +132,7 @@ function getSeats($seance_id){
 function getUserOrders($user_id){
     global $connect;
     $query = "SELECT
+       tickets.id AS tickets_id,
        tickets.seance_id,
 movies.name AS movie_name,
 cinema.name AS cinema_name,
@@ -194,12 +167,12 @@ function handleOder($post){
       WHERE seance_id = $post[seance_id] AND user_id = ".$post['active_user_id'];
     $result = $connect->query($query, PDO::FETCH_NUM)->fetchAll();
     $res = intval($result[0][0]);
-    //echo("<pre>res: ".$res."<pre/>");
-    //echo "<div>handleOder: $query</div>";
     return ($res) ? updateOrder($post) : makeOrder($post);
 }
 /**
- * Обработать полученные места
+ * Обработать полученные места.
+ * На выходе получаем массив вида:
+ * [количество_мест] => 3,5,1,8,2,15,14,10 ... n - набор соответствующего заказа
  */
 function handleSeanceParams($post){
     $seances_ids = array();
@@ -221,6 +194,61 @@ function makeOrder($post){
     //echo "<div>makeOrder: $query</div>"; // die();
     if($connect->exec($query))
         return updateFreeSeatsAmount($seance_params['seats_amount'], $post['seance_id']);
+}
+/**
+ *
+ */
+function storeUserOrdersSet($post){ //  tickets_id
+    global $connect;
+    // подзапрос для получения количества билетов в ticket
+    $cnt_query  = "SELECT (length(seats)-length(replace(seats, ',', '')))+1 AS seats_len
+                  FROM tickets
+                  WHERE id = $post[tickets_id]";
+    // обновление данных сеанса
+    $upd_seances_free_seats_amount_query = "UPDATE seances
+          SET free_seats_numbers = free_seats_numbers+($cnt_query)
+                  WHERE id = $post[seance_id];";
+    /**
+     * Сначала выяснить, не были ли разотмечены все чекбоксы.
+     * Если да, - удалить ticket с обновлением данных сеанса
+     */
+    $seance_params=handleSeanceParams($post);
+    //  [количество_мест] => 3,5,1,8,2,15,14,10 ... n
+    if(!$seance_params['seats_amount']){
+        try{
+        /**
+            получить количество билетов (все, поскольку запись удаляется),
+            на которые будет увеличено количество свободных мест на сеансе.    */
+            $query      = " $upd_seances_free_seats_amount_query
+                      DELETE FROM tickets
+                  WHERE id = $post[tickets_id]";
+            echo "<div>storeUserOrdersSet (удаление заказа): $query</div>"; die();
+            return $connect->exec($query);
+        }catch(Exception $e){
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    // если таки места остались/добавились:
+    /*
+    // выяснить разницу между текущим колич. мест и тем, что пришло
+    $result = $connect->query($cnt_query, PDO::FETCH_NUM)->fetchAll();
+    $seances_ids = explode(",",$seance_params['seances_ids']);
+    $diff = count($seances_ids)-intval($result[0][0]);
+    //echo "<div>updateOrder: diff = $diff</div>";
+    //echo "--------------<br>seances_ids:";
+    //var_dump("<pre>",$seances_ids,"<pre/>"); */
+    // сначала обновить запись в tickets
+    $query = "UPDATE tickets SET seats = '$seance_params[seances_ids]'
+          WHERE id = ".$post[tickets_id] .
+        // теперь обновить количество свободных мест на сеансе
+        $upd_seances_free_seats_amount_query;
+    echo "<div>storeUserOrdersSet (обновление заказа): $query</div>"; //die();
+    try{
+        return $connect->exec($query); //updateFreeSeatsAmount($diff, $post['seance_id']);
+    }catch(Exception $e){
+        echo "<div>Error: ".$e->getMessage()."</div>";
+    }
 }
 /**
  * Обновить данные заказа

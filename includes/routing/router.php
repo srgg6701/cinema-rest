@@ -9,7 +9,7 @@ if(isset($segments[1]) && strstr($segments[1], '.php')) {
 $path_to_template_root = $path_to_template = FILES_ROOT.'templates/';
 // базовый путь к ресурсам
 $path_to_files = FILES_ROOT."includes/";
-// проверить - не отсылались ли данные юзером
+// проверить - не отсылались ли данные юзером методом POST
 require_once dirname(__FILE__).'/check_post_data.php';
 // подключить функции
 require_once $path_to_files."functions/admin.php";

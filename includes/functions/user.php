@@ -55,7 +55,8 @@ class User{
                         // нужен для отправки данных отмеченных (и заблокированных) чекбоксов
                         $hidden='<input type="hidden" ' . $input_name .
                             ' value="'.$current_place.'">';
-                    }
+                    }else
+                        $label='<label class="taken">';
                 }else
                     $HTML.=$input_name;
             }

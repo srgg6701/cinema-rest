@@ -6,7 +6,7 @@ require_once dirname(__FILE__)."/../../includes/routing/path.php"?>
 echo SITE_ROOT;?>">
     <div id="places">
         <h4>Укажите нужные места <div class="floatRight close" onclick="hideBox()">Закрыть окно</div></h4>
-        <p>(Если вы заказывали места на данном сеансе, они выделены <span class="lightgreen">зелёным</span>.)</p>
+        <p class="notation">Если вы заказывали места на данном сеансе, они выделены <span class="lightgreen">зелёным</span>.</p>
         <div id="seats" class="clearfix"><?php
             /**
              * вызывается клиентским скриптом common.js -> createHall()

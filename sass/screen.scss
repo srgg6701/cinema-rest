@@ -92,7 +92,7 @@ footer {
 }
 #hall-places-area{
   background-color: white;
-  @include box-shadow(rgba(0,0,0,0.3) 0 0 0 4px);
+  @include box-shadow(rgba(0,0,0,0.2) 0 0 0 8px, rgba(0,0,0,0.8) 0 0 60px);
   //box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
   @include border-radius(2px);
   display: none;
@@ -104,7 +104,7 @@ footer {
   button{
     clear: both;
     display: block;
-    margin: 12px auto 0;
+    margin: 20px auto 0;
   }
   .close{
     font-weight: 200;
@@ -119,6 +119,22 @@ footer {
     margin:2px 24px 2px 2px;
     min-width: 46px;
     padding: 2px 4px 2px 0;
+    &.taken{
+      background-color: #ccc;
+    }
+  }
+  p{
+    &.notation{
+      margin-bottom: 18px;
+    }
+  }
+  span{
+    &.lightgreen{
+      @include border-radius(4px);
+      display: inline-block;
+      @include lightgreen;
+      padding: 4px;
+    }
   }
 }
 .halfWide{
@@ -282,6 +298,13 @@ table{
         background-color: lightcyan;
         td{
           padding: 10px;
+        }
+      }
+      &.sub_subheader{
+        th{
+          &:first-child{
+            text-align: center;
+          }
         }
       }
     }
