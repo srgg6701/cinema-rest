@@ -62,11 +62,11 @@ $(function(){
         if(!$(this).attr('data-loaded')) {
             var linkText = extractId($(this).attr('href'));
             var hall_id = linkText.substr(linkText.lastIndexOf("/")+1);
-            console.log('Url = '+site_name+'api/halls/'+hall_id);
+            //console.log('Url = '+site_name+'api/halls/'+hall_id);
             $.ajax({
                 url:site_name+'api/halls/'+hall_id,
                 success:function(data){
-                    console.log(data);
+                    //console.log(data);
                     var i=0;
                     for(var seance_id in data){
                         i++;

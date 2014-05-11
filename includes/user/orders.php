@@ -10,7 +10,7 @@ $data = json_decode(
 
 	$form_start='<form enctype="application/x-www-form-urlencoded" class="clearfix order" method="post" action="'.SITE_ROOT;
 
-	$form_start.='api/tickets/orders/store/';
+	//$form_start.='api/tickets/orders/store/';
 
 	$form_start.='">
 	<input type="hidden" name="user_post_data" value="includes/user/post_order_store">'?>
@@ -76,5 +76,9 @@ $data = json_decode(
     </tr>
     <?php
         endforeach;
-?>
+		if(!isset($seance_id)):?>
+     <tr>
+     	<td colspan="6">Вы ещё ничего не заказали :(</td>
+     </tr>
+<?php 	endif;?>
 </table>

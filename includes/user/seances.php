@@ -31,6 +31,9 @@ if(isset($segments[2])){
         <?php
         endforeach;
     endforeach;?>
+    <tr class="header cinema" style="display:none;">
+        <td colspan="4"></td>
+    </tr>
 </table>
 <?php
 }
