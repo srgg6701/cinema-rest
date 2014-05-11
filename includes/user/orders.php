@@ -2,15 +2,13 @@
 $data = json_decode(
     file_get_contents(
         API_ROOT.'tickets/orders/'.$_SESSION['active_user_id']
-    ), true); // var_dump("<pre>",$data,"<pre/>");
+    ), true); 
 
 /* 	action обрабатывается подключаемым к роутеру файлом, имя которого извлекается из 
 	значения value элемента с name = user_post_data
 	Данный файл должен находиться в /includes/user/[имя_файла] */
 
 	$form_start='<form enctype="application/x-www-form-urlencoded" class="clearfix order" method="post" action="'.SITE_ROOT;
-
-	//$form_start.='api/tickets/orders/store/';
 
 	$form_start.='">
 	<input type="hidden" name="user_post_data" value="includes/user/post_order_store">'?>
@@ -56,8 +54,7 @@ $data = json_decode(
 			
 			?></h5>
             <aside class="floatLeft clearfix">
-    <?php   //var_dump("<pre>",$seance_data['taken_places'],"<pre/>");
-			foreach(explode(',' ,$seance_data['taken_places']) as $place):
+    <?php   foreach(explode(',' ,$seance_data['taken_places']) as $place):
         ?>
         <label>
         	<input type="checkbox" <?php
