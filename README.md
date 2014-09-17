@@ -1,4 +1,14 @@
 # We love cinema!
+### Features
+
++ Check the hall schedule, apply filter by hall
++ Pick up a movie by the hall name
++ Check free seats
++ Make order
++ Cancel order
+
+----------------------------
+dir API - REST-service
 
 ### Опции
 
